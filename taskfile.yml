@@ -1,0 +1,9 @@
+version: 3
+
+silent: False
+
+includes:
+  api:
+    taskfile: ./api/src/taskfile.yml
+  app:
+    taskfile: ./app/src/taskfile.yml

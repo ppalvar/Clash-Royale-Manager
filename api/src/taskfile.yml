@@ -1,0 +1,17 @@
+version: 3
+
+env:
+  SLN_FILE: ./api/src/ClashRoyaleManager.sln
+  APPLICATION_PROJECT: ./api/src/ClashRoyaleManage.Application/ClashRoyaleManage.Application.csproj
+  INFRAESTRUCTURE_PROJECT: ./api/src/ClashRoyaleManage.Infraestructure/ClashRoyaleManage.Infraestructure.csproj
+  DOMAIN_PROJECT: ./api/src/ClashRoyaleManage.Domain/ClashRoyaleManage.Domain.csproj
+  API_PROJECT: ./api/src/ClashRoyaleManager.Api/ClashRoyaleManager.Api.csproj
+
+tasks:
+  restore:
+    cmds:
+      - dotnet restore "{{.SLN_FILE}}"
+  
+  run:
+    - dotnet run --project "{{.API_PROJECT}}"
+  
