@@ -10,7 +10,7 @@ This template should help get you started developing with Vue 3 in Vite.
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
+## Project Setup using NPM
 
 ```sh
 npm install
@@ -27,3 +27,34 @@ npm run dev
 ```sh
 npm run build
 ```
+
+
+### project Setup using YARN
+
+If you prefer to use `yarn`, and you don't have it installed, you can install it globally via npm:
+
+```sh
+npm install -g yarn
+```
+
+With `yarn` installed, you can now proceed as follows:
+
+Install dependencies:
+
+```sh
+yarn install
+```
+
+Compile and hot-reload for development:
+
+```sh
+yarn dev
+```
+
+Compile and minify for production:
+
+```sh
+yarn build
+```
+
+Choose the set of commands corresponding to the package manager you're using. Both `npm` and `yarn` will correctly handle the project setup, development, and build process as defined in `package.json`.
