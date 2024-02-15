@@ -18,7 +18,8 @@ builder.Services.AddDbContext<DefaultDbContext>(
 {
 builder.Services.AddScoped<IEncryptService, EncryptService>()
                 .AddScoped<DefaultDbContext>()
-                .AddScoped<IUserRepository, UserRepository>();
+                .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<ICardRepository, CardRepository>();
 }
 
 var app = builder.Build();

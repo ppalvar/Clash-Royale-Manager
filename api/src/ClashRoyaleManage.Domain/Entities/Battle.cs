@@ -10,7 +10,7 @@ public class Battle
     public bool Winner { get; set; }    //NOTE - [false] -> Jugador 1  [true] -> Jugador 2
     public int NumberOfTrophies { get; set; }
     public DateTime Date { get; set; }
-    public Datetime Duration { get; set; }
+    public DateTime Duration { get; set; }
 
     // Propiedades de navegación
     public virtual Player Player1 { get; set; }

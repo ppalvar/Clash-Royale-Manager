@@ -18,7 +18,7 @@ public class RegisterCommandMapper : AbstractMapper<User, RegisterCommand, Regis
         return new User{
             Username=command.Username,
             Email=command.Email,
-            Password=command.Password
+            Password=encryptService.Encrypt(command.Password)
         };
     }
 }
