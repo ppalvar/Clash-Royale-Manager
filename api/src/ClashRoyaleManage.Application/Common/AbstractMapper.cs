@@ -3,7 +3,8 @@ using FastEndpoints;
 namespace ClashRoyaleManager.Application.Common;
 
 public abstract class AbstractMapper<TEntity, TCommand, TResponse>
-    where TCommand : ICommand
+    // where TCommand : ICommand
+    // where TCommand : ICommand<TResponse>
 {
     public virtual TEntity ToEntity(TCommand command)
     {
