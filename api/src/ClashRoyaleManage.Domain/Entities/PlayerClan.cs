@@ -7,14 +7,13 @@ namespace ClashRoyaleManager.Domain.Entities;
 
 public class PlayerClan
 {
-    //TODO - Keys [IdPlayer, IdClan]
     public Guid IdPlayer { get; set; }
     public Guid IdClan { get; set; }
 
     public Guid IdCargo { get; set; }
 
     //Relaciones
-    public virtual Player player { get; set; }
-    public virtual Clan clan { get; set; }
-    public virtual Cargo cargo { get; set; }
+    public virtual Player Player { get; set; }
+    public virtual Clan Clan { get; set; }
+    public virtual Cargo Cargo { get; set; }
 }

@@ -6,9 +6,7 @@ namespace ClashRoyaleManager.Domain.Entities;
 
 public class Player
 {
-    public Guid IdPlayer { get; set; }
-    
-    public Guid IdCard { get; set; }
+    public Guid Id { get; set; }
     
     public string Nickname { get; set; }
 
@@ -22,5 +20,9 @@ public class Player
     public int NumberOfCardsFound { get; set; }
     
     //Relaciones
-    public virtual Card card { get; set; }
+    public virtual ICollection<Battle> Battles1 { get; set; }
+    public virtual ICollection<Battle> Battles2 { get; set; }
+    public virtual ICollection<PlayerCard> PlayerCards { get; set; }
+    public virtual ICollection<PlayerChallenge> PlayerChallenges { get; set; }
+    public virtual ICollection<PlayerClan> PlayerClans { get; set; }
 }
