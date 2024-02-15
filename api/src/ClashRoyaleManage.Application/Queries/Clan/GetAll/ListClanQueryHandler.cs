@@ -3,7 +3,7 @@ using FastEndpoints;
 
 namespace ClashRoyaleManager.Application.Query.Clans;
 
-public class ListClanQueryHandler : CommandHandler<ListClanQuery, ListClanQueryResponse>
+public class ListClanQueryHandler : ICommandHandler<ListClanQuery, ListClanQueryResponse>
 {
     private readonly IClanRepository _repository;
     private readonly ListClanQueryMapper _mapper;
@@ -14,8 +14,11 @@ public class ListClanQueryHandler : CommandHandler<ListClanQuery, ListClanQueryR
         _mapper = new ListClanQueryMapper();
     }
     
-    public async override Task<ListClanQueryResponse> ExecuteAsync(ListClanQuery command, CancellationToken ct = default)
+    public async Task<ListClanQueryResponse> ExecuteAsync(ListClanQuery command, CancellationToken ct = default)
     {
-        return _mapper.ToResponse(await _repository.GetAll());
+        var data = await _repository.GetAll();
+        var response = _mapper.ToResponse(data);
+
+        return response;
     }
 }

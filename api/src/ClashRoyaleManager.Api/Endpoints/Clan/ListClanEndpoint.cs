@@ -3,19 +3,19 @@ using FastEndpoints;
 
 namespace ClashRoyaleManager.Presentation.Endpoints;
 
-public class ListClanEndpoint : Endpoint<ListClanQuery>
+public class GetAllEndpoint : EndpointWithoutRequest<ListClanQueryResponse>
 {
     public override void Configure()
     {
-        Post("/api/clans");
+        Get("/api/clans");
         AllowAnonymous();
     }
 
-    public override async Task<ListClanQueryResponse> HandleAsync(ListClanQuery req, CancellationToken ct)
+    public override async Task HandleAsync(CancellationToken ct)
     {
-        ListClanQueryResponse response = await req.ExecuteAsync(ct);
-        await SendOkAsync(response, ct);
+        ListClanQuery req = new ListClanQuery();
+        ListClanQueryResponse list = await req.ExecuteAsync(ct);
 
-        return response;
+        await SendAsync(list);
     }
 }
