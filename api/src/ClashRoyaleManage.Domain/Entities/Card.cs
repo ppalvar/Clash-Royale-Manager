@@ -2,7 +2,7 @@ namespace  ClashRoyaleManager.Domain.Entities;
 
 public class Card
 {
-    public Guid IDCard { get; set; }
+    public Guid Id { get; set; }
 
     public string Name { get; set; }
 
@@ -13,5 +13,8 @@ public class Card
     public string Quality { get; set; }
     
     //Relaciones
-    public virtual ICollection<Player> players { get; set; }
+    public virtual SpellCard SpellCard { get; set; }
+    public virtual StructureCard StructureCard { get; set; }
+    public virtual TroopCard TroopCard { get; set; }
+    public virtual ICollection<PlayerCard> PlayerCards { get; set; }
 }

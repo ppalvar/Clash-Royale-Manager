@@ -19,11 +19,11 @@ public class ClanRepository : IClanRepository
 
     public async Task Create(Clan entity)
     {
-        Clan? Clan = await Get(entity.IDClan);
+        Clan? Clan = await Get(entity.Id);
 
         if (Clan != null) 
         {
-            throw new EntityDoesNotExistException($"The entity of type <{nameof(Clan)}> and Id <{entity.IDClan}> already exists");
+            throw new EntityDoesNotExistException($"The entity of type <{nameof(Clan)}> and Id <{entity.Id}> already exists");
         }
 
         _dbContext.Clans.Add(entity);
@@ -32,7 +32,7 @@ public class ClanRepository : IClanRepository
 
     public async Task<Clan?> Get(Guid Id)
     {
-        Clan? Clan = await _dbContext.Clans.Where(clan => clan.IDClan == Id).FirstOrDefaultAsync();
+        Clan? Clan = await _dbContext.Clans.Where(clan => clan.Id == Id).FirstOrDefaultAsync();
         return Clan;
     }
 
