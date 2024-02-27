@@ -19,6 +19,7 @@ builder.Services.AddDbContext<DefaultDbContext>(
 builder.Services.AddScoped<IEncryptService, EncryptService>()
                 .AddScoped<DefaultDbContext>()
                 .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<ICardRepository, CardRepository>()
                 .AddScoped<IClanRepository, ClanRepository>();
 }
 
