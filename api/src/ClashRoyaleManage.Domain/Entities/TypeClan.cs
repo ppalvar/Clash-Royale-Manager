@@ -10,9 +10,9 @@ public enum TipoEnum
 
 public class TypeClan
 {
-    public Guid IdType { get; set; }
+    public Guid Id { get; set; }
     public TipoEnum Name { get; set; }
 
     //Relaciones
-    public virtual ICollection<Clan> clan { get; set; }
+    public virtual ICollection<Clan> Clans { get; set; }
 }

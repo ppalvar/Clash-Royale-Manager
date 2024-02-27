@@ -6,15 +6,15 @@ namespace ClashRoyaleManager.Domain.Entities;
 
 public class PlayerCard
 {
-    //NOTE - IDS [IdPlayer, IdCard]
     public Guid IdPlayer { get; set; }
     public Guid IdCard { get; set; }
 
     public Guid IdClan { get; set; }
     public int Level { get; set; }
+    public bool IsFavority { get; set; }
 
     //Relaciones
-    public virtual Player player { get; set; }
-    public virtual Card card { get; set; }
-    public virtual Clan clan { get; set; }
+    public virtual Player Player { get; set; }
+    public virtual Card Card { get; set; }
+    public virtual Clan Clan { get; set; }
 }

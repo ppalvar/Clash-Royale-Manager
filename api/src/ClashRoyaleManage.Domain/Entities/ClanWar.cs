@@ -7,11 +7,10 @@ namespace  ClashRoyaleManager.Domain.Entities;
 
 public class ClanWar
 {
-    //TODO - Keys [IdWar, IdClan]
     public Guid IdWar { get; set; }
     public Guid IdClan { get; set; }
     public int NumberOfPrizes { get; set; }
 
-    public virtual War war { get; set; }
-    public virtual Clan clan { get; set; }  
+    public virtual War War { get; set; }
+    public virtual Clan Clan { get; set; }  
 }

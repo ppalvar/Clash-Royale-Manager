@@ -10,7 +10,8 @@ public enum PositionEnum
 
 public class Cargo
 {
-    public Guid IdCargo { get; set; }
-
+    public Guid Id { get; set; }
     public PositionEnum Name{ get; set; }
+
+    public virtual ICollection<PlayerClan> PlayerClans { get; set; }
 }

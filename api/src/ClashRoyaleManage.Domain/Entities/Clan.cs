@@ -7,7 +7,7 @@ namespace ClashRoyaleManager.Domain.Entities;
 
 public class Clan
 {
-    public Guid IDClan { get; set; }
+    public Guid Id { get; set; }
 
     public Guid IdType { get; set; }
     public string Name { get; set; }
@@ -23,6 +23,8 @@ public class Clan
     public int TrophiesNeededToEnter { get; set; }
 
     //Relaciones
-    public virtual Type type { get; set; }   
-    public virtual ICollection<PlayerCard> playerCard { get; set; }
+    public virtual TypeClan TypeClan { get; set; }   
+    public virtual ICollection<PlayerCard> PlayerCards { get; set; }
+    public virtual ICollection<PlayerClan> PlayerClans { get; set; }
+    public virtual ICollection<ClanWar> ClanWars { get; set; }
 }

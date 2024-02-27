@@ -6,12 +6,12 @@ namespace ClashRoyaleManager.Domain.Entities;
 
 public class SpellCard
 {
-    public Guid IdCard { get; set; }
+    public Guid CardId { get; set; }
     public int Radio { get; set; }
     public int Duration { get; set; }
     public int DamageToTowers { get; set; }
     public int DamageInArea { get; set; }
 
      //Relaciones
-    public virtual Card card { get; set; }
+    public virtual Card Card { get; set; }
 }

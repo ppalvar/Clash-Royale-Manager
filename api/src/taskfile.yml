@@ -12,6 +12,16 @@ tasks:
     cmds:
       - dotnet restore "{{.SLN_FILE}}"
   
+  ef:
+      # $timestamp = Get-Date -Format "yyyyMMddHHmmss"
+      # dotnet ef migrations add "Migration$timestamp" --project "{{.API_PROJECT}}" --context DefaultDbContext --output-dir Migrations/SqliteMigrations
+    cmd: |
+      dotnet ef migrations add "InitMigration" --project "{{.API_PROJECT}}" --context DefaultDbContext --output-dir Migrations/SqliteMigrations
+      dotnet ef database update --project "{{.API_PROJECT}}"
+
+  build:
+    - dotnet build "{{.API_PROJECT}}" --no-restore
+  
   run:
     - dotnet run --project "{{.API_PROJECT}}"
   
