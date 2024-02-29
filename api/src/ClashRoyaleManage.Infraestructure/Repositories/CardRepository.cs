@@ -19,11 +19,11 @@ public class CardRepository : ICardRepository
 
     public async Task Create(Card entity)
     {
-        Card? card = await Get(entity.IDCard);
+        Card? card = await Get(entity.Id);
 
         if (card != null) 
         {
-            throw new EntityDoesNotExistException($"The entity of type <{nameof(Card)}> and Id <{entity.IDCard}> already exists");
+            throw new EntityDoesNotExistException($"The entity of type <{nameof(Card)}> and Id <{entity.Id}> already exists");
         }
 
         _dbContext.Cards.Add(entity);
@@ -32,7 +32,7 @@ public class CardRepository : ICardRepository
 
     public async Task<Card?> Get(Guid Id)
     {
-        Card? card = await _dbContext.Cards.Where(cd => cd.IDCard == Id).FirstOrDefaultAsync();
+        Card? card = await _dbContext.Cards.Where(cd => cd.Id == Id).FirstOrDefaultAsync();
         return card;
     }
 
