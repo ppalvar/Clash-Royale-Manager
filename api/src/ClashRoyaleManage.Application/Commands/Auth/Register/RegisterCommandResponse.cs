@@ -1,8 +1,5 @@
-using ClashRoyaleManager.Application.Common;
+using ClashRoyaleManager.Domain.Entities;
 
 namespace ClashRoyaleManager.Application.Commands.Auth;
 
-// Empty: this endpoint does not haves a response in json format
-// For other endpoints: call Pepe :)
-
-public class RegisterCommandResponse{ }
+public record RegisterCommandResponse(User User, string Token);
