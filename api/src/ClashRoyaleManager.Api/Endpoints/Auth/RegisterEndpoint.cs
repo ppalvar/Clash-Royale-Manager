@@ -3,7 +3,7 @@ using FastEndpoints;
 
 namespace ClashRoyaleManager.Presentation.Endpoints;
 
-public class RegisterEndpoint : Endpoint<RegisterCommand>
+public class RegisterEndpoint : Endpoint<RegisterCommand, RegisterCommandResponse>
 {
     public override void Configure()
     {
@@ -13,7 +13,7 @@ public class RegisterEndpoint : Endpoint<RegisterCommand>
 
     public override async Task HandleAsync(RegisterCommand req, CancellationToken ct)
     {
-        await req.ExecuteAsync(ct);
-        await SendOkAsync();
+        RegisterCommandResponse response = await req.ExecuteAsync(ct);
+        await SendAsync(response);
     }
 }

@@ -13,11 +13,18 @@ public class ListClanQueryHandler : ICommandHandler<ListClanQuery, ListClanQuery
         _repository = repository;
         _mapper = new ListClanQueryMapper();
     }
-    
-    public async Task<ListClanQueryResponse> ExecuteAsync(ListClanQuery command, CancellationToken ct = default)
+
+    public async  Task<ListClanQueryResponse> ExecuteAsync(ListClanQuery command, CancellationToken ct = default)
     {
         var data = await _repository.GetAll();
+
+
         var response = _mapper.ToResponse(data);
+        
+        foreach (var item in response.Clans)
+        {
+            Console.WriteLine(item.Id);
+        }
 
         return response;
     }
