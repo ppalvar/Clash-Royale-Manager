@@ -10,7 +10,7 @@ public class ListClanQueryMapper : AbstractMapper<IQueryable<Clan>, ListClanQuer
     public override ListClanQueryResponse ToResponse(IQueryable<Clan> entities)
     {
         return new ListClanQueryResponse {
-            Clans = entities.GetEnumerator()
+            Clans = entities
         };
     }
 }

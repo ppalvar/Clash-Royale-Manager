@@ -1,5 +1,8 @@
+using ClashRoyaleManage.Infrastructure.Services;
+using ClashRoyaleManage.Infrastructure.Services.Auth;
 using ClashRoyaleManager.Application.Repositories;
 using ClashRoyaleManager.Application.Services;
+using ClashRoyaleManager.Application.Services.Auth;
 using ClashRoyaleManager.Infraestructure.DbContexts;
 using ClashRoyaleManager.Infraestructure.Repositories;
 using ClashRoyaleManager.Infraestructure.Services;
@@ -33,7 +36,7 @@ public static class DependencyInjection
         this IServiceCollection services,
         Microsoft.Extensions.Configuration.ConfigurationManager configuration)
     {
-        // services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
+        services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
 
         services.AddDbContext<DefaultDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("Postgres"),
@@ -41,8 +44,8 @@ public static class DependencyInjection
             )
         );
 
-        // services.AddSingleton<IJwtTokenGenerator, JwTokenGenerator>();
-        // services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.AddSingleton<IJwtTokenGenerator, JwTokenGenerator>();
+        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         services.AddScoped<IEncryptService, EncryptService>()
                 .AddScoped<IUserRepository, UserRepository>()
@@ -50,7 +53,7 @@ public static class DependencyInjection
                 .AddScoped<IClanRepository, ClanRepository>();
         
 
-        // services.AddScoped<IGetCurrentUserLoginService, GetCurrentUserLoginService>();
+        services.AddScoped<IGetCurrentUserLoginService, GetCurrentUserLoginService>();
 
         Task.Run(
             () => InitializeDatabase(services.BuildServiceProvider().GetRequiredService<DefaultDbContext>())

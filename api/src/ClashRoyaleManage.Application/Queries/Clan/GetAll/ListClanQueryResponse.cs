@@ -6,5 +6,5 @@ namespace ClashRoyaleManager.Application.Query.Clans;
 
 public record ListClanQueryResponse
 { 
-    public IEnumerator<Clan> Clans { get; set; } = null!;
+    public IEnumerable<Clan> Clans { get; set; } = null!;
 }

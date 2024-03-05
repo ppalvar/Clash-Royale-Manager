@@ -7,7 +7,7 @@ public class CreateCardEndpoint : Endpoint<CreateCardCommand>
 {
     public override void Configure()
     {
-        Post("/api/admin/createcard");
+        Post("/admin/createcard");
         AllowAnonymous();
     }
 
