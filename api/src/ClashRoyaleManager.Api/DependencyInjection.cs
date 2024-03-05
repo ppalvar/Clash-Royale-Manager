@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using FastEndpoints;
 using ClashRoyaleManager.Application.Query.Clans;
+using ClashRoyaleManager.Application.Commands.Auth;
+using ClashRoyaleManager.Application.Query.Auth;
 
 namespace ClashRoyaleManage.Api.Auth;
 
@@ -48,8 +50,22 @@ public static partial class DependencyInjection
             options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
         });
 
+        services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:5198")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod()
+                                .AllowCredentials();
+                    });
+            });
+
         // ENDPOINTS
         services
+            .AddScoped<ICommandHandler<RegisterCommand, RegisterCommandResponse>, RegisterCommandHandler>()
+            .AddScoped<ICommandHandler<LoginCommand, LoginCommandResponse>, LoginCommandHandler>()
             .AddScoped<ICommandHandler<ListClanQuery, ListClanQueryResponse>, ListClanQueryHandler>();
 
         return services;

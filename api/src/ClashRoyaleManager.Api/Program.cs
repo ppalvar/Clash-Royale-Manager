@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 using FastEndpoints;
 using ClashRoyaleManager.Application.Query.Clans;
+using ClashRoyaleManage.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +19,13 @@ builder.Services.AddFastEndpoints();
 
 var app = builder.Build();
 {
+    app.UseMiddleware<ErrorHandlingMiddleware>();
 
-    app.UseFastEndpoints();
+    app.UseCors("MyPolicy");
+
+    app.UseFastEndpoints(c => {
+        c.Endpoints.RoutePrefix = "api";
+    });
 
     app.UseHttpsRedirection();
     

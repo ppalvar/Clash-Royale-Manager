@@ -6,7 +6,7 @@ using FastEndpoints;
 
 namespace ClashRoyaleManager.Application.Commands.Auth;
 
-public class RegisterCommandHandler : CommandHandler<RegisterCommand, RegisterCommandResponse>
+public class RegisterCommandHandler : ICommandHandler<RegisterCommand, RegisterCommandResponse>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IUserRepository _repository;
@@ -22,14 +22,14 @@ public class RegisterCommandHandler : CommandHandler<RegisterCommand, RegisterCo
         _mapper = new RegisterCommandMapper(encryptService);
     }
 
-    public async override Task<RegisterCommandResponse> ExecuteAsync(RegisterCommand command, CancellationToken ct = default)
+    public async Task<RegisterCommandResponse> ExecuteAsync(RegisterCommand command, CancellationToken ct = default)
     {
         User user = _mapper.ToEntity(command);
-        
+        user.Id = Guid.NewGuid();
+
         await _repository.Create(user);
-
         string token = _jwtTokenGenerator.GenerateToken(user);
-
+        
         return new RegisterCommandResponse(
             user,
             token
