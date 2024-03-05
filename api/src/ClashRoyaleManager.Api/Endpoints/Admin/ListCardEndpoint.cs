@@ -7,7 +7,7 @@ public class GetAllEndpoint : EndpointWithoutRequest<ListCardQueryResponse>
 {
     public override void Configure()
     {
-        Get("/api/cards");
+        Get("/cards");
         AllowAnonymous();
     }
 

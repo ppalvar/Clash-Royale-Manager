@@ -14,7 +14,7 @@ public class GetAllEndpoint : Endpoint<ListClanQuery, ListClanQueryResponse>
     
     public override void Configure()
     {
-        Get("/api/clans");
+        Get("/clans");
         AllowAnonymous();
     }
 
