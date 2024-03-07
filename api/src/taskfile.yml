@@ -19,6 +19,9 @@ tasks:
       dotnet ef migrations add "InitMigration" --project "{{.INFRAESTRUCTURE_PROJECT}}" --context DefaultDbContext --output-dir Migrations/SqliteMigrations
       dotnet ef database update --project "{{.API_PROJECT}}"
 
+  ef-update:
+    - dotnet ef database update --project "{{.API_PROJECT}}"
+
   build:
     - dotnet build "{{.API_PROJECT}}" --no-restore
   

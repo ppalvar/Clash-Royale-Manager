@@ -1,1 +1,57 @@
-version: 3
+version: '3'
+
+env:
+  VUE_PROJECT: ./app/src/clash-royal/
+  PACKAGE_MANAGER: npm # Opciones: "yarn" o "npm"
+  PORT: 8080
+
+tasks:
+  install_deps: # Instalar dependencias
+    desc: Instala las dependencias del proyecto
+    cmd: |
+        cd "{{.VUE_PROJECT}}"
+        if [ "{{.PACKAGE_MANAGER}}" == "yarn" ]; then
+          yarn install
+        else
+          npm install
+        fi
+      
+  serve: # Iniciar servidor de desarrollo
+    desc: Inicia el servidor de desarrollo
+    cmd: |
+        cd "{{.VUE_PROJECT}}"
+        if [ "{{.PACKAGE_MANAGER}}" == "yarn" ]; then
+          PORT="{{.PORT}}" yarn serve
+        else
+          npm run serve
+        fi
+
+  build: # Construir proyecto para producción
+    desc: Construye el proyecto para producción
+    cmd: |
+        cd "{{.VUE_PROJECT}}" &&
+        if [ "{{.PACKAGE_MANAGER}}" == "yarn" ]; then
+          yarn build
+        else
+          npm run build
+        fi
+
+  lint: # Ejecutar lint para verificar y arreglar archivos
+    desc: Ejecuta eslint para corregir archivos
+    cmd: |
+        cd "{{.VUE_PROJECT}}"
+        if [ "{{.PACKAGE_MANAGER}}"" == "yarn" ]; then
+          yarn lint
+        else
+          npm run lint
+        fi
+
+  test: # Correr pruebas
+    desc: Ejecuta pruebas unitarias
+    cmd: |
+        cd "{{.VUE_PROJECT}}"
+        if [ "{{.PACKAGE_MANAGER}}" == "yarn" ]; then
+          yarn test:unit
+        else
+          npm run test:unit
+        fi

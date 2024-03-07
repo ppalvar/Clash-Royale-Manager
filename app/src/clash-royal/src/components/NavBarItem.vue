@@ -1,16 +1,15 @@
 <script>
 import { RouterLink } from 'vue-router'
-import consts from '../router/auth'
+import { isAuthenticated } from '@/auth/auth';
 
 export default {
   components: {
     RouterLink,
   },
-
-  methods: {
-    authValue() {
-      return consts.auth.value
-    },
+  computed: {
+    isUserAuthenticated() {
+      return isAuthenticated();
+    }
   },
 }
 </script>
@@ -22,8 +21,9 @@ export default {
     </div>
     <RouterLink to="/">Inicio</RouterLink>
     <RouterLink to="/buscar">Buscar</RouterLink>
-    <RouterLink to="/login" v-if="!authValue()">Entrar como administrador</RouterLink>
-    <RouterLink to="/info" v-if="authValue()">Crear Entity</RouterLink>
+    <RouterLink to="/info" v-if="isUserAuthenticated">Crear Entity</RouterLink>
+    <RouterLink to="/logout" v-if="isUserAuthenticated">Logout</RouterLink>
+    <RouterLink to="/login" v-else>Entrar como administrador</RouterLink>
   </div>
 </template>
 

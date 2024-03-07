@@ -10,7 +10,8 @@
 </template>
 
 <script>
-import consts from "../router/auth"
+import { API_URL } from '@/config';
+import axios from 'axios';
 
 export default {
   data() {
@@ -22,11 +23,19 @@ export default {
 
   methods: {
     authenticated() {
-      if (this.user != '' && this.password != '') {
-        consts.auth.value = true
-        this.$router.push("/")
-        this.user = this.password = ''
-      }
+      axios.post(`${API_URL}/auth/login`, {
+        email: this.user,
+        password: this.password
+      })
+        .then(res => {
+          alert('Login succesfull');
+          localStorage.setItem('user-token', res.data.token);
+
+          this.$router.push('/');
+        })
+        .catch(error => {
+          alert(error.error);
+        });
     },
   },
 }
