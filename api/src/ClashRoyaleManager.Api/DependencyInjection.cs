@@ -8,6 +8,7 @@ using FastEndpoints;
 using ClashRoyaleManager.Application.Query.Clans;
 using ClashRoyaleManager.Application.Commands.Auth;
 using ClashRoyaleManager.Application.Query.Auth;
+using ClashRoyaleManager.Application.Query.Cards;
 
 namespace ClashRoyaleManage.Api.Auth;
 
@@ -66,7 +67,8 @@ public static partial class DependencyInjection
         services
             .AddScoped<ICommandHandler<RegisterCommand, RegisterCommandResponse>, RegisterCommandHandler>()
             .AddScoped<ICommandHandler<LoginCommand, LoginCommandResponse>, LoginCommandHandler>()
-            .AddScoped<ICommandHandler<ListClanQuery, ListClanQueryResponse>, ListClanQueryHandler>();
+            .AddScoped<ICommandHandler<ListClanQuery, ListClanQueryResponse>, ListClanQueryHandler>()
+            .AddScoped<ICommandHandler<ListCardQuery, ListCardQueryResponse>, ListCardQueryHandler>();
 
         return services;
     }

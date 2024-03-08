@@ -6,5 +6,5 @@ namespace ClashRoyaleManager.Application.Query.Cards;
 
 public record ListCardQueryResponse
 { 
-    public IEnumerator<Card> Cards { get; set; } = null!;
+    public IEnumerable<Card> Cards { get; set; } = null!;
 }
