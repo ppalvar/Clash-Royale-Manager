@@ -4,9 +4,9 @@ This is a list of the *REST-API* endpoints defined in this project. This file al
 
 ## Auth
 
-1. ❎ **POST** ->  `/auth/register`
+1. ✅ **POST** ->  `/auth/register`
 
-2. ❎ **POST** ->  `/auth/login`
+2. ✅ **POST** ->  `/auth/login`
 
 3. ❎ **POST** ->  `/auth/logout`
 
@@ -72,7 +72,7 @@ This is a list of the *REST-API* endpoints defined in this project. This file al
 
 ## Clans
 
-1. ❎ **GET** ->  `/clans/`
+1. ✅ **GET** ->  `/clans/`
 
 2. ❎ **GET** ->  `/clans/{clanId}`
 

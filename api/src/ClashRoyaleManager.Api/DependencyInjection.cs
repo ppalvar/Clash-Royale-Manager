@@ -55,7 +55,7 @@ public static partial class DependencyInjection
                 options.AddPolicy("MyPolicy",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:5198")
+                        builder.WithOrigins("http://localhost:8080")
                                 .AllowAnyHeader()
                                 .AllowAnyMethod()
                                 .AllowCredentials();
@@ -70,5 +70,4 @@ public static partial class DependencyInjection
 
         return services;
     }
-
 }

@@ -7,3 +7,22 @@ includes:
     taskfile: ./api/src/taskfile.yml
   app:
     taskfile: ./app/src/taskfile.yml
+
+tasks:
+  build_all:
+    desc: Construir el frontend y el backend
+    cmds:
+      - task api:build
+      - task app:build
+
+  start_servers:
+    desc: Iniciar los servidores del frontend y el backend
+    cmd: |
+        bash -c "task api:run &" &
+        bash -c "task app:serve" &
+
+  test_all:
+    desc: Correr pruebas en el frontend y el backend
+    cmds:
+      - task api:test
+      - task app:test
