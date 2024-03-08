@@ -1,8 +1,13 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router"
 import Home from "@/views/HomeVue.vue"
-import Buscar from "@/views/BuscarVue.vue"
 import Login from "@/views/LoginVue.vue"
-import InfoVue from "@/views/InfoVue.vue";
+import InfoCarta from "@/views/InfoCartaVue.vue"
+import InfoClan from "@/views/InfoClanVue.vue"
+import InfoJugador from "@/views/InfoJugadorVue.vue"
+import Crear from "@/views/CrearVue.vue"
+import Cartas from "@/views/CartasVue.vue"
+import Jugadores from "@/views/JugadoresVue.vue"
+import Clanes from "@/views/ClanesVue.vue"
 
 const routes = [
     {
@@ -11,18 +16,44 @@ const routes = [
         component: Home,
     },
     {
-        path: '/buscar',
-        name: 'Buscar',
-        component: Buscar,
-    },
-    {
         path: '/login',
         name: 'Login',
         component: Login,
-    },{
-        path: '/info',
-        name: 'Info',
-        component: InfoVue,
+    },
+    {
+        path: '/crear',
+        name: 'Crear',
+        component: Crear,
+    },
+    {
+        path: '/carta',
+        name: 'Carta',
+        component: Cartas,
+    },
+    {
+        path: '/jugador',
+        name: 'Jugador',
+        component: Jugadores,
+    },
+    {
+        path: '/clan',
+        name: 'Clan',
+        component: Clanes,
+    },
+    {
+        path: '/info-carta',
+        name: 'InfoCarta',
+        component: InfoCarta,
+    },
+    {
+        path: '/info-clan',
+        name: 'InfoClan',
+        component: InfoClan,
+    },
+    {
+        path: '/info-jugador',
+        name: 'InfoJugador',
+        component: InfoJugador,
     },
 ]
 
