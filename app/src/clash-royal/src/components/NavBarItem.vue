@@ -9,7 +9,7 @@ export default {
 
   methods: {
     authValue() {
-      return consts.auth.value
+      return consts.auth
     },
   },
 }
@@ -21,9 +21,10 @@ export default {
       <img src="../assets/clash-royale-icon.png" alt="Clash Royale Icon">
     </div>
     <RouterLink to="/">Inicio</RouterLink>
-    <RouterLink to="/buscar">Buscar</RouterLink>
+    <RouterLink to="/carta">Cartas</RouterLink>
+    <RouterLink to="/jugador">Jugadores</RouterLink>
+    <RouterLink to="/clan">Clan</RouterLink>
     <RouterLink to="/login" v-if="!authValue()">Entrar como administrador</RouterLink>
-    <RouterLink to="/info" v-if="authValue()">Crear Entity</RouterLink>
   </div>
 </template>
 
