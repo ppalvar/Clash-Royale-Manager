@@ -1,7 +1,9 @@
 <template>
     <div class="banner">
-        <h1>Bienvenido a Clash Royal</h1>
-        <p>Gestiona tu juego como nunca antes.</p>
+        <slot name="body">
+            <h1>Bienvenido a Clash Royal</h1>
+            <p>Gestiona tu juego como nunca antes.</p>
+        </slot>
     </div>
 </template>
 
@@ -18,4 +20,5 @@
 .banner h1 {
     text-shadow: 2px 2px 4px #000000;
 }
+</style>
 </style>

@@ -23,9 +23,11 @@ export default {
   methods: {
     authenticated() {
       if (this.user != '' && this.password != '') {
-        consts.auth.value = true
-        this.$router.push("/")
+        const username = this.user
+        consts.auth = true
         this.user = this.password = ''
+
+        this.$emit('authenticated', username)
       }
     },
   },

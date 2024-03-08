@@ -1,6 +1,5 @@
-import { ref } from "vue"
-
-const auth = ref(false)
+let auth = false
+let username = ''
 
 const typeEntity = {
     cart: 'cart',
@@ -10,5 +9,6 @@ const typeEntity = {
 
 export default {
     auth,
+    username,
     typeEntity,
 }
