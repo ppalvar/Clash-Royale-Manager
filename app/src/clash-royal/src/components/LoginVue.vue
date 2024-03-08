@@ -31,6 +31,7 @@ export default {
           alert('Login succesfull');
           localStorage.setItem('user-token', res.data.token);
 
+          this.$emit('authenticated', this.user);
           this.$router.push('/');
         })
         .catch(error => {

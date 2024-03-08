@@ -20,8 +20,10 @@ export default {
       <img src="../assets/clash-royale-icon.png" alt="Clash Royale Icon">
     </div>
     <RouterLink to="/">Inicio</RouterLink>
-    <RouterLink to="/buscar">Buscar</RouterLink>
-    <RouterLink to="/info" v-if="isUserAuthenticated">Crear Entity</RouterLink>
+    <RouterLink to="/carta">Cartas</RouterLink>
+    <RouterLink to="/jugador">Jugadores</RouterLink>
+    <RouterLink to="/clan">Clan</RouterLink>
+    
     <RouterLink to="/logout" v-if="isUserAuthenticated">Logout</RouterLink>
     <RouterLink to="/login" v-else>Entrar como administrador</RouterLink>
   </div>
