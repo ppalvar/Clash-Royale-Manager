@@ -10,7 +10,7 @@ This is a list of the *REST-API* endpoints defined in this project. This file al
 
 3. ❎ **POST** ->  `/auth/logout`
 
-4. ❎ **DELETE** ->  `/auth/delete-account/{userId}`
+4. ✅ **DELETE** ->  `/auth/delete-account/{userId}`
 
 5. ❎ **POST** ->  `/auth/reset-password/{userId}`
 

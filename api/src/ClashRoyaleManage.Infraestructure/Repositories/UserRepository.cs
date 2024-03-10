@@ -47,8 +47,28 @@ public class UserRepository : IUserRepository
         return Task.FromResult(_dbContext.Users.AsQueryable());
     }
 
-    public Task Update(User entity)
+    public async Task Update(User entity)
     {
-        throw new NotImplementedException();
+        User? user = await Get(entity.Id);
+
+        if (user is null) 
+        {
+            throw new EntityDoesNotExistException($"The entity of type <{nameof(User)}> and Id <{entity.Id}> not exists");
+        }
+    }
+
+    public async Task<User> Delete(Guid id)
+    {
+        User? user = await Get(id);
+
+        if (user is null) 
+        {
+            throw new EntityDoesNotExistException($"The entity of type <{nameof(User)}> and Id <{id}> not exists");
+        }
+
+        _dbContext.Users.Remove(user);
+        await _dbContext.SaveChangesAsync();
+
+        return user;
     }
 }
