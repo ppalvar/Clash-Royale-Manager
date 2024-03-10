@@ -1,0 +1,48 @@
+using ClashRoyaleManager.Application.Repositories;
+using ClashRoyaleManager.Domain.Entities;
+using ClashRoyaleManager.Domain.Exceptions;
+using ClashRoyaleManager.Infraestructure.DbContexts;
+using Microsoft.EntityFrameworkCore;
+
+
+namespace ClashRoyaleManager.Infraestructure.Repositories;
+
+
+public class WarRepository : IWarRepository
+{
+    private readonly DefaultDbContext _dbContext;
+
+    public WarRepository(DefaultDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
+    public async Task Create(War entity)
+    {
+        War? War = await Get(entity.Id);
+
+        if (War != null) 
+        {
+            throw new EntityDoesNotExistException($"The entity of type <{nameof(War)}> and Id <{entity.Id}> already exists");
+        }
+
+        _dbContext.Wars.Add(entity);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<War?> Get(Guid Id)
+    {
+        War? War = await _dbContext.Wars.Where(war => war.Id == Id).FirstOrDefaultAsync();
+        return War;
+    }
+
+    public Task<IQueryable<War>> GetAll()
+    {
+        return Task.FromResult(_dbContext.Wars.AsQueryable());
+    }
+
+    public Task Update(War entity)
+    {
+        throw new NotImplementedException();
+    }
+}
