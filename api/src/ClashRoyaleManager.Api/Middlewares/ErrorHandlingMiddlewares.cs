@@ -19,7 +19,7 @@ public class ErrorHandlingMiddleware
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            await context.Response.WriteAsync(new { error = ex.Message }.ToString());
+            await context.Response.WriteAsync(ex.Message);
         }
     }
 }
