@@ -10,7 +10,7 @@ public class ListCardQueryMapper : AbstractMapper<IQueryable<Card>, ListCardQuer
     public override ListCardQueryResponse ToResponse(IQueryable<Card> entities)
     {
         return new ListCardQueryResponse {
-            Cards = entities.GetEnumerator()
+            Cards = entities
         };
     }
 }

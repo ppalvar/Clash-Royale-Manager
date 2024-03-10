@@ -1,21 +1,26 @@
 using ClashRoyaleManager.Application.Query.Cards;
 using FastEndpoints;
 
-namespace ClashRoyaleManager.Api.Endpoints.Admin;
+namespace ClashRoyaleManager.Presentation.Endpoints;
 
-public class GetAllEndpoint : EndpointWithoutRequest<ListCardQueryResponse>
+public class ListCardEndpoint : Endpoint<ListCardQuery, ListCardQueryResponse>
 {
+    private readonly ICommandHandler<ListCardQuery, ListCardQueryResponse> _listCardQueryHandler;
+
+    public ListCardEndpoint(ICommandHandler<ListCardQuery, ListCardQueryResponse> listCardQueryHandler)
+    {
+        _listCardQueryHandler = listCardQueryHandler;
+    }
+    
     public override void Configure()
     {
         Get("/cards");
         AllowAnonymous();
     }
 
-    public override async Task HandleAsync(CancellationToken ct)
+    public async override Task HandleAsync(ListCardQuery req, CancellationToken ct)
     {
-        ListCardQuery req = new ListCardQuery();
-        ListCardQueryResponse list = await req.ExecuteAsync(ct);
-
-        await SendAsync(list);
+        var response = await _listCardQueryHandler.ExecuteAsync(req, ct);
+        await SendAsync(response);
     }
 }
