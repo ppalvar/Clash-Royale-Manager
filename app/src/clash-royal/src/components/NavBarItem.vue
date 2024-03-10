@@ -19,13 +19,23 @@ export default {
     <div>
       <img src="../assets/clash-royale-icon.png" alt="Clash Royale Icon">
     </div>
-    <RouterLink to="/">Inicio</RouterLink>
-    <RouterLink to="/carta">Cartas</RouterLink>
-    <RouterLink to="/jugador">Jugadores</RouterLink>
-    <RouterLink to="/clan">Clan</RouterLink>
+    <div class="navbar-items-left">
+      <RouterLink to="/">Inicio</RouterLink>
+      <RouterLink to="/carta">Cartas</RouterLink>
+      <RouterLink to="/jugador">Jugadores</RouterLink>
+      <RouterLink to="/clan">Clan</RouterLink>
+    </div>
     
-    <RouterLink to="/logout" v-if="isUserAuthenticated">Logout</RouterLink>
-    <RouterLink to="/login" v-else>Entrar como administrador</RouterLink>
+    <div class="navbar-items-right">
+      <div v-if="isUserAuthenticated">
+        <RouterLink to="/perfil">Perfil</RouterLink>
+        <RouterLink to="/logout">Logout</RouterLink>
+      </div>
+      <div v-else>
+        <RouterLink to="/login">Login</RouterLink>
+        <RouterLink to="/register">Register</RouterLink>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -40,6 +50,7 @@ export default {
   text-align: center;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .navbar a {

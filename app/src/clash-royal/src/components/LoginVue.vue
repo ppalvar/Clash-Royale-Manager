@@ -1,23 +1,31 @@
 <template>
+  <ErrorPopup v-if="error != ''" :msg="error"></ErrorPopup>
+  
   <div class="login-container">
     <h2>Iniciar Sesión</h2>
-    <form class="login-form">
+    <form class="login-form"  @submit.prevent="authenticated">
+      
       <input type="text" placeholder="Usuario" v-model="user" required /><br />
       <input type="password" placeholder="Contraseña" v-model="password" required /><br />
-      <button type="submit" @click="authenticated">Entrar</button>
+      <button type="submit">Entrar</button>
     </form>
   </div>
 </template>
 
 <script>
+import ErrorPopup from './ErrorPopup.vue';
 import { API_URL } from '@/config';
 import axios from 'axios';
 
 export default {
+  components: {
+    ErrorPopup
+  },
   data() {
     return {
       user: '',
       password: '',
+      error: ''
     }
   },
 
@@ -28,14 +36,13 @@ export default {
         password: this.password
       })
         .then(res => {
-          alert('Login succesfull');
           localStorage.setItem('user-token', res.data.token);
 
           this.$emit('authenticated', this.user);
           this.$router.push('/');
         })
         .catch(error => {
-          alert(error.error);
+          this.error = error.response.data;
         });
     },
   },

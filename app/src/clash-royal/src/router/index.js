@@ -1,14 +1,14 @@
-import { createRouter, createWebHistory } from "vue-router"
+import { createRouter, createWebHistory } from "vue-router";
 import { isAuthenticated, logout } from "@/auth/auth";
-import Home from "@/views/HomeVue.vue"
-import Login from "@/views/LoginVue.vue"
-import InfoCarta from "@/views/InfoCartaVue.vue"
-import InfoClan from "@/views/InfoClanVue.vue"
-import InfoJugador from "@/views/InfoJugadorVue.vue"
-import Crear from "@/views/CrearVue.vue"
-import Cartas from "@/views/CartasVue.vue"
-import Jugadores from "@/views/JugadoresVue.vue"
-import Clanes from "@/views/ClanesVue.vue"
+import Home from "@/views/HomeVue.vue";
+import Login from "@/views/LoginVue.vue";
+import InfoCarta from "@/views/InfoCartaVue.vue";
+import InfoClan from "@/views/InfoClanVue.vue";
+import InfoJugador from "@/views/InfoJugadorVue.vue";
+import Cartas from "@/views/CartasVue.vue";
+import Jugadores from "@/views/JugadoresVue.vue";
+import Clanes from "@/views/ClanesVue.vue";
+import PerfilVue from "@/views/PerfilVue.vue";
 
 const routes = [
     {
@@ -31,9 +31,10 @@ const routes = [
         component: Login,
     },
     {
-        path: '/crear',
-        name: 'Crear',
-        component: Crear,
+      path: '/perfil',
+      name: 'Perfil',
+      component: PerfilVue,
+      meta: { requiresAuth: true }
     },
     {
         path: '/carta',

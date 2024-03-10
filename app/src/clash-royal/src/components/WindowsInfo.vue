@@ -7,40 +7,13 @@
         <div class="details">
             <div class="detail-column" :style="{ flexBasis }">
                 <slot name="column1">
-                    <div class="detail">
-                        <h3>Nombre del Entity</h3>
-                        <p class="clan-name">Name</p>
-                    </div>
-                    <div class="detail">
-                        <h3>Property 1</h3>
-                        <p class="clan-description">
-                            Lorem ipsum dolor sit amet consectetur
-                            adipisicing elit. Vero deleniti tempora modi incidunt mollitia, aspernatur nam veritatis
-                            minima? Quaerat harum eos rem repudiandae, consectetur enim accusantium quasi? Suscipit quo
-                            neque aperiam eaque doloremque.
-                        </p>
-                    </div>
+                    
                 </slot>
             </div>
 
             <div class="detail-column" v-if="!oneColumn" :style="{ flexBasis }">
                 <slot name="column2">
-                    <div class="detail">
-                        <h3>Property 2</h3>
-                        <p class="clan-trophies-in-wars">Value</p>
-                    </div>
-                    <div class="detail">
-                        <h3>Property 3</h3>
-                        <p class="clan-members">Value</p>
-                    </div>
-                    <div class="detail">
-                        <h3>Property 4</h3>
-                        <p class="clan-trophies-to-enter">Value</p>
-                    </div>
-                    <div class="detail">
-                        <h3>Property 5</h3>
-                        <p class="clan-region">Value</p>
-                    </div>
+                    
                 </slot>
             </div>
         </div>
