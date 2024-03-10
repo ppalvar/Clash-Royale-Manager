@@ -6,33 +6,23 @@ using FastEndpoints;
 
 namespace ClashRoyaleManager.Application.Commands.Auth;
 
-public class RegisterCommandHandler : ICommandHandler<RegisterCommand, RegisterCommandResponse>
+public class DeleteAccountCommandHandler : ICommandHandler<DeleteAccountCommand, DeleteAccountCommandResponse>
 {
-    private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IUserRepository _repository;
-    private readonly RegisterCommandMapper _mapper;
-
-    public RegisterCommandHandler(
-        IUserRepository repository, 
-        IEncryptService encryptService, 
-        IJwtTokenGenerator jwtTokenGenerator)
+ 
+    public DeleteAccountCommandHandler(IUserRepository repository)
     {
         _repository = repository;
-        _jwtTokenGenerator = jwtTokenGenerator;
-        _mapper = new RegisterCommandMapper(encryptService);
     }
 
-    public async Task<RegisterCommandResponse> ExecuteAsync(RegisterCommand command, CancellationToken ct = default)
+    public async Task<DeleteAccountCommandResponse> ExecuteAsync(DeleteAccountCommand command, CancellationToken ct = default)
     {
-        User user = _mapper.ToEntity(command);
-        user.Id = Guid.NewGuid();
 
-        await _repository.Create(user);
-        string token = _jwtTokenGenerator.GenerateToken(user);
+        User user = await _repository.Delete(command.Id);
         
-        return new RegisterCommandResponse(
-            user,
-            token
+        return new DeleteAccountCommandResponse(
+            user.Username,
+            user.Email
         );
     }
 }

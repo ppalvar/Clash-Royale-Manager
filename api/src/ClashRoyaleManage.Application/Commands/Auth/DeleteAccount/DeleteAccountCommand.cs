@@ -2,9 +2,7 @@ using FastEndpoints;
 
 namespace ClashRoyaleManager.Application.Commands.Auth;
 
-public class RegisterCommand : ICommand<RegisterCommandResponse>
+public class DeleteAccountCommand : ICommand<DeleteAccountCommandResponse>
 {
-    public string Username { get; set; } = null!;
-    public string Email { get; set; } = null!;
-    public string Password { get; set; } = null!;
+    public Guid Id { get; set; }
 }
