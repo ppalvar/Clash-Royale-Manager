@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { isAuthenticated, logout } from "@/auth/auth";
 import Home from "@/views/HomeVue.vue";
 import Login from "@/views/LoginVue.vue";
+import Register from "@/views/RegisterVue.vue";
 import InfoCarta from "@/views/InfoCartaVue.vue";
 import InfoClan from "@/views/InfoClanVue.vue";
 import InfoJugador from "@/views/InfoJugadorVue.vue";
@@ -29,6 +30,11 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: Login,
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: Register,
     },
     {
       path: '/perfil',
