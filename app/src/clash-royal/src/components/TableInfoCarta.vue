@@ -5,28 +5,28 @@
             <th v-if="!minimalice">Descripcion</th>
             <th>Costo de elixir</th>
             <th>Calidad</th>
-            <th v-if="auth && !minimalice">Acciones</th>
+            <th v-if="isUserAuthenticated">Acciones</th>
         </template>
 
         <template #tbody>
-            <tr v-for="cart in carts" :key="cart.id" @click="$emit('info', cart.id, type)">
-                <td> {{ cart.nombre }} </td>
-                <td v-if="!minimalice"> {{ cart.descripcion }} </td>
-                <td> {{ cart.costo }} </td>
-                <td> {{ cart.calidad }} </td>
-                <td v-if="auth && !minimalice">aqui van botones</td>
+            <tr v-for="card in cards" :key="card.id" @click="$emit('info', card.id)">
+                <td> {{ card.name }} </td>
+                <td v-if="!minimalice"> {{ card.description }} </td>
+                <td> {{ card.elixirCost }} </td>
+                <td> {{ card.quality }} </td>
+                <td v-if="isUserAuthenticated">Acciones</td>
             </tr>
         </template>
     </TableInfo>
 </template>
 
 <script>
-import TableInfo from '@/components/TableInfo.vue'
-import consts from '../router/auth'
+import TableInfo from '@/components/TableInfo.vue';
+import { isAuthenticated } from '@/auth/auth';
 
 export default {
     props: {
-        carts: [],
+        cards: [],
         minimalice: {
             type: Boolean,
             default: false,
@@ -34,13 +34,12 @@ export default {
     },
 
     components: {
-        TableInfo,
+        TableInfo
     },
 
-    data() {
-        return {
-            type: consts.typeEntity.cart,
-            auth: consts.auth,
+    computed: {
+        isUserAuthenticated() {
+            return isAuthenticated();
         }
     },
 }
