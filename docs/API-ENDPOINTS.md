@@ -66,9 +66,9 @@ This is a list of the *REST-API* endpoints defined in this project. This file al
 
 2. ❎ **GET** ->  `/cards/most-popular-in-clan/{clanId}`
 
-3. ❎ **GET** ->  `/cards/`
+3. ✅ **GET** ->  `/cards/`
 
-4. ❎ **GET** ->  `/cards/{cardId}`
+4. ✅ **GET** ->  `/cards/{cardId}`
 
 ## Clans
 

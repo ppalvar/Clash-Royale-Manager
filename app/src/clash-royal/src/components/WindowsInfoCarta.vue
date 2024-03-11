@@ -1,7 +1,7 @@
 <template>
     <WindowsInfo :oneColumn=true>
         <template #entity>
-            <h2>Carta</h2>
+            <h2>Informaci&oacute;n de Carta</h2>
         </template>
         <template #column1>
             <div class="detail">

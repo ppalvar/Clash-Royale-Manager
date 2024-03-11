@@ -58,9 +58,10 @@ const routes = [
         component: Clanes,
     },
     {
-        path: '/info-carta',
+        path: '/info-carta/:cardId',
         name: 'InfoCarta',
         component: InfoCarta,
+        props: true,
     },
     {
         path: '/info-clan',

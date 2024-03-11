@@ -16,9 +16,12 @@ public class ListCardQueryHandler : ICommandHandler<ListCardQuery, ListCardQuery
     
     public async Task<ListCardQueryResponse> ExecuteAsync(ListCardQuery command, CancellationToken ct = default)
     {
-        var data = await _repository.GetAll();
-        var response = _mapper.ToResponse(data);
-
-        return response;
+        var data = await _repository.GetPagination(command.Page, command.Size);
+        
+        return new ListCardQueryResponse {
+            Cards = data.Cards,
+            Page = data.Page,
+            TotalPages = data.TotalPages
+        };
     }
 }
