@@ -65,6 +65,9 @@ public static partial class DependencyInjection
 
         // ENDPOINTS
         services
+            .AddScoped<ICommandHandler<ChangePasswordCommand, ChangePasswordCommandResponse>, ChangePasswordCommandHandler>()
+            .AddScoped<ICommandHandler<EditAccountCommand, EditAccountCommandResponse>, EditAccountCommandHandler>()
+            .AddScoped<ICommandHandler<DeleteAccountCommand, DeleteAccountCommandResponse>, DeleteAccountCommandHandler>()
             .AddScoped<ICommandHandler<RegisterCommand, RegisterCommandResponse>, RegisterCommandHandler>()
             .AddScoped<ICommandHandler<LoginCommand, LoginCommandResponse>, LoginCommandHandler>()
             .AddScoped<ICommandHandler<ListClanQuery, ListClanQueryResponse>, ListClanQueryHandler>()

@@ -16,7 +16,7 @@ This is a list of the *REST-API* endpoints defined in this project. This file al
 
 6. ✅ **POST** ->  `/auth/change-password/{userId}`
 
-7. ❎ **PUT** ->  `/auth/update-account/{userId}`
+7. ✅ **PUT** ->  `/auth/update-account/{userId}`
 
 ## Admin
 
