@@ -41,7 +41,7 @@ export default {
 
 <style>
 body {
-  background-image: url('./assets/clash_royale.jpg');
+  background-image: url('./assets/wallpaper_site.jpg');
   background-size: cover;
   background-attachment: fixed;
   font-family: 'Baloo Tamma 2', cursive;
