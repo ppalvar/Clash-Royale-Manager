@@ -1,10 +1,18 @@
 <script>
-import { RouterLink } from 'vue-router'
+import { RouterLink } from 'vue-router';
 import { isAuthenticated } from '@/auth/auth';
 
 export default {
   components: {
     RouterLink,
+  },
+  data() {
+    return {
+      Perfil: require("@/assets/svg/user.svg"),
+      Logout: require("@/assets/svg/logout.svg"),
+      Login: require("@/assets/svg/login.svg"),
+      Register: require("@/assets/svg/register.svg"),
+    }
   },
   computed: {
     isUserAuthenticated() {
@@ -17,23 +25,33 @@ export default {
 <template>
   <div class="navbar">
     <div>
-      <img src="../assets/clash-royale-icon.png" alt="Clash Royale Icon">
+      <img class="logo" src="../assets/clash-royale-icon.png" alt="Clash Royale Icon">
     </div>
     <div class="navbar-items-left">
       <RouterLink to="/">Inicio</RouterLink>
       <RouterLink to="/carta">Cartas</RouterLink>
       <RouterLink to="/jugador">Jugadores</RouterLink>
       <RouterLink to="/clan">Clan</RouterLink>
+      
+      <RouterLink to="/clan" class="items-admin">Usuarios</RouterLink>
     </div>
     
     <div class="navbar-items-right">
       <div v-if="isUserAuthenticated">
-        <RouterLink to="/perfil">Perfil</RouterLink>
-        <RouterLink to="/logout">Logout</RouterLink>
+        <RouterLink to="/perfil">
+          <img :src="Perfil" class="navbar-icon" alt="Perfil"/>
+        </RouterLink>
+        <RouterLink to="/logout">
+          <img :src="Logout" class="navbar-icon" alt="Salir"/>
+        </RouterLink>
       </div>
       <div v-else>
-        <RouterLink to="/login">Login</RouterLink>
-        <RouterLink to="/register">Register</RouterLink>
+        <RouterLink to="/login">
+          <img :src="Login" class="navbar-icon" alt="Logear"/>
+        </RouterLink>
+        <RouterLink to="/register">
+          <img :src="Register" class="navbar-icon" alt="Registrar"/>
+        </RouterLink>
       </div>
     </div>
   </div>
@@ -63,7 +81,7 @@ export default {
   transition: all 0.3s;
 }
 
-.navbar img {
+.navbar .logo {
   height: 50px;
   width: 150px;
   margin-right: 20px;
@@ -74,5 +92,16 @@ export default {
   background-color: #8e44ad;
   color: white;
 }
+
+.navbar .items-admin {
+  /* border: solid; */
+  /* background-color: #444ead; */
+  /* font-style: unset; */
+}
+
+.navbar-icon {
+  max-height: 25px;
+  max-width: 25px;
+  margin: auto;
+}
 </style>
-  

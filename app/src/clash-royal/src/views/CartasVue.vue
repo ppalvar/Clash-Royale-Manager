@@ -22,7 +22,8 @@ export default {
     data() {
         return {
             cards: [],
-            error: ''
+            error: '',
+            msg: ''
         }
     },
 
@@ -52,11 +53,7 @@ export default {
 <template>
     <ErrorPopup v-if="error != ''" :msg="error"></ErrorPopup>
 
-    <EntityDefaultViews>
-        <template #botonCrear>
-            <h2 v-if="auth && !minimalice">CrearCart</h2>
-        </template>
-
+    <EntityDefaultViews url="/add-card">
         <template #tabla>
             <TableInfoCarta :cards="cards" :minimalice="minimalice" @info="seeInfo" />
         </template>

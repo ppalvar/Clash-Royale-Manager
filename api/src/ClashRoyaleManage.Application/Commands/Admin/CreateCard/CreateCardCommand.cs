@@ -2,7 +2,7 @@ using FastEndpoints;
 
 namespace ClashRoyaleManager.Application.Commands.Admin.CreateCard;
 
-public class CreateCardCommand : ICommand
+public class CreateCardCommand : ICommand<CreateCardCommandResponse>
 {
     public string Name { get; set; } = null!;
     public string Description { get; set; } = null!;

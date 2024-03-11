@@ -4,7 +4,7 @@ using FastEndpoints;
 
 namespace ClashRoyaleManager.Application.Commands.Admin.CreateCard;
 
-public class CreateCardCommandHandler : CommandHandler<CreateCardCommand>
+public class CreateCardCommandHandler : CommandHandler<CreateCardCommand, CreateCardCommandResponse>
 {
     private readonly ICardRepository _repository;
     private readonly CreateCardCommandMapper _mapper;
