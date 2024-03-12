@@ -1,16 +1,26 @@
 <template>
     <div class="pagination-container">
-        <span class="page-item" onclick="gotoPage(1)">Primera</span>
-        <span class="page-item" onclick="gotoPage(2)"> &laquo; </span>
-        <span class="page-item" onclick="gotoPage(3)">1</span>
-        <span class="page-item active" onclick="gotoPage(4)">2</span>
-        <span class="page-item" onclick="gotoPage(5)">3</span>
-        <span class="page-item" onclick="gotoPage(6)">4</span>
-        <span class="page-item" onclick="gotoPage(7)">5</span>
-        <span class="page-item" onclick="gotoPage(8)"> &raquo; </span>
-        <span class="page-item" onclick="gotoPage(9)"> Última</span>
+        <!-- <span class="page-item" @click="gotoPage(1)">Primera</span>
+        <span class="page-item" @click="gotoPage(2)"> &laquo; </span>
+        <span class="page-item" @click="gotoPage(3)">1</span>
+        <span class="page-item" @click="gotoPage(4)">2</span>
+        <span class="page-item" @click="gotoPage(5)">3</span>
+        <span class="page-item" @click="gotoPage(6)"> &raquo; </span>
+        <span class="page-item" @click="gotoPage(7)"> Última</span> -->
     </div>
 </template>
+
+<script>
+export default {
+    props: ['page', 'totalPage'],
+    methods: {
+        gotoPage(toPage) {
+            toPage;
+            alert('NO IMPLEMENTED');
+        }
+    }
+}
+</script>
 
 <style>
 .pagination-container {

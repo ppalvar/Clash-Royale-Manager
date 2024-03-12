@@ -13,16 +13,7 @@
         <tbody>
             <slot name="tbody">
                 <tr name="fila 1">
-                    <td>column value 1</td>
-                    <td>column value 2</td>
-                    <td> ... </td>
-                    <td>column value n</td>
-                </tr>
-                <tr name="fila 2">
-                    <td>column value 1</td>
-                    <td>column value 2</td>
-                    <td> ... </td>
-                    <td>column value n</td>
+                    <td rowspan="4">Loading data...</td>
                 </tr>
             </slot>
         </tbody>

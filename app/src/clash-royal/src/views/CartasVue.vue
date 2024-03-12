@@ -1,6 +1,7 @@
 <script>
 import EntityDefaultViews from '@/components/EntityDefaultViews.vue';
 import ErrorPopup from '@/components/ErrorPopup.vue';
+import SuccessPopup from '@/components/SuccessPopup.vue';
 import TableInfoCarta from '@/components/TableInfoCarta.vue';
 import { API_URL } from '@/config';
 import axios from 'axios';
@@ -17,6 +18,7 @@ export default {
         EntityDefaultViews,
         TableInfoCarta,
         ErrorPopup,
+        SuccessPopup,
     },
 
     data() {
@@ -42,6 +44,20 @@ export default {
             this.$router.push(url);
         },
 
+        deleteCard(id) {
+            if (confirm('Éstá seguro que desea eliminar la carta seleccionada?')) {
+                axios.delete(`${API_URL}/admin/delete-card/${id}`)
+                    .then(async res => {
+                            res;
+                            await this.loadData();
+                            this.msg = 'Carta eliminada con éxito.';
+                        })
+                        .catch(error => {
+                                this.error = error.response.data;
+                            });
+            }
+        },
+
         loadData() {
             axios.get(`${API_URL}/cards`)
                 .then(res => {
@@ -57,11 +73,12 @@ export default {
 
 <template>
     <ErrorPopup v-if="error != ''" :msg="error"></ErrorPopup>
+    <SuccessPopup v-if="msg != ''" :msg="msg"></SuccessPopup>
 
     <EntityDefaultViews url="/add-card">
         <template #tabla>
             <TableInfoCarta :cards="cards" :minimalice="minimalice" 
-                @info="seeInfo" @edit="editCard"/>
+                @info="seeInfo" @edit="editCard" @delete="deleteCard"/>
         </template>
     </EntityDefaultViews>
 </template>

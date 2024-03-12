@@ -12,6 +12,7 @@ using ClashRoyaleManager.Application.Query.Cards;
 using ClashRoyaleManager.Application.Query.Wars;
 using ClashRoyaleManager.Application.Commands.Admin.CreateCard;
 using ClashRoyaleManager.Application.Commands.Admin.UpdateCard;
+using ClashRoyaleManager.Application.Commands.Admin.DeleteCard;
 namespace ClashRoyaleManage.Api.Auth;
 
 
@@ -73,6 +74,7 @@ public static partial class DependencyInjection
             .AddScoped<ICommandHandler<RegisterCommand, RegisterCommandResponse>, RegisterCommandHandler>()
             .AddScoped<ICommandHandler<CreateCardCommand, CreateCardCommandResponse>, CreateCardCommandHandler>()
             .AddScoped<ICommandHandler<UpdateCardCommand, UpdateCardCommandResponse>, UpdateCardCommandHandler>()
+            .AddScoped<ICommandHandler<DeleteCardCommand, DeleteCardCommandResponse>, DeleteCardCommandHandler>()
             .AddScoped<ICommandHandler<LoginCommand, LoginCommandResponse>, LoginCommandHandler>()
             .AddScoped<ICommandHandler<ListClanQuery, ListClanQueryResponse>, ListClanQueryHandler>()
             .AddScoped<ICommandHandler<ListCardQuery, ListCardQueryResponse>, ListCardQueryHandler>()

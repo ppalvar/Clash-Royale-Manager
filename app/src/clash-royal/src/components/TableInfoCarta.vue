@@ -17,7 +17,7 @@
                 <td v-if="isUserAuthenticated" class="actions">
                     <img height="20px" :src="Details" @click="$emit('info', card.id)"/>
                     <img height="20px" :src="Edit" @click="$emit('edit', card.id)"/>
-                    <img height="20px" :src="Delete"/>
+                    <img height="20px" :src="Delete" @click="$emit('delete', card.id)"/>
                 </td>
             </tr>
         </template>
