@@ -11,6 +11,7 @@ import Jugadores from "@/views/JugadoresVue.vue";
 import Clanes from "@/views/ClanesVue.vue";
 import PerfilVue from "@/views/PerfilVue.vue";
 import CrearCarta from "@/components/CrearCarta.vue";
+import EditarCarta from "@/components/EditarCarta.vue";
 
 const routes = [
     {
@@ -79,7 +80,14 @@ const routes = [
         path: '/add-card',
         name: 'AddCard',
         component: CrearCarta,
-        // meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/edit-card/:cardId',
+        name: 'EditCard',
+        component: EditarCarta,
+        props: true,
+        meta: { requiresAuth: true }
     },
 ]
 

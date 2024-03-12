@@ -36,6 +36,11 @@ export default {
             let url = `/info-carta/${id}`;
             this.$router.push(url);
         },
+        
+        editCard(id) {
+            let url = `/edit-card/${id}`;
+            this.$router.push(url);
+        },
 
         loadData() {
             axios.get(`${API_URL}/cards`)
@@ -55,7 +60,8 @@ export default {
 
     <EntityDefaultViews url="/add-card">
         <template #tabla>
-            <TableInfoCarta :cards="cards" :minimalice="minimalice" @info="seeInfo" />
+            <TableInfoCarta :cards="cards" :minimalice="minimalice" 
+                @info="seeInfo" @edit="editCard"/>
         </template>
     </EntityDefaultViews>
 </template>

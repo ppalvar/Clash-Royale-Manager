@@ -54,9 +54,12 @@ public class CardRepository : ICardRepository
         return (cards, page, _dbContext.Cards.Count() / size);
     }
 
-    public Task Update(Card entity)
+    public async Task Update(Card entity)
     {
-        throw new NotImplementedException();
+        Card? user = await Get(entity.Id) ?? throw new EntityDoesNotExistException($"The entity of type <{nameof(Card)}> and Id <{entity.Id}> not exists");
+
+        _dbContext.Cards.Update(entity);
+        await _dbContext.SaveChangesAsync();
     }
 
 }

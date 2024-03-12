@@ -9,12 +9,16 @@
         </template>
 
         <template #tbody>
-            <tr v-for="card in cards" :key="card.id" @click="$emit('info', card.id)">
+            <tr v-for="card in cards" :key="card.id">
                 <td> {{ card.name }} </td>
                 <td v-if="!minimalice"> {{ card.description }} </td>
                 <td> {{ card.elixirCost }} </td>
                 <td> {{ card.quality }} </td>
-                <td v-if="isUserAuthenticated">Acciones</td>
+                <td v-if="isUserAuthenticated" class="actions">
+                    <img height="20px" :src="Details" @click="$emit('info', card.id)"/>
+                    <img height="20px" :src="Edit" @click="$emit('edit', card.id)"/>
+                    <img height="20px" :src="Delete"/>
+                </td>
             </tr>
         </template>
     </TableInfo>
@@ -22,6 +26,9 @@
 
 <script>
 import TableInfo from '@/components/TableInfo.vue';
+import Edit from '@/assets/svg/edit.svg';
+import Delete from '@/assets/svg/delete.svg';
+import Details from '@/assets/svg/details.svg';
 import { isAuthenticated } from '@/auth/auth';
 
 export default {
@@ -37,6 +44,14 @@ export default {
         TableInfo
     },
 
+    data() {
+        return {
+            Edit,
+            Delete,
+            Details
+        }
+    },
+
     computed: {
         isUserAuthenticated() {
             return isAuthenticated();
@@ -44,3 +59,11 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.actions {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+</style>
