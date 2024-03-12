@@ -1,8 +1,8 @@
-using FastEndpoints;
+using ClashRoyaleManager.Application.Common;
 
-namespace ClashRoyaleManager.Application.Commands.Admin.CreateCard;
+namespace ClashRoyaleManager.Application.Commands.Admin.UpdateCard;
 
-public class CreateCardCommand : ICommand<CreateCardCommandResponse>
+public class UpdateCardCommandResponse
 {
     public string Name { get; set; } = null!;
     public string Description { get; set; } = null!;

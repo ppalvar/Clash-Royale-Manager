@@ -4,7 +4,7 @@
 
     <CrearEntity>
         <template #entity>
-            <h2>Crear Carta</h2>
+            <h2>Editar Carta</h2>
         </template>
 
         <template #form>
@@ -50,7 +50,7 @@
             <tr>
                 <td></td>
                 <div class="actions">
-                    <div class="btn edit-profile-btn" @click="createCard()">Crear</div>
+                    <div class="btn edit-profile-btn" @click="updateCard()">Actualizar</div>
                     <div class="btn change-password-btn" @click="cancel()">Cancelar</div>
                 </div>
             </tr>
@@ -66,11 +66,18 @@ import { API_URL } from '@/config';
 import axios from 'axios';
 
 export default {
+    props: {
+        cardId: {
+            type: String
+        }
+    },
+
     components: {
         CrearEntity,
         SuccessPopup,
         ErrorPopup,
     },
+
     data() {
         return {
             nameCard: '',
@@ -82,9 +89,26 @@ export default {
         }
     },
 
+    mounted() {
+        this.loadData();
+    },
+
     methods: {
-        createCard() {
-            axios.post(`${API_URL}/admin/createcard`, {
+        loadData() {
+            axios.get(`${API_URL}/cards/${this.cardId}`)
+                .then(res => {
+                    this.nameCard = res.data.name;
+                    this.descriptionCard = res.data.description;
+                    this.costoElixir = res.data.elixirCost;
+                    this.qualityCard = res.data.quality;
+                })
+                .catch(error => {
+                    this.error = error.response.data;
+                });
+        },
+        
+        updateCard() {
+            axios.post(`${API_URL}/admin/update-card/${this.cardId}`, {
                 name: this.nameCard,
                 description: this.descriptionCard,
                 elixirCost: this.costoElixir,
@@ -94,7 +118,7 @@ export default {
                     
                     res;
                     this.error='';
-                    this.msg = `Se ha agregado la carta "${this.nameCard}".`;
+                    this.msg = `Se ha actualizado la carta "${this.nameCard}" correctamente.`;
 
                     this.nameCard = '';
                     this.descriptionCard = '';

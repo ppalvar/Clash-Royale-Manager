@@ -35,11 +35,12 @@ export default {
         email: this.user,
         password: this.password
       })
-        .then(res => {
+        .then(async res => {
           localStorage.setItem('user-token', res.data.token);
 
           this.$emit('authenticated', this.user);
-          this.$router.push('/');
+          await this.$router.push('/');
+          location.reload()
         })
         .catch(error => {
           this.error = error.response.data;
