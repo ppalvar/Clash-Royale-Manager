@@ -13,6 +13,10 @@ using ClashRoyaleManager.Application.Query.Wars;
 using ClashRoyaleManager.Application.Commands.Admin.CreateCard;
 using ClashRoyaleManager.Application.Commands.Admin.UpdateCard;
 using ClashRoyaleManager.Application.Commands.Admin.DeleteCard;
+using ClashRoyaleManager.Application.Commands.Admin.CreatePlayer;
+using ClashRoyaleManager.Application.Query.Players;
+using ClashRoyaleManager.Application.Commands.Admin.UpdatePlayer;
+using ClashRoyaleManager.Application.Commands.Admin.DeletePlayer;
 namespace ClashRoyaleManage.Api.Auth;
 
 
@@ -79,7 +83,13 @@ public static partial class DependencyInjection
             .AddScoped<ICommandHandler<ListClanQuery, ListClanQueryResponse>, ListClanQueryHandler>()
             .AddScoped<ICommandHandler<ListCardQuery, ListCardQueryResponse>, ListCardQueryHandler>()
             .AddScoped<ICommandHandler<ListWarQuery, ListWarQueryResponse>, ListWarQueryHandler>()
-            .AddScoped<ICommandHandler<CardQuery, CardQueryResponse>, CardQueryHandler>();
+            .AddScoped<ICommandHandler<CardQuery, CardQueryResponse>, CardQueryHandler>()
+            .AddScoped<ICommandHandler<CreatePlayerCommand, CreatePlayerCommandResponse>, CreatePlayerCommandHandler>()
+            .AddScoped<ICommandHandler<ListPlayerQuery, ListPlayerQueryResponse>, ListPlayerQueryHandler>()
+            .AddScoped<ICommandHandler<PlayerQuery, PlayerQueryResponse>, PlayerQueryHandler>()
+            .AddScoped<ICommandHandler<UpdatePlayerCommand, UpdatePlayerCommandResponse>, UpdatePlayerCommandHandler>()
+            .AddScoped<ICommandHandler<DeletePlayerCommand, DeletePlayerCommandResponse>, DeletePlayerCommandHandler>();
+
 
         return services;
     }
