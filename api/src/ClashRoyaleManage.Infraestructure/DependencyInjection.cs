@@ -51,7 +51,8 @@ public static class DependencyInjection
                 .AddScoped<IUserRepository, UserRepository>()
                 .AddScoped<ICardRepository, CardRepository>()
                 .AddScoped<IClanRepository, ClanRepository>()
-                .AddScoped<IWarRepository, WarRepository>();
+                .AddScoped<IWarRepository, WarRepository>()
+                .AddScoped<IPlayerRepository, PlayerRepository>();
         
 
         services.AddScoped<IGetCurrentUserLoginService, GetCurrentUserLoginService>();
