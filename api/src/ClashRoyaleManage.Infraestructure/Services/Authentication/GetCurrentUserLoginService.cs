@@ -5,7 +5,7 @@ using ClashRoyaleManager.Domain.Entities;
 
 namespace ClashRoyaleManage.Infrastructure.Services.Auth;
 
-public class GetCurrentUserLoginService: IGetCurrentUserLoginService
+public class GetCurrentUserLoginService : IGetCurrentUserLoginService
 {
     private readonly IUserRepository _userRepository;
 

@@ -5,13 +5,6 @@ namespace ClashRoyaleManager.Presentation.Endpoints;
 
 public class RegisterEndpoint : Endpoint<RegisterCommand, RegisterCommandResponse>
 {
-    private readonly ICommandHandler<RegisterCommand, RegisterCommandResponse> _commandHandler;
-
-    public RegisterEndpoint(ICommandHandler<RegisterCommand, RegisterCommandResponse> commandHandler)
-    {
-        _commandHandler = commandHandler;
-    }
-
     public override void Configure()
     {
         Post("/auth/register");
@@ -20,7 +13,7 @@ public class RegisterEndpoint : Endpoint<RegisterCommand, RegisterCommandRespons
 
     public override async Task HandleAsync(RegisterCommand req, CancellationToken ct)
     {
-        RegisterCommandResponse response = await _commandHandler.ExecuteAsync(req, ct);
+        var response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
 }

@@ -8,31 +8,32 @@ using ClashRoyaleManage.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddFastEndpoints();
-
 /// DependencyInjection ///
 {
-    builder.Services        
+    builder.Services
         .AddInfrastructure(builder.Configuration)
-        .ConfigureAutheticationServices(builder.Configuration);
+        .ConfigureAutheticationServices(builder.Configuration)
+        .AddFastEndpoints();
 }
 
 var app = builder.Build();
 {
+
     app.UseMiddleware<ErrorHandlingMiddleware>();
 
     app.UseCors("MyPolicy");
 
-    app.UseFastEndpoints(c => {
-        c.Endpoints.RoutePrefix = "api";
-    });
-
     app.UseHttpsRedirection();
-    
+
     app.UseAuthentication();
     app.UseAuthorization();
 
     app.UseStatusCodePages();
+
+    app.UseFastEndpoints(c =>
+    {
+        c.Endpoints.RoutePrefix = "api";
+    });
 
     app.Run();
 }

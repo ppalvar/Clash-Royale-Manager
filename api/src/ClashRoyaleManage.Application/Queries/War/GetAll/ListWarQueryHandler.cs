@@ -3,7 +3,7 @@ using FastEndpoints;
 
 namespace ClashRoyaleManager.Application.Query.Wars;
 
-public class ListWarQueryHandler : ICommandHandler<ListWarQuery, ListWarQueryResponse>
+public class ListWarQueryHandler : CommandHandler<ListWarQuery, ListWarQueryResponse>
 {
     private readonly IWarRepository _repository;
     private readonly ListWarQueryMapper _mapper;
@@ -14,13 +14,13 @@ public class ListWarQueryHandler : ICommandHandler<ListWarQuery, ListWarQueryRes
         _mapper = new ListWarQueryMapper();
     }
 
-    public async  Task<ListWarQueryResponse> ExecuteAsync(ListWarQuery command, CancellationToken ct = default)
+    public override async Task<ListWarQueryResponse> ExecuteAsync(ListWarQuery command, CancellationToken ct = default)
     {
         var data = await _repository.GetAll();
 
 
         var response = _mapper.ToResponse(data);
-        
+
         foreach (var item in response.Wars)
         {
             Console.WriteLine(item.Id);

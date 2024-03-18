@@ -28,12 +28,29 @@ public static partial class DependencyInjection
         this IServiceCollection services,
         Microsoft.Extensions.Configuration.ConfigurationManager configuration)
     {
+        services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:8080")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod()
+                                .AllowCredentials();
+                    });
+            });
+
         var jwtSettings = configuration.GetSection("JwtSettings");
         var secret = jwtSettings.GetValue<string>("Secret");
         var issuer = jwtSettings.GetValue<string>("Issuer");
         var audience = jwtSettings.GetValue<string>("Audience");
 
         var key = Encoding.UTF8.GetBytes(secret);
+
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+        });
 
         services.AddAuthentication(x =>
             {
@@ -54,49 +71,6 @@ public static partial class DependencyInjection
                     ValidAudience = audience
                 };
             });
-        
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
-        });
-
-        services.AddCors(options =>
-            {
-                options.AddPolicy("MyPolicy",
-                    builder =>
-                    {
-                        builder.WithOrigins("http://localhost:8080")
-                                .AllowAnyHeader()
-                                .AllowAnyMethod()
-                                .AllowCredentials();
-                    });
-            });
-
-        // ENDPOINTS
-        services
-            .AddScoped<ICommandHandler<ChangePasswordCommand, ChangePasswordCommandResponse>, ChangePasswordCommandHandler>()
-            .AddScoped<ICommandHandler<EditAccountCommand, EditAccountCommandResponse>, EditAccountCommandHandler>()
-            .AddScoped<ICommandHandler<DeleteAccountCommand, DeleteAccountCommandResponse>, DeleteAccountCommandHandler>()
-            .AddScoped<ICommandHandler<RegisterCommand, RegisterCommandResponse>, RegisterCommandHandler>()
-            .AddScoped<ICommandHandler<CreateCardCommand, CreateCardCommandResponse>, CreateCardCommandHandler>()
-            .AddScoped<ICommandHandler<UpdateCardCommand, UpdateCardCommandResponse>, UpdateCardCommandHandler>()
-            .AddScoped<ICommandHandler<DeleteCardCommand, DeleteCardCommandResponse>, DeleteCardCommandHandler>()
-            .AddScoped<ICommandHandler<LoginCommand, LoginCommandResponse>, LoginCommandHandler>()
-            .AddScoped<ICommandHandler<ListClanQuery, ListClanQueryResponse>, ListClanQueryHandler>()
-            .AddScoped<ICommandHandler<ListCardQuery, ListCardQueryResponse>, ListCardQueryHandler>()
-            .AddScoped<ICommandHandler<ListBattleByPlayerQuery, ListBattleByPlayerQueryResponse>, ListBattleByPlayerQueryHandler>()
-            .AddScoped<ICommandHandler<ListBattleQuery, ListBattleQueryResponse>, ListBattleQueryHandler>()
-            .AddScoped<ICommandHandler<BattleQuery, BattleQueryResponse>, BattleQueryHandler>()
-            .AddScoped<ICommandHandler<CreateBattleCommand, CreateBattleCommandResponse>, CreateBattleCommandHandler>()
-            .AddScoped<ICommandHandler<ListWarQuery, ListWarQueryResponse>, ListWarQueryHandler>()
-            .AddScoped<ICommandHandler<CardByPlayerQuery, CardByPlayerQueryResponse>, CardByPlayerQueryHandler>()
-            .AddScoped<ICommandHandler<CardQuery, CardQueryResponse>, CardQueryHandler>()
-            .AddScoped<ICommandHandler<CreatePlayerCommand, CreatePlayerCommandResponse>, CreatePlayerCommandHandler>()
-            .AddScoped<ICommandHandler<ListPlayerQuery, ListPlayerQueryResponse>, ListPlayerQueryHandler>()
-            .AddScoped<ICommandHandler<PlayerQuery, PlayerQueryResponse>, PlayerQueryHandler>()
-            .AddScoped<ICommandHandler<UpdatePlayerCommand, UpdatePlayerCommandResponse>, UpdatePlayerCommandHandler>()
-            .AddScoped<ICommandHandler<DeletePlayerCommand, DeletePlayerCommandResponse>, DeletePlayerCommandHandler>();
-
 
         return services;
     }

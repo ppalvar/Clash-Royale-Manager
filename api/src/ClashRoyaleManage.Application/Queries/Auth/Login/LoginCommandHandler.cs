@@ -7,7 +7,7 @@ using FastEndpoints;
 
 namespace ClashRoyaleManager.Application.Query.Auth;
 
-public class LoginCommandHandler : ICommandHandler<LoginCommand, LoginCommandResponse>
+public class LoginCommandHandler : CommandHandler<LoginCommand, LoginCommandResponse>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IUserRepository _repository;
@@ -23,10 +23,10 @@ public class LoginCommandHandler : ICommandHandler<LoginCommand, LoginCommandRes
         _encryptService = encryptService;
     }
 
-    public async Task<LoginCommandResponse> ExecuteAsync(LoginCommand command, CancellationToken ct = default)
+    public override async Task<LoginCommandResponse> ExecuteAsync(LoginCommand command, CancellationToken ct = default)
     {
         var user = await _repository.GetByEmail(command.Email) ?? throw new EntityDoesNotExistException("User Not Found!");
-        
+
         Console.WriteLine($"{user.Password} =?= {command.Password}");
 
         if (!_encryptService.Decrypt(command.Password, user.Password))
