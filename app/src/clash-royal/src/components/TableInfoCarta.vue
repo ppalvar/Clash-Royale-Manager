@@ -5,7 +5,7 @@
             <th v-if="!minimalice">Descripcion</th>
             <th>Costo de elixir</th>
             <th>Calidad</th>
-            <th v-if="isUserAuthenticated">Acciones</th>
+            <th>Acciones</th>
         </template>
 
         <template #tbody>
@@ -14,10 +14,10 @@
                 <td v-if="!minimalice"> {{ card.description }} </td>
                 <td> {{ card.elixirCost }} </td>
                 <td> {{ card.quality }} </td>
-                <td v-if="isUserAuthenticated" class="actions">
+                <td class="actions">
                     <img height="20px" :src="Details" @click="$emit('info', card.id)"/>
-                    <img height="20px" :src="Edit" @click="$emit('edit', card.id)"/>
-                    <img height="20px" :src="Delete" @click="$emit('delete', card.id)"/>
+                    <img v-if="isUserAuthenticated" height="20px" :src="Edit" @click="$emit('edit', card.id)"/>
+                    <img v-if="isUserAuthenticated" height="20px" :src="Delete" @click="$emit('delete', card.id)"/>
                 </td>
             </tr>
         </template>

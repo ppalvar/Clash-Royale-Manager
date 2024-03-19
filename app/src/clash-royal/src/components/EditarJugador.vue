@@ -4,7 +4,7 @@
 
     <CrearEntity>
         <template #entity>
-            <h2>Crear Jugador</h2>
+            <h2>Editar Jugador</h2>
         </template>
 
         <template #form>
@@ -54,7 +54,7 @@
             <tr>
                 <td></td>
                 <td>
-                    <div class="btn edit-profile-btn" @click="createCard()">Crear</div>
+                    <div class="btn edit-profile-btn" @click="updatePlayer()">Editar</div>
                 </td>
                 <td>
                     <div class="btn change-password-btn" @click="cancel()">Cancelar</div>
@@ -73,6 +73,12 @@ import { API_URL } from '@/config';
 import axios from 'axios';
 
 export default {
+    props: {
+        playerId: {
+            type: String
+        }
+    },
+
     components: {
         CrearEntity,
         SuccessPopup,
@@ -93,9 +99,28 @@ export default {
         }
     },
 
+    mounted() {
+        this.loadData();
+    },
+
     methods: {
-        createCard() {
-            axios.post(`${API_URL}/admin/createplayer`, {
+        loadData() {
+            axios.get(`${API_URL}/players/${this.playerId}`)
+                .then(res => {
+                    this.nickname = res.data.nickname;
+                    this.level = res.data.level;
+                    this.numberOfTrophies = res.data.numberOfTrophies;
+                    this.numberOfWins = res.data.numberOfWins;
+                    this.maximunTrophiesAchieved = res.data.maximunTrophiesAchieved;
+                    this.numberOfCardsFound = res.data.numberOfCardsFound;
+                })
+                .catch(error => {
+                    this.error = error.response.data;
+                });
+        },
+        
+        updatePlayer() {
+            axios.post(`${API_URL}/admin/update-player/${this.playerId}`, {
                 nickname: this.nickname,
                 level: this.level,
                 numberOfTrophies: this.numberOfTrophies,
@@ -107,7 +132,7 @@ export default {
                     
                     res;
                     this.error='';
-                    this.msg = `Se ha agregado el jugador "${this.nickname}".`;
+                    this.msg = `Se ha actualizado el jugador "${this.nickname}" correctamente.`;
 
                     this.nickname = '';
                     this.level = '';

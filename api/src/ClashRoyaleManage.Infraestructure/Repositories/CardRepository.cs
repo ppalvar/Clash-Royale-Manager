@@ -42,6 +42,16 @@ public class CardRepository : ICardRepository
         return Task.FromResult(_dbContext.Cards.AsQueryable());
     }
 
+    public Task<IQueryable<Card>> GetByPlayer(Guid Id)
+    {
+        var cardsQuery = from pc in _dbContext.PlayerCards
+                         join c in _dbContext.Cards on pc.IdCard equals c.Id
+                         where pc.IdPlayer == Id
+                         select c;
+
+        return Task.FromResult(cardsQuery);
+    }
+
     public async Task<(IQueryable<Card> Cards, int Page, int TotalPages)> GetPagination(int page, int size)
     {
         int skipCount = (page - 1) * size;

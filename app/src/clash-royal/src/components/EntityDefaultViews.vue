@@ -39,7 +39,9 @@ export default {
 </script>
 
 <template>
+  
   <div class="players-list-container">
+    <slot name="head"></slot>
     
     <div class="table-header">
       <SearchBox />
