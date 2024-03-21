@@ -88,7 +88,8 @@ public static partial class DependencyInjection
             .AddScoped<ICommandHandler<ListPlayerQuery, ListPlayerQueryResponse>, ListPlayerQueryHandler>()
             .AddScoped<ICommandHandler<PlayerQuery, PlayerQueryResponse>, PlayerQueryHandler>()
             .AddScoped<ICommandHandler<UpdatePlayerCommand, UpdatePlayerCommandResponse>, UpdatePlayerCommandHandler>()
-            .AddScoped<ICommandHandler<DeletePlayerCommand, DeletePlayerCommandResponse>, DeletePlayerCommandHandler>();
+            .AddScoped<ICommandHandler<DeletePlayerCommand, DeletePlayerCommandResponse>, DeletePlayerCommandHandler>()
+            .AddScoped<ICommandHandler<WarQuery, WarQueryResponse>, WarQueryHandler>();
 
 
         return services;
