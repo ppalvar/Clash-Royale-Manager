@@ -1,24 +1,19 @@
 <template>
     <TableInfo>
         <template #thead>
-            <th>Nombre</th>
-            <th v-if="!minimalice">Descripcion</th>
-            <th>Costo de elixir</th>
-            <th>Calidad</th>
-            <th>Acciones</th>
+            <th>Jugador 1</th>
+            <th>Resultados</th>
+            <th>Jugador 2</th>
+            <th>Cantidad de Trofeos</th>
         </template>
 
         <template #tbody>
-            <tr v-for="card in cards" :key="card.id">
-                <td> {{ card.name }} </td>
-                <td v-if="!minimalice"> {{ card.description }} </td>
-                <td> {{ card.elixirCost }} </td>
-                <td> {{ card.quality }} </td>
-                <td class="actions">
-                    <img height="20px" :src="Details" @click="$emit('info', card.id)"/>
-                    <img v-if="isUserAuthenticated" height="20px" :src="Edit" @click="$emit('edit', card.id)"/>
-                    <img v-if="isUserAuthenticated" height="20px" :src="Delete" @click="$emit('delete', card.id)"/>
-                </td>
+            <tr v-for="(battle, index) in battles" :key="index">
+                <td> {{ battle.player1 }} </td>
+                <td v-if="battle.battle.winner"> 0 - 1 </td>
+                <td v-else> 1 - 0 </td>
+                <td> {{ battle.player2 }} </td>
+                <td> {{ battle.battle.numberOfTrophies }} </td>
             </tr>
         </template>
     </TableInfo>
@@ -33,7 +28,7 @@ import { isAuthenticated } from '@/auth/auth';
 
 export default {
     props: {
-        cards: [],
+        battles: [],
         minimalice: {
             type: Boolean,
             default: false,

@@ -10,6 +10,7 @@ using ClashRoyaleManager.Application.Commands.Auth;
 using ClashRoyaleManager.Application.Query.Auth;
 using ClashRoyaleManager.Application.Query.Cards;
 using ClashRoyaleManager.Application.Query.Wars;
+using ClashRoyaleManager.Application.Query.Battles;
 using ClashRoyaleManager.Application.Commands.Admin.CreateCard;
 using ClashRoyaleManager.Application.Commands.Admin.UpdateCard;
 using ClashRoyaleManager.Application.Commands.Admin.DeleteCard;
@@ -17,6 +18,7 @@ using ClashRoyaleManager.Application.Commands.Admin.CreatePlayer;
 using ClashRoyaleManager.Application.Query.Players;
 using ClashRoyaleManager.Application.Commands.Admin.UpdatePlayer;
 using ClashRoyaleManager.Application.Commands.Admin.DeletePlayer;
+using ClashRoyaleManager.Application.Commands.Admin.CreateBattle;
 namespace ClashRoyaleManage.Api.Auth;
 
 
@@ -82,7 +84,12 @@ public static partial class DependencyInjection
             .AddScoped<ICommandHandler<LoginCommand, LoginCommandResponse>, LoginCommandHandler>()
             .AddScoped<ICommandHandler<ListClanQuery, ListClanQueryResponse>, ListClanQueryHandler>()
             .AddScoped<ICommandHandler<ListCardQuery, ListCardQueryResponse>, ListCardQueryHandler>()
+            .AddScoped<ICommandHandler<ListBattleByPlayerQuery, ListBattleByPlayerQueryResponse>, ListBattleByPlayerQueryHandler>()
+            .AddScoped<ICommandHandler<ListBattleQuery, ListBattleQueryResponse>, ListBattleQueryHandler>()
+            .AddScoped<ICommandHandler<BattleQuery, BattleQueryResponse>, BattleQueryHandler>()
+            .AddScoped<ICommandHandler<CreateBattleCommand, CreateBattleCommandResponse>, CreateBattleCommandHandler>()
             .AddScoped<ICommandHandler<ListWarQuery, ListWarQueryResponse>, ListWarQueryHandler>()
+            .AddScoped<ICommandHandler<CardByPlayerQuery, CardByPlayerQueryResponse>, CardByPlayerQueryHandler>()
             .AddScoped<ICommandHandler<CardQuery, CardQueryResponse>, CardQueryHandler>()
             .AddScoped<ICommandHandler<CreatePlayerCommand, CreatePlayerCommandResponse>, CreatePlayerCommandHandler>()
             .AddScoped<ICommandHandler<ListPlayerQuery, ListPlayerQueryResponse>, ListPlayerQueryHandler>()

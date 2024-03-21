@@ -49,6 +49,7 @@ public static class DependencyInjection
 
         services.AddScoped<IEncryptService, EncryptService>()
                 .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<IBattleRepository, BattleRepository>()
                 .AddScoped<ICardRepository, CardRepository>()
                 .AddScoped<IClanRepository, ClanRepository>()
                 .AddScoped<IWarRepository, WarRepository>()

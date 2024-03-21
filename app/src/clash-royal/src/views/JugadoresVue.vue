@@ -1,8 +1,10 @@
 <script>
-import EntityDefaultViews from '../components/EntityDefaultViews.vue'
-import BBDD from '../router/BBDD'
-import consts from '../router/auth'
-import TableInfoJugador from '@/components/TableInfoJugador.vue'
+import EntityDefaultViews from '@/components/EntityDefaultViews.vue';
+import ErrorPopup from '@/components/ErrorPopup.vue';
+import SuccessPopup from '@/components/SuccessPopup.vue';
+import TableInfoJugador from '@/components/TableInfoJugador.vue';
+import { API_URL } from '@/config';
+import axios from 'axios';
 
 export default {
     props: {
@@ -10,39 +12,75 @@ export default {
             type: Boolean,
             default: false,
         },
-
-        jugadores: {
-            default: BBDD.getAllJugadores(),
-        }
     },
 
     components: {
         EntityDefaultViews,
         TableInfoJugador,
+        ErrorPopup,
+        SuccessPopup,
     },
 
     data() {
         return {
-            auth: consts.auth,
+            players: [],
+            error: '',
+            msg: ''
         }
+    },
+
+    mounted() {
+        this.loadData();
     },
 
     methods: {
         seeInfo(id) {
-            this.$emit('info', id, consts.typeEntity.player)
+            let url = `/info-jugador/${id}`;
+            this.$router.push(url);
+        },
+        
+        editPlayer(id) {
+            let url = `/edit-player/${id}`;
+            this.$router.push(url);
+        },
+
+        deletePlayer(id) {
+            if (confirm('Éstá seguro que desea eliminar el jugador seleccionado?')) {
+                axios.delete(`${API_URL}/admin/delete-player/${id}`)
+                    .then(async res => {
+                            res;
+                            await this.loadData();
+                            this.msg = 'Jugador eliminado con éxito.';
+                        })
+                        .catch(error => {
+                                this.error = error.response.data;
+                            });
+            }
+        },
+
+        loadData() {
+            axios.get(`${API_URL}/players`)
+                .then(res => {
+                    this.players = res.data.players;
+                })
+                .catch(error => {
+                    this.error = error.response.data;
+                });
         },
     },
 }
 </script>
 
 <template>
-    <EntityDefaultViews>
-        <template #botonCrear>
-            <h2 v-if="auth && !minimalice">CrearPlayer</h2>
-        </template>
+    <ErrorPopup v-if="error != ''" :msg="error"></ErrorPopup>
+    <SuccessPopup v-if="msg != ''" :msg="msg"></SuccessPopup>
 
+    <EntityDefaultViews url="/add-player">
         <template #tabla>
-            <TableInfoJugador :jugadores="jugadores" :minimalice="minimalice" @info="seeInfo" />
+            <TableInfoJugador 
+                :jugadores="players" :minimalice="minimalice" 
+                @info="seeInfo" @edit="editPlayer" @delete="deletePlayer"
+            />
         </template>
     </EntityDefaultViews>
 </template>
