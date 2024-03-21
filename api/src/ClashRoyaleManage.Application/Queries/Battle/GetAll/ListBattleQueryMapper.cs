@@ -7,10 +7,4 @@ namespace ClashRoyaleManager.Application.Query.Battles;
 
 public class ListBattleQueryMapper : AbstractMapper<IQueryable<Battle>, ListBattleQuery, ListBattleQueryResponse>
 {
-    public override ListBattleQueryResponse ToResponse(IQueryable<Battle> entities)
-    {
-        return new ListBattleQueryResponse {
-            Battles = entities
-        };
-    }
 }

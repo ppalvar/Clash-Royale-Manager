@@ -5,6 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ClashRoyaleManager.Application.Query.Battles;
 
-public class ListBattleByPlayerQueryMapper : AbstractMapper<IQueryable<Battle>, ListBattleByPlayerQuery, ListBattleByPlayerQueryResponse>
+public class BattleQueryMapper : AbstractMapper<Battle, BattleQuery, BattleQueryResponse>
 {
 }

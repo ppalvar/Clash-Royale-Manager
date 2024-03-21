@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using ClashRoyaleManager.Application.Repositories;
 using ClashRoyaleManager.Domain.Entities;
 using ClashRoyaleManager.Domain.Exceptions;
@@ -19,9 +20,9 @@ public class BattleRepository : IBattleRepository
 
     public async Task Create(Battle entity)
     {
-        Battle? Battle = await Get(entity.Player1Id, entity.Player2Id, entity.Date);
+        var battle = await Get(entity.Player1Id, entity.Player2Id, entity.Date);
 
-        if (Battle != null) 
+        if (battle != null) 
         {
             throw new EntityDoesNotExistException($"The entity of type <{nameof(Battle)}> and Player1 <{entity.Player1Id}> and Player2 <{entity.Player2Id}> already exists");
         }
@@ -30,50 +31,55 @@ public class BattleRepository : IBattleRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<Battle?> Get(Guid Player1Id, Guid Player2Id, DateTime Date)
+    public async Task<(Battle? Battle, string Player1, string  Player2)?> Get(Guid Player1Id, Guid Player2Id, DateTime Date)
     {
-        Battle? Battle = await _dbContext.Battles
-            .Where(battle => 
-                battle.Player1Id == Player1Id &&
-                battle.Player2Id == Player2Id &&
-                battle.Date == Date
-            )
-            .FirstOrDefaultAsync();
-        return Battle;
+        var battleWithPlayers = (from b in _dbContext.Battles
+                                join p1 in _dbContext.Players on b.Player1Id equals p1.Id
+                                join p2 in _dbContext.Players on b.Player2Id equals p2.Id
+                                where b.Player1Id == Player1Id && b.Player2Id == Player2Id
+                                select new 
+                                {
+                                    Battle = b,
+                                    Player1 = p1.Nickname,
+                                    Player2 = p2.Nickname
+                                }).FirstOrDefault();
+
+        if (battleWithPlayers is null)
+        {
+            return null;
+        }
+
+        return (battleWithPlayers.Battle, battleWithPlayers.Player1, battleWithPlayers.Player2);
     }
 
-    public Task<IQueryable<Battle>> GetByPlayer(Guid Id)
+    public Task<IQueryable<BattlePlayerInfo>> GetByPlayer(Guid Id)
     {
-        // Realizar un Join entre Battles y Players para encontrar los jugadores en la batalla
-        var playersInBattleQuery = from b in _dbContext.Battles
-                                   join p1 in _dbContext.Players on b.Player1Id equals p1.Id
-                                   where b.Player1Id == Id
-                                   select b;
+        var resultQuery = _dbContext.Battles
+        .Where(b => b.Player1Id == Id || b.Player2Id == Id)
+        .Join(_dbContext.Players, b => b.Player1Id, p => p.Id, (b, p1) => new { b, p1 })
+        .Join(_dbContext.Players, bp1 => bp1.b.Player2Id, p2 => p2.Id, (bp1, p2) => new BattlePlayerInfo
+        {
+            Battle = bp1.b,
+            Player1 = bp1.p1.Nickname,
+            Player2 = p2.Nickname
+        })
+        .AsQueryable();
 
-        // Realizar la unión para los player2
-        var players2InBattleQuery = from b in _dbContext.Battles
-                                    join p2 in _dbContext.Players on b.Player2Id equals p2.Id
-                                    where b.Player2Id == Id
-                                    select b;
-
-        // Unir los resultados de ambos queries
-        var allPlayersInBattle = playersInBattleQuery.Union(players2InBattleQuery);
-
-        return Task.FromResult(allPlayersInBattle);
+    return Task.FromResult(resultQuery.Cast<BattlePlayerInfo?>());
     }
 
-    public Task<Battle?> Get(Guid Id)
+    public Task<IQueryable<BattlePlayerInfo>> GetAll()
     {
-        throw new NotImplementedException();
-    }
+        var resultQuery = _dbContext.Battles
+        .Join(_dbContext.Players, b => b.Player1Id, p => p.Id, (b, p1) => new { b, p1 })
+        .Join(_dbContext.Players, bp1 => bp1.b.Player2Id, p2 => p2.Id, (bp1, p2) => new BattlePlayerInfo
+        {
+            Battle = bp1.b,
+            Player1 = bp1.p1.Nickname,
+            Player2 = p2.Nickname
+        })
+        .AsQueryable();
 
-    public Task<IQueryable<Battle>> GetAll()
-    {
-        return Task.FromResult(_dbContext.Battles.AsQueryable());
-    }
-
-    public Task Update(Battle entity)
-    {
-        throw new NotImplementedException();
+    return Task.FromResult(resultQuery.Cast<BattlePlayerInfo?>());
     }
 }

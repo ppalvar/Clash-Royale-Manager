@@ -18,8 +18,8 @@ public class ListBattleQueryHandler : ICommandHandler<ListBattleQuery, ListBattl
     {
         var data = await _repository.GetAll();
 
-        var response = _mapper.ToResponse(data);
-
-        return response;
+        return new ListBattleQueryResponse{
+            Battles = data
+        };
     }
 }

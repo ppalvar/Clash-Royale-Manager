@@ -18,6 +18,7 @@ using ClashRoyaleManager.Application.Commands.Admin.CreatePlayer;
 using ClashRoyaleManager.Application.Query.Players;
 using ClashRoyaleManager.Application.Commands.Admin.UpdatePlayer;
 using ClashRoyaleManager.Application.Commands.Admin.DeletePlayer;
+using ClashRoyaleManager.Application.Commands.Admin.CreateBattle;
 namespace ClashRoyaleManage.Api.Auth;
 
 
@@ -85,6 +86,8 @@ public static partial class DependencyInjection
             .AddScoped<ICommandHandler<ListCardQuery, ListCardQueryResponse>, ListCardQueryHandler>()
             .AddScoped<ICommandHandler<ListBattleByPlayerQuery, ListBattleByPlayerQueryResponse>, ListBattleByPlayerQueryHandler>()
             .AddScoped<ICommandHandler<ListBattleQuery, ListBattleQueryResponse>, ListBattleQueryHandler>()
+            .AddScoped<ICommandHandler<BattleQuery, BattleQueryResponse>, BattleQueryHandler>()
+            .AddScoped<ICommandHandler<CreateBattleCommand, CreateBattleCommandResponse>, CreateBattleCommandHandler>()
             .AddScoped<ICommandHandler<ListWarQuery, ListWarQueryResponse>, ListWarQueryHandler>()
             .AddScoped<ICommandHandler<CardByPlayerQuery, CardByPlayerQueryResponse>, CardByPlayerQueryHandler>()
             .AddScoped<ICommandHandler<CardQuery, CardQueryResponse>, CardQueryHandler>()

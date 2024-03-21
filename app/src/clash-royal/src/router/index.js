@@ -12,8 +12,10 @@ import Clanes from "@/views/ClanesVue.vue";
 import PerfilVue from "@/views/PerfilVue.vue";
 import CrearJugador from "@/components/CrearJugador.vue";
 import CrearCarta from "@/components/CrearCarta.vue";
+import CrearBattle from "@/components/CrearBattle.vue";
 import EditarCarta from "@/components/EditarCarta.vue";
 import EditarJugador from "@/components/EditarJugador.vue";
+import BattlesVue from "@/views/BattlesVue.vue";
 
 const routes = [
     {
@@ -51,6 +53,17 @@ const routes = [
         path: '/carta',
         name: 'Carta',
         component: Cartas,
+    },
+    {
+        path: '/battle',
+        name: 'Battles',
+        component: BattlesVue,
+    },
+    {
+        path: '/add-battle',
+        name: 'AddBattle',
+        component: CrearBattle,
+        meta: { requiresAuth: true }
     },
     {
         path: '/add-player',

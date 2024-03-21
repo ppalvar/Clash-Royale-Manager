@@ -31,6 +31,7 @@ export default {
       <RouterLink to="/">Inicio</RouterLink>
       <RouterLink to="/carta">Cartas</RouterLink>
       <RouterLink to="/jugador">Jugadores</RouterLink>
+      <RouterLink to="/battle">Batallas</RouterLink>
       <RouterLink to="/clan">Clan</RouterLink>
       
       <RouterLink to="/clan" class="items-admin">Usuarios</RouterLink>

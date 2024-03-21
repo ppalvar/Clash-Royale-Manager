@@ -18,8 +18,8 @@ public class ListBattleByPlayerQueryHandler : ICommandHandler<ListBattleByPlayer
     {
         var data = await _repository.GetByPlayer(command.Id);
 
-        var response = _mapper.ToResponse(data);
-
-        return response;
+        return new ListBattleByPlayerQueryResponse{
+            Battles = data            
+        };
     }
 }
