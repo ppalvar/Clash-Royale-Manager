@@ -24,7 +24,7 @@ namespace ClashRoyaleManager.Infraestructure.DbContexts
 
         private void HasKey(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Battle>().HasKey(b => new { b.Player1Id, b.Player2Id, b.Date} );
+            modelBuilder.Entity<Battle>().HasKey(b => new { b.Player1Id, b.Date} );
             modelBuilder.Entity<Card>().HasKey(c => c.Id);
             modelBuilder.Entity<Cargo>().HasKey(c => c.Id);
             modelBuilder.Entity<Challenge>().HasKey(c => c.Id);

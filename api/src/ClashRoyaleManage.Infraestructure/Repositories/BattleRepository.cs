@@ -18,6 +18,8 @@ public class BattleRepository : IBattleRepository
         _dbContext = dbContext;
     }
 
+    //TODO - Administar que cada jugador solo pueda tener una batalla en el mismo día y 
+    // la llave sea un solo juagador
     public async Task Create(Battle entity)
     {
         var battle = await Get(entity.Player1Id, entity.Player2Id, entity.Date);

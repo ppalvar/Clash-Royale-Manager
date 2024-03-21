@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace ClashRoyaleManager.Domain.Entities;
 
+
 public class Clan
 {
     public Guid Id { get; set; }
@@ -16,7 +17,7 @@ public class Clan
 
     public int NumberOfTrophiesObtainedInWars { get; set; }
 
-    public string Region { get; set; }
+    public RegionsEnum Region { get; set; }
 
     public int NumberOfMembers { get; set; }
 

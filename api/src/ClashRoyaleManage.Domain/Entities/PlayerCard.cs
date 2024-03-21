@@ -12,6 +12,7 @@ public class PlayerCard
     public Guid IdClan { get; set; }
     public int Level { get; set; }
     public bool IsFavority { get; set; }
+    public DateTime Fecha { get; set; }
 
     //Relaciones
     public virtual Player Player { get; set; }
