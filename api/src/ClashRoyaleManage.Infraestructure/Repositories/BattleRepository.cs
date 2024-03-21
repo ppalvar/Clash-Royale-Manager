@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using ClashRoyaleManage.Infrastructure.Services;
 using ClashRoyaleManager.Application.Repositories;
 using ClashRoyaleManager.Domain.Entities;
 using ClashRoyaleManager.Domain.Exceptions;
@@ -12,21 +13,27 @@ namespace ClashRoyaleManager.Infraestructure.Repositories;
 public class BattleRepository : IBattleRepository
 {
     private readonly DefaultDbContext _dbContext;
+    private readonly DateTimeProvider _dateTimeProvider;
 
-    public BattleRepository(DefaultDbContext dbContext)
+    public BattleRepository(DefaultDbContext dbContext, DateTimeProvider dateTimeProvider)
     {
         _dbContext = dbContext;
+        _dateTimeProvider = dateTimeProvider;
     }
 
-    //TODO - Administar que cada jugador solo pueda tener una batalla en el mismo día y 
-    // la llave sea un solo juagador
     public async Task Create(Battle entity)
     {
-        var battle = await Get(entity.Player1Id, entity.Player2Id, entity.Date);
+        var battle1 = (await GetByPlayer(entity.Player1Id)).Where(b => b.Battle!.Date == _dateTimeProvider.UtcNow).FirstOrDefault();
+        var battle2 = (await GetByPlayer(entity.Player2Id)).Where(b => b.Battle!.Date == _dateTimeProvider.UtcNow).FirstOrDefault();
 
-        if (battle != null) 
+        if (battle1 != null) 
         {
-            throw new EntityDoesNotExistException($"The entity of type <{nameof(Battle)}> and Player1 <{entity.Player1Id}> and Player2 <{entity.Player2Id}> already exists");
+            throw new EntityDoesNotExistException($"The entity of type <{nameof(Battle)}> and Player1 <{entity.Player1Id}> already exists");
+        }
+        
+        if (battle2 != null) 
+        {
+            throw new EntityDoesNotExistException($"The entity of type <{nameof(Battle)}> and Player1 <{entity.Player2Id}> already exists");
         }
 
         _dbContext.Battles.Add(entity);
