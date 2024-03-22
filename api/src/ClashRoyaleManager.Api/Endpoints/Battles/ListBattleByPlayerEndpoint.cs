@@ -5,13 +5,6 @@ namespace ClashRoyaleManager.Presentation.Endpoints;
 
 public class GetByPlayerBattle : Endpoint<ListBattleByPlayerQuery, ListBattleByPlayerQueryResponse>
 {
-    private readonly ICommandHandler<ListBattleByPlayerQuery, ListBattleByPlayerQueryResponse> _listBattleByPlayerQueryHandler;
-
-    public GetByPlayerBattle(ICommandHandler<ListBattleByPlayerQuery, ListBattleByPlayerQueryResponse> listBattleByPlayerQueryHandler)
-    {
-        _listBattleByPlayerQueryHandler = listBattleByPlayerQueryHandler;
-    }
-    
     public override void Configure()
     {
         Get("/battles-by-player/{playerId}");
@@ -20,8 +13,7 @@ public class GetByPlayerBattle : Endpoint<ListBattleByPlayerQuery, ListBattleByP
 
     public async override Task HandleAsync(ListBattleByPlayerQuery req, CancellationToken ct)
     {
-        req.Id = Route<Guid>("playerId"); 
-        var response = await _listBattleByPlayerQueryHandler.ExecuteAsync(req, ct);
+        var response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
 }

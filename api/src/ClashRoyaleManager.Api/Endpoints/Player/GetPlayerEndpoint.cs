@@ -6,13 +6,6 @@ namespace ClashRoyaleManager.Presentation.Endpoints;
 
 public class GetPlayerEndpoint : Endpoint<PlayerQuery, PlayerQueryResponse>
 {
-    private readonly ICommandHandler<PlayerQuery, PlayerQueryResponse> _PlayerQueryHandler;
-    public GetPlayerEndpoint(ICommandHandler<PlayerQuery, PlayerQueryResponse> PlayerQueryHandler)
-    {
-        _PlayerQueryHandler = PlayerQueryHandler;
-
-    }
-    
     public override void Configure()
     {
         Get("/players/{playerId}");
@@ -21,8 +14,7 @@ public class GetPlayerEndpoint : Endpoint<PlayerQuery, PlayerQueryResponse>
 
     public async override Task HandleAsync(PlayerQuery req, CancellationToken ct)
     {
-        req.Id = Route<Guid>("playerId"); 
-        var response = await _PlayerQueryHandler.ExecuteAsync(req, ct);
+        var response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
 }

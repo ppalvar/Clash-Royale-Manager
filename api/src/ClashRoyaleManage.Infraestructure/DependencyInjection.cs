@@ -48,6 +48,9 @@ public static class DependencyInjection
             () => InitializeDatabase(services.BuildServiceProvider().GetRequiredService<DefaultDbContext>())
         );
 
+        services.AddScoped<IJwtTokenGenerator, JwTokenGenerator>();
+        services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+
         services.AddScoped<IEncryptService, EncryptService>()
                 .AddScoped<IUserRepository, UserRepository>()
                 .AddScoped<IBattleRepository, BattleRepository>()
@@ -64,6 +67,6 @@ public static class DependencyInjection
 
     public static async Task InitializeDatabase(DefaultDbContext context)
     {
-        // Initialize datas
+
     }
 }

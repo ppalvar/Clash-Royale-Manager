@@ -5,13 +5,6 @@ namespace ClashRoyaleManager.Presentation.Endpoints;
 
 public class GetAllBattle : Endpoint<ListBattleQuery, ListBattleQueryResponse>
 {
-    private readonly ICommandHandler<ListBattleQuery, ListBattleQueryResponse> _listBattleQueryHandler;
-
-    public GetAllBattle(ICommandHandler<ListBattleQuery, ListBattleQueryResponse> listBattleQueryHandler)
-    {
-        _listBattleQueryHandler = listBattleQueryHandler;
-    }
-    
     public override void Configure()
     {
         Get("/battles");
@@ -20,7 +13,7 @@ public class GetAllBattle : Endpoint<ListBattleQuery, ListBattleQueryResponse>
 
     public async override Task HandleAsync(ListBattleQuery req, CancellationToken ct)
     {
-        var response = await _listBattleQueryHandler.ExecuteAsync(req, ct);
+        var response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
 }

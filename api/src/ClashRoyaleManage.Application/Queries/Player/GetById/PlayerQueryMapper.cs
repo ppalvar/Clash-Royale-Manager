@@ -9,7 +9,8 @@ public class PlayerQueryMapper : AbstractMapper<Player, PlayerQuery, PlayerQuery
 {
     public override PlayerQueryResponse ToResponse(Player entitie)
     {
-        return new PlayerQueryResponse {
+        return new PlayerQueryResponse
+        {
             Nickname = entitie.Nickname,
             Level = entitie.Level,
             NumberOfTrophies = entitie.NumberOfTrophies,

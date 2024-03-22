@@ -1,10 +1,9 @@
 using ClashRoyaleManage.Api.Auth;
 using ClashRoyaleManage.Infraestructure;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 using FastEndpoints;
-using ClashRoyaleManager.Application.Query.Clans;
 using ClashRoyaleManage.Api.Middlewares;
+using FastEndpoints.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services
         .AddInfrastructure(builder.Configuration)
         .ConfigureAutheticationServices(builder.Configuration)
-        .AddFastEndpoints();
+        .AddFastEndpoints()
+        .SwaggerDocument();
 }
 
 var app = builder.Build();
@@ -34,6 +34,8 @@ var app = builder.Build();
     {
         c.Endpoints.RoutePrefix = "api";
     });
+
+    if (app.Environment.IsDevelopment()) app.UseSwaggerGen();
 
     app.Run();
 }
