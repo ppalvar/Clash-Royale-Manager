@@ -1,6 +1,5 @@
-using System.Security.Cryptography;
-using ClashRoyaleManage.Infrastructure.Services;
 using ClashRoyaleManager.Application.Repositories;
+using ClashRoyaleManager.Application.Services;
 using ClashRoyaleManager.Domain.Entities;
 using ClashRoyaleManager.Domain.Exceptions;
 using ClashRoyaleManager.Infraestructure.DbContexts;
@@ -13,9 +12,9 @@ namespace ClashRoyaleManager.Infraestructure.Repositories;
 public class BattleRepository : IBattleRepository
 {
     private readonly DefaultDbContext _dbContext;
-    private readonly DateTimeProvider _dateTimeProvider;
+    private readonly IDateTimeProvider _dateTimeProvider;
 
-    public BattleRepository(DefaultDbContext dbContext, DateTimeProvider dateTimeProvider)
+    public BattleRepository(DefaultDbContext dbContext, IDateTimeProvider dateTimeProvider)
     {
         _dbContext = dbContext;
         _dateTimeProvider = dateTimeProvider;
@@ -26,12 +25,12 @@ public class BattleRepository : IBattleRepository
         var battle1 = (await GetByPlayer(entity.Player1Id)).Where(b => b.Battle!.Date == _dateTimeProvider.UtcNow).FirstOrDefault();
         var battle2 = (await GetByPlayer(entity.Player2Id)).Where(b => b.Battle!.Date == _dateTimeProvider.UtcNow).FirstOrDefault();
 
-        if (battle1 != null) 
+        if (battle1 != null)
         {
             throw new EntityDoesNotExistException($"The entity of type <{nameof(Battle)}> and Player1 <{entity.Player1Id}> already exists");
         }
-        
-        if (battle2 != null) 
+
+        if (battle2 != null)
         {
             throw new EntityDoesNotExistException($"The entity of type <{nameof(Battle)}> and Player1 <{entity.Player2Id}> already exists");
         }
@@ -40,25 +39,22 @@ public class BattleRepository : IBattleRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<(Battle? Battle, string Player1, string  Player2)?> Get(Guid Player1Id, Guid Player2Id, DateTime Date)
+    public async Task<(Battle? Battle, string Player1, string Player2)?> Get(Guid Player1Id, Guid Player2Id, DateTime Date)
     {
-        var battleWithPlayers = (from b in _dbContext.Battles
-                                join p1 in _dbContext.Players on b.Player1Id equals p1.Id
-                                join p2 in _dbContext.Players on b.Player2Id equals p2.Id
-                                where b.Player1Id == Player1Id && b.Player2Id == Player2Id
-                                select new 
-                                {
-                                    Battle = b,
-                                    Player1 = p1.Nickname,
-                                    Player2 = p2.Nickname
-                                }).FirstOrDefault();
+        var battleWithPlayers = await _dbContext.Battles.Where(b => b.Player1Id == Player1Id)
+                                                        .Where(b => b.Player2Id == Player2Id)
+                                                        .Include(b => b.Player1)
+                                                        .Include(b => b.Player2)
+                                                        .FirstOrDefaultAsync();
 
         if (battleWithPlayers is null)
         {
             return null;
         }
 
-        return (battleWithPlayers.Battle, battleWithPlayers.Player1, battleWithPlayers.Player2);
+        return (battleWithPlayers,
+                battleWithPlayers.Player1.Nickname,
+                battleWithPlayers.Player2.Nickname);
     }
 
     public Task<IQueryable<BattlePlayerInfo>> GetByPlayer(Guid Id)
@@ -74,7 +70,7 @@ public class BattleRepository : IBattleRepository
         })
         .AsQueryable();
 
-    return Task.FromResult(resultQuery.Cast<BattlePlayerInfo?>());
+        return Task.FromResult(resultQuery.Cast<BattlePlayerInfo?>());
     }
 
     public Task<IQueryable<BattlePlayerInfo>> GetAll()
@@ -89,6 +85,6 @@ public class BattleRepository : IBattleRepository
         })
         .AsQueryable();
 
-    return Task.FromResult(resultQuery.Cast<BattlePlayerInfo?>());
+        return Task.FromResult(resultQuery.Cast<BattlePlayerInfo?>());
     }
 }

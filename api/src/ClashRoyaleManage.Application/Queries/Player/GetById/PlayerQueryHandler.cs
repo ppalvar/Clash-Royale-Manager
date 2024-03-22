@@ -3,7 +3,7 @@ using FastEndpoints;
 
 namespace ClashRoyaleManager.Application.Query.Players;
 
-public class PlayerQueryHandler : ICommandHandler<PlayerQuery, PlayerQueryResponse>
+public class PlayerQueryHandler : CommandHandler<PlayerQuery, PlayerQueryResponse>
 {
     private readonly IPlayerRepository _repository;
     private readonly PlayerQueryMapper _mapper;
@@ -13,8 +13,8 @@ public class PlayerQueryHandler : ICommandHandler<PlayerQuery, PlayerQueryRespon
         _repository = repository;
         _mapper = new PlayerQueryMapper();
     }
-    
-    public async Task<PlayerQueryResponse> ExecuteAsync(PlayerQuery command, CancellationToken ct = default)
+
+    public override async Task<PlayerQueryResponse> ExecuteAsync(PlayerQuery command, CancellationToken ct = default)
     {
         var data = await _repository.Get(command.Id);
         var response = _mapper.ToResponse(data);

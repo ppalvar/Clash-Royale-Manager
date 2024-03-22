@@ -14,7 +14,7 @@ public class CreateCardCommandHandler : CommandHandler<CreateCardCommand, Create
         _repository = repository;
         _mapper = new CreateCardCommandMapper();
     }
-    
+
     public override async Task<CreateCardCommandResponse> ExecuteAsync(CreateCardCommand command, CancellationToken ct = default)
     {
         Card card = _mapper.ToEntity(command);

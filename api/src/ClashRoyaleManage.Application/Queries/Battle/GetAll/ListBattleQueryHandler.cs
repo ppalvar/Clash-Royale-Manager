@@ -3,7 +3,7 @@ using FastEndpoints;
 
 namespace ClashRoyaleManager.Application.Query.Battles;
 
-public class ListBattleQueryHandler : ICommandHandler<ListBattleQuery, ListBattleQueryResponse>
+public class ListBattleQueryHandler : CommandHandler<ListBattleQuery, ListBattleQueryResponse>
 {
     private readonly IBattleRepository _repository;
     private readonly ListBattleQueryMapper _mapper;
@@ -14,11 +14,12 @@ public class ListBattleQueryHandler : ICommandHandler<ListBattleQuery, ListBattl
         _mapper = new ListBattleQueryMapper();
     }
 
-    public async  Task<ListBattleQueryResponse> ExecuteAsync(ListBattleQuery command, CancellationToken ct = default)
+    public override async Task<ListBattleQueryResponse> ExecuteAsync(ListBattleQuery command, CancellationToken ct = default)
     {
         var data = await _repository.GetAll();
 
-        return new ListBattleQueryResponse{
+        return new ListBattleQueryResponse
+        {
             Battles = data
         };
     }

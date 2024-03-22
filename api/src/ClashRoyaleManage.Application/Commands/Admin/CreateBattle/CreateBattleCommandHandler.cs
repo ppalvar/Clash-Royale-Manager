@@ -14,7 +14,7 @@ public class CreateBattleCommandHandler : CommandHandler<CreateBattleCommand, Cr
         _repository = repository;
         _mapper = new CreateBattleCommandMapper();
     }
-    
+
     public override async Task<CreateBattleCommandResponse> ExecuteAsync(CreateBattleCommand command, CancellationToken ct = default)
     {
         Battle battle = _mapper.ToEntity(command);

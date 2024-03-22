@@ -4,7 +4,7 @@ using FastEndpoints;
 
 namespace ClashRoyaleManager.Application.Query.Battles;
 
-public class BattleQueryHandler : ICommandHandler<BattleQuery, BattleQueryResponse>
+public class BattleQueryHandler : CommandHandler<BattleQuery, BattleQueryResponse>
 {
     private readonly IBattleRepository _repository;
     private readonly BattleQueryMapper _mapper;
@@ -14,13 +14,14 @@ public class BattleQueryHandler : ICommandHandler<BattleQuery, BattleQueryRespon
         _repository = repository;
         _mapper = new BattleQueryMapper();
     }
-    
-    public async Task<BattleQueryResponse> ExecuteAsync(BattleQuery command, CancellationToken ct = default)
+
+    public override async Task<BattleQueryResponse> ExecuteAsync(BattleQuery command, CancellationToken ct = default)
     {
         var entitie = await _repository.Get(command.Player1Id, command.Player2Id, command.Date);
 
-        return new BattleQueryResponse {
-            Player1Id = entitie.Value.Battle.Player1Id,
+        return new BattleQueryResponse
+        {
+            Player1Id = entitie.Value.Battle!.Player1Id,
             Player2Id = entitie.Value.Battle.Player2Id,
             Player1Name = entitie.Value.Player1,
             Player2Name = entitie.Value.Player2,

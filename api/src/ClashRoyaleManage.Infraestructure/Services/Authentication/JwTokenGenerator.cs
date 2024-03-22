@@ -1,7 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using ClashRoyaleManage.Infrastructure.Services.Auth;
 using ClashRoyaleManager.Application.Services;
 using ClashRoyaleManager.Application.Services.Auth;
 using ClashRoyaleManager.Domain.Entities;
@@ -28,7 +27,7 @@ public class JwTokenGenerator : IJwtTokenGenerator
             SecurityAlgorithms.HmacSha256
         );
 
-        var claims = new []
+        var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.GivenName, user.Username),

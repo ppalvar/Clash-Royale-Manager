@@ -21,7 +21,7 @@ public class ClanRepository : IClanRepository
     {
         Clan? Clan = await Get(entity.Id);
 
-        if (Clan != null) 
+        if (Clan != null)
         {
             throw new EntityDoesNotExistException($"The entity of type <{nameof(Clan)}> and Id <{entity.Id}> already exists");
         }

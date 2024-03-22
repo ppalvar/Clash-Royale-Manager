@@ -5,13 +5,6 @@ namespace ClashRoyaleManager.Presentation.Endpoints;
 
 public class LoginEndpoint : Endpoint<LoginCommand, LoginCommandResponse>
 {
-    private readonly ICommandHandler<LoginCommand, LoginCommandResponse> _queryHandler;
-
-    public LoginEndpoint(ICommandHandler<LoginCommand, LoginCommandResponse> commandHandler)
-    {
-        _queryHandler = commandHandler;
-    }
-
     public override void Configure()
     {
         Post("/auth/Login");
@@ -20,7 +13,7 @@ public class LoginEndpoint : Endpoint<LoginCommand, LoginCommandResponse>
 
     public override async Task HandleAsync(LoginCommand req, CancellationToken ct)
     {
-        LoginCommandResponse response = await _queryHandler.ExecuteAsync(req, ct);
+        LoginCommandResponse response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
 }

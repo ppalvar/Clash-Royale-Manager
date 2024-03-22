@@ -5,12 +5,6 @@ namespace ClashRoyaleManager.Presentation.Endpoints;
 
 public class EditAccountEndpoint : Endpoint<EditAccountCommand, EditAccountCommandResponse>
 {
-    private readonly ICommandHandler<EditAccountCommand, EditAccountCommandResponse> _EditAccountCommandHandler;
-    public EditAccountEndpoint(ICommandHandler<EditAccountCommand, EditAccountCommandResponse> EditAccountCommandHandler)
-    {
-        _EditAccountCommandHandler = EditAccountCommandHandler;
-    }
-    
     public override void Configure()
     {
         Put("/auth/update-account/{userId}");
@@ -19,8 +13,7 @@ public class EditAccountEndpoint : Endpoint<EditAccountCommand, EditAccountComma
 
     public async override Task HandleAsync(EditAccountCommand req, CancellationToken ct)
     {
-        req.Id = Route<Guid>("userId");
-        var response = await _EditAccountCommandHandler.ExecuteAsync(req, ct);
+        var response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
 }

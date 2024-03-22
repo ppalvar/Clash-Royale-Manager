@@ -21,7 +21,7 @@ public class WarRepository : IWarRepository
     {
         War? War = await Get(entity.Id);
 
-        if (War != null) 
+        if (War != null)
         {
             throw new EntityDoesNotExistException($"The entity of type <{nameof(War)}> and Id <{entity.Id}> already exists");
         }

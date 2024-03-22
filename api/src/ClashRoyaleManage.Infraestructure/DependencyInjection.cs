@@ -34,7 +34,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
-        Microsoft.Extensions.Configuration.ConfigurationManager configuration)
+        ConfigurationManager configuration)
     {
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
 
@@ -44,8 +44,12 @@ public static class DependencyInjection
             )
         );
 
-        services.AddSingleton<IJwtTokenGenerator, JwTokenGenerator>();
-        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        Task.Run(
+            () => InitializeDatabase(services.BuildServiceProvider().GetRequiredService<DefaultDbContext>())
+        );
+
+        services.AddScoped<IJwtTokenGenerator, JwTokenGenerator>();
+        services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 
         services.AddScoped<IEncryptService, EncryptService>()
                 .AddScoped<IUserRepository, UserRepository>()
@@ -54,19 +58,15 @@ public static class DependencyInjection
                 .AddScoped<IClanRepository, ClanRepository>()
                 .AddScoped<IWarRepository, WarRepository>()
                 .AddScoped<IPlayerRepository, PlayerRepository>();
-        
+
 
         services.AddScoped<IGetCurrentUserLoginService, GetCurrentUserLoginService>();
-
-        Task.Run(
-            () => InitializeDatabase(services.BuildServiceProvider().GetRequiredService<DefaultDbContext>())
-        );
 
         return services;
     }
 
     public static async Task InitializeDatabase(DefaultDbContext context)
     {
-        // Initialize datas
+
     }
 }

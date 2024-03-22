@@ -1,5 +1,4 @@
 using ClashRoyaleManager.Application.Repositories;
-using ClashRoyaleManager.Application.Repositories.Common;
 using ClashRoyaleManager.Domain.Entities;
 using ClashRoyaleManager.Domain.Exceptions;
 using ClashRoyaleManager.Infraestructure.DbContexts;
@@ -22,7 +21,7 @@ public class CardRepository : ICardRepository
     {
         Card? card = await Get(entity.Id);
 
-        if (card != null) 
+        if (card != null)
         {
             throw new EntityDoesNotExistException($"The entity of type <{nameof(Card)}> and Id <{entity.Id}> already exists");
         }

@@ -8,9 +8,10 @@ public class EncryptService : IEncryptService
 {
     public string Encrypt(string text)
     {
-        using (SHA256 sha256 = SHA256.Create()) {
+        using (SHA256 sha256 = SHA256.Create())
+        {
             byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(text));
-            
+
             string hash = Convert.ToBase64String(bytes);
 
             return hash;
@@ -19,7 +20,8 @@ public class EncryptService : IEncryptService
 
     public bool Decrypt(string input, string hash)
     {
-        using (SHA256 sha256 = SHA256.Create()) {
+        using (SHA256 sha256 = SHA256.Create())
+        {
             byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
             string inputHash = Convert.ToBase64String(bytes);
 
