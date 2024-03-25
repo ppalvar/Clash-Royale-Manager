@@ -41,8 +41,18 @@ public class WarRepository : IWarRepository
         return Task.FromResult(_dbContext.Wars.AsQueryable());
     }
 
-    public Task Update(War entity)
+    public async Task Update(War entity)
     {
-        throw new NotImplementedException();
+        War? war = await Get(entity.Id) ?? throw new EntityDoesNotExistException($"The entity of type <{nameof(War)}> and Id <{entity.Id}> not exists");
+
+        _dbContext.Wars.Update(entity);
+        await _dbContext.SaveChangesAsync();
+    }
+    public async Task Remove(Guid Id)
+    {
+        War? war = await Get(Id) ?? throw new EntityDoesNotExistException($"The entity of type <{nameof(War)}> and Id <{Id}> not exists");
+
+        _dbContext.Wars.Remove(war);
+        await _dbContext.SaveChangesAsync();
     }
 }

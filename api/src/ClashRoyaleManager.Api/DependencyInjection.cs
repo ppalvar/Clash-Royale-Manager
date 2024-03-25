@@ -17,6 +17,13 @@ using ClashRoyaleManager.Application.Commands.Admin.CreatePlayer;
 using ClashRoyaleManager.Application.Query.Players;
 using ClashRoyaleManager.Application.Commands.Admin.UpdatePlayer;
 using ClashRoyaleManager.Application.Commands.Admin.DeletePlayer;
+using ClashRoyaleManager.Application.Commands.Admin.CreateWar;
+using ClashRoyaleManager.Application.Commands.Admin.DeleteWar;
+using ClashRoyaleManager.Application.Commands.Admin.UpdateWar;
+using ClashRoyaleManager.Application.Commands.Admin.CreateChallenge;
+using ClashRoyaleManager.Application.Query.Challenges;
+using ClashRoyaleManager.Application.Commands.Admin.DeleteChallenge;
+using ClashRoyaleManager.Application.Commands.Admin.UpdateChallenge;
 namespace ClashRoyaleManage.Api.Auth;
 
 
@@ -89,7 +96,15 @@ public static partial class DependencyInjection
             .AddScoped<ICommandHandler<PlayerQuery, PlayerQueryResponse>, PlayerQueryHandler>()
             .AddScoped<ICommandHandler<UpdatePlayerCommand, UpdatePlayerCommandResponse>, UpdatePlayerCommandHandler>()
             .AddScoped<ICommandHandler<DeletePlayerCommand, DeletePlayerCommandResponse>, DeletePlayerCommandHandler>()
-            .AddScoped<ICommandHandler<WarQuery, WarQueryResponse>, WarQueryHandler>();
+            .AddScoped<ICommandHandler<WarQuery, WarQueryResponse>, WarQueryHandler>()
+            .AddScoped<ICommandHandler<CreateWarCommand, CreateWarCommandResponse>, CreateWarCommandHandler>()
+            .AddScoped<ICommandHandler<DeleteWarCommand, DeleteWarCommandResponse>, DeleteWarCommandHandler>()
+            .AddScoped<ICommandHandler<UpdateWarCommand, UpdateWarCommandResponse>, UpdateWarCommandHandler>()
+            .AddScoped<ICommandHandler<CreateChallengeCommand, CreateChallengeCommandResponse>, CreateChallengeCommandHandler>()
+            .AddScoped<ICommandHandler<ListChallengeQuery, ListChallengeQueryResponse>, ListChallengeQueryHandler>()
+            .AddScoped<ICommandHandler<ChallengeQuery, ChallengeQueryResponse>, ChallengeQueryHandler>()
+            .AddScoped<ICommandHandler<DeleteChallengeCommand, DeleteChallengeCommandResponse>, DeleteChallengeCommandHandler>()
+            .AddScoped<ICommandHandler<UpdateChallengeCommand, UpdateChallengeCommandResponse>, UpdateChallengeCommandHandler>();
 
 
         return services;

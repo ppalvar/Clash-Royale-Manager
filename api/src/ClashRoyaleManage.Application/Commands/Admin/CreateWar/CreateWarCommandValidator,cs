@@ -1,0 +1,12 @@
+using FastEndpoints;
+using FluentValidation;
+
+namespace ClashRoyaleManager.Application.Commands.Admin.CreateWar;
+
+public class CreateWarCommandValidator : Validator<CreateWarCommand>
+{
+    public CreateWarCommandValidator()
+    {
+        
+    }
+}
