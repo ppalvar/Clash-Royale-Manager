@@ -5,12 +5,6 @@ namespace ClashRoyaleManager.Presentation.Endpoints;
 
 public class ListChallengeEndpoint : Endpoint<ListChallengeQuery, ListChallengeQueryResponse>
 {
-    private readonly ICommandHandler<ListChallengeQuery, ListChallengeQueryResponse> _listChallengeQueryHandler;
-
-    public ListChallengeEndpoint(ICommandHandler<ListChallengeQuery, ListChallengeQueryResponse> listChallengeQueryHandler)
-    {
-        _listChallengeQueryHandler = listChallengeQueryHandler;
-    }
     
     public override void Configure()
     {
@@ -20,7 +14,7 @@ public class ListChallengeEndpoint : Endpoint<ListChallengeQuery, ListChallengeQ
 
     public async override Task HandleAsync(ListChallengeQuery req, CancellationToken ct)
     {
-        var response = await _listChallengeQueryHandler.ExecuteAsync(req, ct);
+        var response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
 }

@@ -5,13 +5,6 @@ namespace ClashRoyaleManager.Presentation.Endpoints;
 
 public class DeleteChallengeEndpoint : Endpoint<DeleteChallengeCommand, DeleteChallengeCommandResponse>
 {
-    private readonly ICommandHandler<DeleteChallengeCommand, DeleteChallengeCommandResponse> _commandHandler;
-
-    public DeleteChallengeEndpoint(ICommandHandler<DeleteChallengeCommand, DeleteChallengeCommandResponse> commandHandler)
-    {
-        _commandHandler = commandHandler;
-    }
-
     public override void Configure()
     {
         Delete("/admin/delete-challenge/{challengeId}");
@@ -21,7 +14,7 @@ public class DeleteChallengeEndpoint : Endpoint<DeleteChallengeCommand, DeleteCh
     public override async Task HandleAsync(DeleteChallengeCommand req, CancellationToken ct)
     {
         req.Id = Route<Guid>("challengeId");
-        DeleteChallengeCommandResponse response = await _commandHandler.ExecuteAsync(req, ct);
+        DeleteChallengeCommandResponse response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
 }

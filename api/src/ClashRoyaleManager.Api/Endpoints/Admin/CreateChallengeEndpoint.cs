@@ -5,13 +5,6 @@ namespace ClashRoyaleManager.Presentation.Endpoints;
 
 public class CreateChallengeEndpoint : Endpoint<CreateChallengeCommand, CreateChallengeCommandResponse>
 {
-    private readonly ICommandHandler<CreateChallengeCommand, CreateChallengeCommandResponse> _commandHandler;
-
-    public CreateChallengeEndpoint(ICommandHandler<CreateChallengeCommand, CreateChallengeCommandResponse> commandHandler)
-    {
-        _commandHandler = commandHandler;
-    }
-
     public override void Configure()
     {
         Post("/admin/createchallenge");
@@ -20,7 +13,7 @@ public class CreateChallengeEndpoint : Endpoint<CreateChallengeCommand, CreateCh
 
     public override async Task HandleAsync(CreateChallengeCommand req, CancellationToken ct)
     {
-        CreateChallengeCommandResponse response = await _commandHandler.ExecuteAsync(req, ct);
+        CreateChallengeCommandResponse response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
 }

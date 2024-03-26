@@ -5,13 +5,6 @@ namespace ClashRoyaleManager.Presentation.Endpoints;
 
 public class CreateWarEndpoint : Endpoint<CreateWarCommand, CreateWarCommandResponse>
 {
-    private readonly ICommandHandler<CreateWarCommand, CreateWarCommandResponse> _commandHandler;
-
-    public CreateWarEndpoint(ICommandHandler<CreateWarCommand, CreateWarCommandResponse> commandHandler)
-    {
-        _commandHandler = commandHandler;
-    }
-
     public override void Configure()
     {
         Post("/admin/createwar");
@@ -20,7 +13,7 @@ public class CreateWarEndpoint : Endpoint<CreateWarCommand, CreateWarCommandResp
 
     public override async Task HandleAsync(CreateWarCommand req, CancellationToken ct)
     {
-        CreateWarCommandResponse response = await _commandHandler.ExecuteAsync(req, ct);
+        CreateWarCommandResponse response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
 }

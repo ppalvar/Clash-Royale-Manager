@@ -6,12 +6,6 @@ namespace ClashRoyaleManager.Presentation.Endpoints;
 
 public class GetWarEndpoint : Endpoint<WarQuery, WarQueryResponse>
 {
-    private readonly ICommandHandler<WarQuery, WarQueryResponse> _WarQueryHandler;
-    public GetWarEndpoint(ICommandHandler<WarQuery, WarQueryResponse> WarQueryHandler)
-    {
-        _WarQueryHandler = WarQueryHandler;
-
-    }
     
     public override void Configure()
     {
@@ -22,7 +16,7 @@ public class GetWarEndpoint : Endpoint<WarQuery, WarQueryResponse>
     public async override Task HandleAsync(WarQuery req, CancellationToken ct)
     {
         req.Id = Route<Guid>("warId"); 
-        var response = await _WarQueryHandler.ExecuteAsync(req, ct);
+        var response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
 }

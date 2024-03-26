@@ -5,13 +5,6 @@ namespace ClashRoyaleManager.Presentation.Endpoints;
 
 public class DeleteWarEndpoint : Endpoint<DeleteWarCommand, DeleteWarCommandResponse>
 {
-    private readonly ICommandHandler<DeleteWarCommand, DeleteWarCommandResponse> _commandHandler;
-
-    public DeleteWarEndpoint(ICommandHandler<DeleteWarCommand, DeleteWarCommandResponse> commandHandler)
-    {
-        _commandHandler = commandHandler;
-    }
-
     public override void Configure()
     {
         Delete("/admin/delete-war/{warId}");
@@ -21,7 +14,7 @@ public class DeleteWarEndpoint : Endpoint<DeleteWarCommand, DeleteWarCommandResp
     public override async Task HandleAsync(DeleteWarCommand req, CancellationToken ct)
     {
         req.Id = Route<Guid>("warId");
-        DeleteWarCommandResponse response = await _commandHandler.ExecuteAsync(req, ct);
+        DeleteWarCommandResponse response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
 }

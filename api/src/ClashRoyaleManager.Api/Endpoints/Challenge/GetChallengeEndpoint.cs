@@ -6,12 +6,6 @@ namespace ClashRoyaleManager.Presentation.Endpoints;
 
 public class GetChallengeEndpoint : Endpoint<ChallengeQuery, ChallengeQueryResponse>
 {
-    private readonly ICommandHandler<ChallengeQuery, ChallengeQueryResponse> _ChallengeQueryHandler;
-    public GetChallengeEndpoint(ICommandHandler<ChallengeQuery, ChallengeQueryResponse> ChallengeQueryHandler)
-    {
-        _ChallengeQueryHandler = ChallengeQueryHandler;
-
-    }
     
     public override void Configure()
     {
@@ -22,7 +16,7 @@ public class GetChallengeEndpoint : Endpoint<ChallengeQuery, ChallengeQueryRespo
     public async override Task HandleAsync(ChallengeQuery req, CancellationToken ct)
     {
         req.Id = Route<Guid>("challengeId"); 
-        var response = await _ChallengeQueryHandler.ExecuteAsync(req, ct);
+        var response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
 }
