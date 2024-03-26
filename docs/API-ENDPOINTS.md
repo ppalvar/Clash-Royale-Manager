@@ -8,11 +8,11 @@ This is a list of the *REST-API* endpoints defined in this project. This file al
 
 2. ✅ **POST** ->  `/auth/login`
 
-3. ❎ **POST** ->  `/auth/logout`
+3. ❎ **POST** ->  `/auth/logout` [Desde el frontend]
 
 4. ✅ **DELETE** ->  `/auth/delete-account/{userId}`
 
-5. ❎ **POST** ->  `/auth/reset-password/{userId}`
+5. ❎ **POST** ->  `/auth/reset-password/{userId}` [No hace falta]
 
 6. ✅ **POST** ->  `/auth/change-password/{userId}`
 
@@ -20,11 +20,11 @@ This is a list of the *REST-API* endpoints defined in this project. This file al
 
 ## Admin
 
-1. ❎ **POST** -> `/admin/create-card`
+1. ✅ **POST** -> `/admin/create-card`
 
-2. ❎ **PUT** -> `/admin/update-card/{cardId}`
+2. ✅ **PUT** -> `/admin/update-card/{cardId}`
 
-3. ❎ **DELETE** -> `/admin/delete-card/{cardId}`
+3. ✅ **DELETE** -> `/admin/delete-card/{cardId}`
 
 4. ❎ **POST** -> `/admin/create-clan`
 
@@ -32,23 +32,24 @@ This is a list of the *REST-API* endpoints defined in this project. This file al
 
 6. ❎ **DELETE** -> `/admin/delete-clan/{clanId}`
 
-7. ❎ **POST** -> `/admin/create-war`
+7. ✅ **POST** -> `/admin/create-war`
 
-8. ❎ **PUT** -> `/admin/update-war/{warId}`
+8. ✅ **PUT** -> `/admin/update-war/{warId}`
 
-9. ❎ **DELETE** -> `/admin/delete-war/{warId}`
+9. ✅ **DELETE** -> `/admin/delete-war/{warId}`
 
-10. ❎ **POST** -> `/admin/create-region`
+> [!ERROR]
+> 10. ❎ **POST** -> `/admin/create-region`
+>
+> 11. ❎ **PUT** -> `/admin/update-region/{regionId}`
+>
+> 12. ❎ **DELETE** -> `/admin/delete-region/{regionId}`
 
-11. ❎ **PUT** -> `/admin/update-region/{regionId}`
+13. ✅ **POST** -> `/admin/create-challenge`
 
-12. ❎ **DELETE** -> `/admin/delete-region/{regionId}`
+14. ✅ **PUT** -> `/admin/update-challenge/{challengeId}`
 
-13. ❎ **POST** -> `/admin/create-challenge`
-
-14. ❎ **PUT** -> `/admin/update-challenge/{challengeId}`
-
-15. ❎ **DELETE** -> `/admin/delete-challenge/{challengeId}`
+15. ✅ **DELETE** -> `/admin/delete-challenge/{challengeId}`
 
 ## Players
 
@@ -56,9 +57,9 @@ This is a list of the *REST-API* endpoints defined in this project. This file al
 
 2. ❎ **GET** ->  `/players/clans-can-join/{playerId}`
 
-3. ❎ **GET** ->  `/players/`
+3. ✅ **GET** ->  `/players/`
 
-4. ❎ **GET** ->  `/players/{playerId}`
+4. ✅ **GET** ->  `/players/{playerId}`
 
 ## Cards
 
@@ -78,11 +79,13 @@ This is a list of the *REST-API* endpoints defined in this project. This file al
 
 ## Wars
 
-1. ❎ **GET** ->  `/wars/`
+1. ✅ **GET** ->  `/wars/`
 
-2. ❎ **GET** ->  `/wars/{warId}`
+2. ✅ **GET** ->  `/wars/{warId}`
 
 ## Regions
+> [!INFO]
+> Mdificado por un enum
 
 1. ❎ **GET** ->  `/regions/best-clan/{regionId}`
 
@@ -94,6 +97,6 @@ This is a list of the *REST-API* endpoints defined in this project. This file al
 
 1. ❎ **GET** ->  `/challenges/completed-by-some-player`
 
-2. ❎ **GET** ->  `/challenges/`
+2. ✅ **GET** ->  `/challenges/`
 
-3. ❎ **GET** ->  `/challenges/{challengeId}`
+3. ✅ **GET** ->  `/challenges/{challengeId}`
