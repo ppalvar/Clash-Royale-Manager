@@ -18,7 +18,15 @@ using ClashRoyaleManager.Application.Commands.Admin.CreatePlayer;
 using ClashRoyaleManager.Application.Query.Players;
 using ClashRoyaleManager.Application.Commands.Admin.UpdatePlayer;
 using ClashRoyaleManager.Application.Commands.Admin.DeletePlayer;
+using ClashRoyaleManager.Application.Commands.Admin.CreateWar;
+using ClashRoyaleManager.Application.Commands.Admin.DeleteWar;
+using ClashRoyaleManager.Application.Commands.Admin.UpdateWar;
+using ClashRoyaleManager.Application.Commands.Admin.CreateChallenge;
+using ClashRoyaleManager.Application.Query.Challenges;
+using ClashRoyaleManager.Application.Commands.Admin.DeleteChallenge;
+using ClashRoyaleManager.Application.Commands.Admin.UpdateChallenge;
 using ClashRoyaleManager.Application.Commands.Admin.CreateBattle;
+
 namespace ClashRoyaleManage.Api.Auth;
 
 
