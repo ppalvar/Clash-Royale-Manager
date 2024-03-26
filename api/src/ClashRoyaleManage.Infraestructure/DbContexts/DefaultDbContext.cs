@@ -12,11 +12,19 @@ namespace ClashRoyaleManager.Infraestructure.DbContexts
         {
             HasKey(modelBuilder);
             HasRelationships(modelBuilder);
+
+            modelBuilder.Entity<Battle>()
+                .Property(e => e.Date)
+                .HasConversion(e => e.ToUniversalTime(), e => DateTime.SpecifyKind(e, DateTimeKind.Utc));
+            
+            modelBuilder.Entity<Battle>()
+                .Property(e => e.Duration)
+                .HasConversion(e => e.ToUniversalTime(), e => DateTime.SpecifyKind(e, DateTimeKind.Utc));
         }
 
         private void HasKey(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Battle>().HasKey(b => new { b.Player1Id, b.Player2Id, b.Date} );
+            modelBuilder.Entity<Battle>().HasKey(b => new { b.Player1Id, b.Date} );
             modelBuilder.Entity<Card>().HasKey(c => c.Id);
             modelBuilder.Entity<Cargo>().HasKey(c => c.Id);
             modelBuilder.Entity<Challenge>().HasKey(c => c.Id);

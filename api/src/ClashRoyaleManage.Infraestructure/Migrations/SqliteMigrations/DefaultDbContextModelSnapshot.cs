@@ -27,9 +27,6 @@ namespace ClashRoyaleManage.Infraestructure.Migrations.SqliteMigrations
                     b.Property<Guid>("Player1Id")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("Player2Id")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
@@ -39,10 +36,13 @@ namespace ClashRoyaleManage.Infraestructure.Migrations.SqliteMigrations
                     b.Property<int>("NumberOfTrophies")
                         .HasColumnType("integer");
 
+                    b.Property<Guid>("Player2Id")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("Winner")
                         .HasColumnType("boolean");
 
-                    b.HasKey("Player1Id", "Player2Id", "Date");
+                    b.HasKey("Player1Id", "Date");
 
                     b.HasIndex("Player2Id");
 
@@ -149,9 +149,8 @@ namespace ClashRoyaleManage.Infraestructure.Migrations.SqliteMigrations
                     b.Property<int>("NumberOfTrophiesObtainedInWars")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Region")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Region")
+                        .HasColumnType("integer");
 
                     b.Property<int>("TrophiesNeededToEnter")
                         .HasColumnType("integer");
@@ -218,6 +217,9 @@ namespace ClashRoyaleManage.Infraestructure.Migrations.SqliteMigrations
 
                     b.Property<Guid>("IdCard")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("IdClan")
                         .HasColumnType("uuid");
@@ -349,6 +351,9 @@ namespace ClashRoyaleManage.Infraestructure.Migrations.SqliteMigrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Password")
                         .IsRequired()

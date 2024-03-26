@@ -5,13 +5,6 @@ namespace ClashRoyaleManager.Presentation.Endpoints;
 
 public class DeleteCardEndpoint : Endpoint<DeleteCardCommand, DeleteCardCommandResponse>
 {
-    private readonly ICommandHandler<DeleteCardCommand, DeleteCardCommandResponse> _commandHandler;
-
-    public DeleteCardEndpoint(ICommandHandler<DeleteCardCommand, DeleteCardCommandResponse> commandHandler)
-    {
-        _commandHandler = commandHandler;
-    }
-
     public override void Configure()
     {
         Delete("/admin/delete-card/{userId}");
@@ -21,7 +14,7 @@ public class DeleteCardEndpoint : Endpoint<DeleteCardCommand, DeleteCardCommandR
     public override async Task HandleAsync(DeleteCardCommand req, CancellationToken ct)
     {
         req.Id = Route<Guid>("userId");
-        DeleteCardCommandResponse response = await _commandHandler.ExecuteAsync(req, ct);
+        DeleteCardCommandResponse response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
 }

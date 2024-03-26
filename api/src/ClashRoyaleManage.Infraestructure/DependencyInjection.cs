@@ -34,7 +34,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
-        Microsoft.Extensions.Configuration.ConfigurationManager configuration)
+        ConfigurationManager configuration)
     {
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
 
@@ -44,29 +44,29 @@ public static class DependencyInjection
             )
         );
 
-        services.AddSingleton<IJwtTokenGenerator, JwTokenGenerator>();
-        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-
-        services.AddScoped<IEncryptService, EncryptService>()
-                .AddScoped<IUserRepository, UserRepository>()
-                .AddScoped<ICardRepository, CardRepository>()
-                .AddScoped<IClanRepository, ClanRepository>()
-                .AddScoped<IWarRepository, WarRepository>()
-                .AddScoped<IPlayerRepository, PlayerRepository>()
-                .AddScoped<IChallengeRepository, ChallengeRepository>();
-        
-
-        services.AddScoped<IGetCurrentUserLoginService, GetCurrentUserLoginService>();
-
         Task.Run(
             () => InitializeDatabase(services.BuildServiceProvider().GetRequiredService<DefaultDbContext>())
         );
+
+        services.AddScoped<IJwtTokenGenerator, JwTokenGenerator>();
+        services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+
+        services.AddScoped<IEncryptService, EncryptService>()
+                .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<IBattleRepository, BattleRepository>()
+                .AddScoped<ICardRepository, CardRepository>()
+                .AddScoped<IClanRepository, ClanRepository>()
+                .AddScoped<IWarRepository, WarRepository>()
+                .AddScoped<IChallengeRepository, ChallengeRepository>()
+                .AddScoped<IPlayerRepository, PlayerRepository>();
+
+        services.AddScoped<IGetCurrentUserLoginService, GetCurrentUserLoginService>();
 
         return services;
     }
 
     public static async Task InitializeDatabase(DefaultDbContext context)
     {
-        // Initialize datas
+
     }
 }

@@ -6,20 +6,20 @@ using FastEndpoints;
 
 namespace ClashRoyaleManager.Application.Commands.Auth;
 
-public class DeleteAccountCommandHandler : ICommandHandler<DeleteAccountCommand, DeleteAccountCommandResponse>
+public class DeleteAccountCommandHandler : CommandHandler<DeleteAccountCommand, DeleteAccountCommandResponse>
 {
     private readonly IUserRepository _repository;
- 
+
     public DeleteAccountCommandHandler(IUserRepository repository)
     {
         _repository = repository;
     }
 
-    public async Task<DeleteAccountCommandResponse> ExecuteAsync(DeleteAccountCommand command, CancellationToken ct = default)
+    public override async Task<DeleteAccountCommandResponse> ExecuteAsync(DeleteAccountCommand command, CancellationToken ct = default)
     {
 
         User user = await _repository.Delete(command.Id);
-        
+
         return new DeleteAccountCommandResponse(
             user.Username,
             user.Email

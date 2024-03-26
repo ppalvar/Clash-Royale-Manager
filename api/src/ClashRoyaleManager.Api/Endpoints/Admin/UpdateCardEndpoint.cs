@@ -5,13 +5,6 @@ namespace ClashRoyaleManager.Presentation.Endpoints;
 
 public class UpdateCardEndpoint : Endpoint<UpdateCardCommand, UpdateCardCommandResponse>
 {
-    private readonly ICommandHandler<UpdateCardCommand, UpdateCardCommandResponse> _commandHandler;
-
-    public UpdateCardEndpoint(ICommandHandler<UpdateCardCommand, UpdateCardCommandResponse> commandHandler)
-    {
-        _commandHandler = commandHandler;
-    }
-
     public override void Configure()
     {
         Post("/admin/update-card/{userId}");
@@ -21,7 +14,7 @@ public class UpdateCardEndpoint : Endpoint<UpdateCardCommand, UpdateCardCommandR
     public override async Task HandleAsync(UpdateCardCommand req, CancellationToken ct)
     {
         req.Id = Route<Guid>("userId");
-        UpdateCardCommandResponse response = await _commandHandler.ExecuteAsync(req, ct);
+        UpdateCardCommandResponse response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
 }

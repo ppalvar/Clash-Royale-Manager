@@ -1,5 +1,4 @@
 using ClashRoyaleManager.Application.Repositories;
-using ClashRoyaleManager.Application.Repositories.Common;
 using ClashRoyaleManager.Domain.Entities;
 using ClashRoyaleManager.Domain.Exceptions;
 using ClashRoyaleManager.Infraestructure.DbContexts;
@@ -22,7 +21,7 @@ public class CardRepository : ICardRepository
     {
         Card? card = await Get(entity.Id);
 
-        if (card != null) 
+        if (card != null)
         {
             throw new EntityDoesNotExistException($"The entity of type <{nameof(Card)}> and Id <{entity.Id}> already exists");
         }
@@ -40,6 +39,16 @@ public class CardRepository : ICardRepository
     public Task<IQueryable<Card>> GetAll()
     {
         return Task.FromResult(_dbContext.Cards.AsQueryable());
+    }
+
+    public Task<IQueryable<Card>> GetByPlayer(Guid Id)
+    {
+        var cardsQuery = from pc in _dbContext.PlayerCards
+                         join c in _dbContext.Cards on pc.IdCard equals c.Id
+                         where pc.IdPlayer == Id
+                         select c;
+
+        return Task.FromResult(cardsQuery);
     }
 
     public async Task<(IQueryable<Card> Cards, int Page, int TotalPages)> GetPagination(int page, int size)

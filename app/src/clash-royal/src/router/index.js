@@ -10,8 +10,12 @@ import Cartas from "@/views/CartasVue.vue";
 import Jugadores from "@/views/JugadoresVue.vue";
 import Clanes from "@/views/ClanesVue.vue";
 import PerfilVue from "@/views/PerfilVue.vue";
+import CrearJugador from "@/components/CrearJugador.vue";
 import CrearCarta from "@/components/CrearCarta.vue";
+import CrearBattle from "@/components/CrearBattle.vue";
 import EditarCarta from "@/components/EditarCarta.vue";
+import EditarJugador from "@/components/EditarJugador.vue";
+import BattlesVue from "@/views/BattlesVue.vue";
 
 const routes = [
     {
@@ -51,9 +55,33 @@ const routes = [
         component: Cartas,
     },
     {
+        path: '/battle',
+        name: 'Battles',
+        component: BattlesVue,
+    },
+    {
+        path: '/add-battle',
+        name: 'AddBattle',
+        component: CrearBattle,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/add-player',
+        name: 'AddJugador',
+        component: CrearJugador,
+        meta: { requiresAuth: true }
+    },
+    {
         path: '/jugador',
         name: 'Jugador',
         component: Jugadores,
+    },
+    {
+      path: '/edit-player/:playerId',
+      name: 'EdiPlayer',
+      component: EditarJugador,
+      props: true,
+      meta: { requiresAuth: true }
     },
     {
         path: '/clan',
@@ -72,9 +100,10 @@ const routes = [
         component: InfoClan,
     },
     {
-        path: '/info-jugador',
+        path: '/info-jugador/:playerId',
         name: 'InfoJugador',
         component: InfoJugador,
+        props: true,
     },
     {
         path: '/add-card',

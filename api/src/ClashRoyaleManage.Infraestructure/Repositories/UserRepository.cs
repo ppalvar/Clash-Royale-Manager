@@ -21,7 +21,7 @@ public class UserRepository : IUserRepository
     {
         User? user = await Get(entity.Id);
 
-        if (user != null) 
+        if (user != null)
         {
             throw new EntityDoesNotExistException($"The entity of type <{nameof(User)}> and Id <{entity.Id}> already exists");
         }
@@ -35,7 +35,7 @@ public class UserRepository : IUserRepository
         User? user = await _dbContext.Users.Where(usr => usr.Id == Id).FirstOrDefaultAsync();
         return user;
     }
-    
+
     public async Task<User?> GetByEmail(string email)
     {
         User? user = await _dbContext.Users.Where(usr => usr.Email == email).FirstOrDefaultAsync();

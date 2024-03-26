@@ -10,6 +10,7 @@ using ClashRoyaleManager.Application.Commands.Auth;
 using ClashRoyaleManager.Application.Query.Auth;
 using ClashRoyaleManager.Application.Query.Cards;
 using ClashRoyaleManager.Application.Query.Wars;
+using ClashRoyaleManager.Application.Query.Battles;
 using ClashRoyaleManager.Application.Commands.Admin.CreateCard;
 using ClashRoyaleManager.Application.Commands.Admin.UpdateCard;
 using ClashRoyaleManager.Application.Commands.Admin.DeleteCard;
@@ -24,6 +25,8 @@ using ClashRoyaleManager.Application.Commands.Admin.CreateChallenge;
 using ClashRoyaleManager.Application.Query.Challenges;
 using ClashRoyaleManager.Application.Commands.Admin.DeleteChallenge;
 using ClashRoyaleManager.Application.Commands.Admin.UpdateChallenge;
+using ClashRoyaleManager.Application.Commands.Admin.CreateBattle;
+
 namespace ClashRoyaleManage.Api.Auth;
 
 
@@ -33,12 +36,29 @@ public static partial class DependencyInjection
         this IServiceCollection services,
         Microsoft.Extensions.Configuration.ConfigurationManager configuration)
     {
+        services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:8080")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod()
+                                .AllowCredentials();
+                    });
+            });
+
         var jwtSettings = configuration.GetSection("JwtSettings");
         var secret = jwtSettings.GetValue<string>("Secret");
         var issuer = jwtSettings.GetValue<string>("Issuer");
         var audience = jwtSettings.GetValue<string>("Audience");
 
         var key = Encoding.UTF8.GetBytes(secret);
+
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+        });
 
         services.AddAuthentication(x =>
             {
@@ -59,53 +79,6 @@ public static partial class DependencyInjection
                     ValidAudience = audience
                 };
             });
-        
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
-        });
-
-        services.AddCors(options =>
-            {
-                options.AddPolicy("MyPolicy",
-                    builder =>
-                    {
-                        builder.WithOrigins("http://localhost:8080")
-                                .AllowAnyHeader()
-                                .AllowAnyMethod()
-                                .AllowCredentials();
-                    });
-            });
-
-        // ENDPOINTS
-        services
-            .AddScoped<ICommandHandler<ChangePasswordCommand, ChangePasswordCommandResponse>, ChangePasswordCommandHandler>()
-            .AddScoped<ICommandHandler<EditAccountCommand, EditAccountCommandResponse>, EditAccountCommandHandler>()
-            .AddScoped<ICommandHandler<DeleteAccountCommand, DeleteAccountCommandResponse>, DeleteAccountCommandHandler>()
-            .AddScoped<ICommandHandler<RegisterCommand, RegisterCommandResponse>, RegisterCommandHandler>()
-            .AddScoped<ICommandHandler<CreateCardCommand, CreateCardCommandResponse>, CreateCardCommandHandler>()
-            .AddScoped<ICommandHandler<UpdateCardCommand, UpdateCardCommandResponse>, UpdateCardCommandHandler>()
-            .AddScoped<ICommandHandler<DeleteCardCommand, DeleteCardCommandResponse>, DeleteCardCommandHandler>()
-            .AddScoped<ICommandHandler<LoginCommand, LoginCommandResponse>, LoginCommandHandler>()
-            .AddScoped<ICommandHandler<ListClanQuery, ListClanQueryResponse>, ListClanQueryHandler>()
-            .AddScoped<ICommandHandler<ListCardQuery, ListCardQueryResponse>, ListCardQueryHandler>()
-            .AddScoped<ICommandHandler<ListWarQuery, ListWarQueryResponse>, ListWarQueryHandler>()
-            .AddScoped<ICommandHandler<CardQuery, CardQueryResponse>, CardQueryHandler>()
-            .AddScoped<ICommandHandler<CreatePlayerCommand, CreatePlayerCommandResponse>, CreatePlayerCommandHandler>()
-            .AddScoped<ICommandHandler<ListPlayerQuery, ListPlayerQueryResponse>, ListPlayerQueryHandler>()
-            .AddScoped<ICommandHandler<PlayerQuery, PlayerQueryResponse>, PlayerQueryHandler>()
-            .AddScoped<ICommandHandler<UpdatePlayerCommand, UpdatePlayerCommandResponse>, UpdatePlayerCommandHandler>()
-            .AddScoped<ICommandHandler<DeletePlayerCommand, DeletePlayerCommandResponse>, DeletePlayerCommandHandler>()
-            .AddScoped<ICommandHandler<WarQuery, WarQueryResponse>, WarQueryHandler>()
-            .AddScoped<ICommandHandler<CreateWarCommand, CreateWarCommandResponse>, CreateWarCommandHandler>()
-            .AddScoped<ICommandHandler<DeleteWarCommand, DeleteWarCommandResponse>, DeleteWarCommandHandler>()
-            .AddScoped<ICommandHandler<UpdateWarCommand, UpdateWarCommandResponse>, UpdateWarCommandHandler>()
-            .AddScoped<ICommandHandler<CreateChallengeCommand, CreateChallengeCommandResponse>, CreateChallengeCommandHandler>()
-            .AddScoped<ICommandHandler<ListChallengeQuery, ListChallengeQueryResponse>, ListChallengeQueryHandler>()
-            .AddScoped<ICommandHandler<ChallengeQuery, ChallengeQueryResponse>, ChallengeQueryHandler>()
-            .AddScoped<ICommandHandler<DeleteChallengeCommand, DeleteChallengeCommandResponse>, DeleteChallengeCommandHandler>()
-            .AddScoped<ICommandHandler<UpdateChallengeCommand, UpdateChallengeCommandResponse>, UpdateChallengeCommandHandler>();
-
 
         return services;
     }
