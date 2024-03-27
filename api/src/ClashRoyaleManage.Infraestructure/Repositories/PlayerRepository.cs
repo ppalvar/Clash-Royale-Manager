@@ -94,7 +94,17 @@ public class PlayerRepository : IPlayerRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    private static IQueryable<Player> Paginate(IQueryable<Player> players, int page, int pageSize)
+    public async Task<(IQueryable<Clan> Clans, int Page, int TotalPages)> GetClansCanJoin(Guid playerId, int page = 1, int size = 10)
+    {
+        var player = (await _dbContext.Players.FindAsync(playerId))!;
+
+        var _clans = _dbContext.Clans.Where(c => c.TrophiesNeededToEnter <= player.NumberOfTrophies).AsNoTracking();
+        var clans = Paginate(_clans, page, size);
+
+        return (clans, page, _clans.Count() / size);
+    }
+
+    private static IQueryable<T> Paginate<T>(IQueryable<T> players, int page, int pageSize)
     {
         int skip = (page - 1) * pageSize;
         return players.Skip(skip).Take(pageSize);
