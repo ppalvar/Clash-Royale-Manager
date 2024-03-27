@@ -5,7 +5,9 @@ using ClashRoyaleManager.Domain.Entities;
 namespace ClashRoyaleManager.Application.Repositories;
 
 
-public interface IPlayerRepository : IBaseRepository<Player> {
-    Task<(IQueryable<Player> Players, int Page, int TotalPages)> GetPagination(int page=1, int size=10);
+public interface IPlayerRepository : IBaseRepository<Player>
+{
+    Task<(IQueryable<Player> Players, int Page, int TotalPages)> GetPagination(int page = 1, int size = 10);
     Task Remove(Guid Id);
+    Task<(IQueryable<Player> Players, int Page, int TotalPages)> GetBestInWar(Guid warId, int page = 1, int size = 10);
 }
