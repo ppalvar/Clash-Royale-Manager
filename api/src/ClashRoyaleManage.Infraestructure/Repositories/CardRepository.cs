@@ -63,6 +63,20 @@ public class CardRepository : ICardRepository
         return (cards, page, _dbContext.Cards.Count() / size);
     }
 
+    public async Task<Card?> MostDonatedInRegion(RegionsEnum region)
+    {
+        var resp = (await _dbContext.Clans.Where(c => c.Region == region)
+                                    .Include(c => c.PlayerCards)
+                                    .SelectMany(c => c.PlayerCards)
+                                    .Select(pc => _dbContext.Cards.Find(pc.IdCard)!)
+                                    .GroupBy(c => c.Id)
+                                    .OrderByDescending(c => c.Count())
+                                    .FirstOrDefaultAsync())?
+                                    .FirstOrDefault();
+
+        return resp;
+    }
+
     public async Task Remove(Guid Id)
     {
         Card? card = await Get(Id) ?? throw new EntityDoesNotExistException($"The entity of type <{nameof(Card)}> and Id <{Id}> not exists");
