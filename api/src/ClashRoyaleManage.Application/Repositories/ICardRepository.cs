@@ -11,4 +11,5 @@ public interface ICardRepository : IBaseRepository<Card>
     Task<IQueryable<Card>> GetByPlayer(Guid Id);
     Task Remove(Guid Id);
     Task<Card?> MostDonatedInRegion(RegionsEnum region);
+    Task<(IQueryable<Card> Cards, int Page, int TotalPages)> MostPopularInClan(Guid clanId, int page = 1, int size = 10);
 }
