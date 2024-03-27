@@ -18,11 +18,19 @@ public class ChallengeRepository : IChallengeRepository
         _dbContext = dbContext;
     }
 
+    public Task<(IQueryable<Challenge> Challenges, int Page, int TotalPages)> CompletedBySomePlayer(int page, int size)
+    {
+        var _challenges = _dbContext.Challenges.Where(c => c.PlayerChallenges.Any()).AsNoTracking();
+        var resp = Paginate(_challenges, page, size);
+
+        return Task.FromResult((resp, page, resp.Count() / size));
+    }
+
     public async Task Create(Challenge entity)
     {
         Challenge? challenge = await Get(entity.Id);
 
-        if (challenge != null) 
+        if (challenge != null)
         {
             throw new EntityDoesNotExistException($"The entity of type <{nameof(Challenge)}> and Id <{entity.Id}> already exists");
         }
@@ -70,4 +78,9 @@ public class ChallengeRepository : IChallengeRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    private static IQueryable<T> Paginate<T>(IQueryable<T> players, int page, int pageSize)
+    {
+        int skip = (page - 1) * pageSize;
+        return players.Skip(skip).Take(pageSize);
+    }
 }
