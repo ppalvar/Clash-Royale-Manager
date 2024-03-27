@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ClashRoyaleManager.Application.Query.Clans;
 
-public class ListClanQueryMapper : AbstractMapper<IQueryable<Clan>, ListClanQuery, ListClanQueryResponse>
+public class ClanQueryMapper : AbstractMapper<Clan, ClanQuery, ClanQueryResponse>
 {
-    
 }
