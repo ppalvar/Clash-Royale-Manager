@@ -39,10 +39,9 @@ public class BattleRepository : IBattleRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<(Battle? Battle, string Player1, string Player2)?> Get(Guid Player1Id, Guid Player2Id, DateTime Date)
+    public async Task<BattlePlayerInfo> Get(Guid Player1Id, DateTime Date)
     {
         var battleWithPlayers = await _dbContext.Battles.Where(b => b.Player1Id == Player1Id)
-                                                        .Where(b => b.Player2Id == Player2Id)
                                                         .Include(b => b.Player1)
                                                         .Include(b => b.Player2)
                                                         .FirstOrDefaultAsync();
@@ -52,9 +51,11 @@ public class BattleRepository : IBattleRepository
             return null;
         }
 
-        return (battleWithPlayers,
-                battleWithPlayers.Player1.Nickname,
-                battleWithPlayers.Player2.Nickname);
+        return new BattlePlayerInfo {
+            Battle = battleWithPlayers,
+            Player1 = battleWithPlayers.Player1.Nickname,
+            Player2 = battleWithPlayers.Player2.Nickname
+        };
     }
 
     public Task<IQueryable<BattlePlayerInfo>> GetByPlayer(Guid Id)
