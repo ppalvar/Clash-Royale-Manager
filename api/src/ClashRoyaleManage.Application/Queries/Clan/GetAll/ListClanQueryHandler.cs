@@ -19,13 +19,9 @@ public class ListClanQueryHandler : CommandHandler<ListClanQuery, ListClanQueryR
         var data = await _repository.GetAll();
 
 
-        var response = _mapper.ToResponse(data);
-
-        foreach (var item in response.Clans)
+         return new ListClanQueryResponse
         {
-            Console.WriteLine(item.Id);
-        }
-
-        return response;
+            Clans = data
+        };
     }
 }

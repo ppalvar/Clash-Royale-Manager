@@ -9,13 +9,13 @@ public class GetChallengeEndpoint : Endpoint<ChallengeQuery, ChallengeQueryRespo
     
     public override void Configure()
     {
-        Get("/challenges/{challengeId}");
+        Get("/challenges/{Id}");
         AllowAnonymous();
     }
 
     public async override Task HandleAsync(ChallengeQuery req, CancellationToken ct)
     {
-        req.Id = Route<Guid>("challengeId"); 
+        //req.Id = Route<Guid>("challengeId"); 
         var response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }

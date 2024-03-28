@@ -26,6 +26,9 @@ using ClashRoyaleManager.Application.Query.Challenges;
 using ClashRoyaleManager.Application.Commands.Admin.DeleteChallenge;
 using ClashRoyaleManager.Application.Commands.Admin.UpdateChallenge;
 using ClashRoyaleManager.Application.Commands.Admin.CreateBattle;
+using ClashRoyaleManager.Application.Commands.Admin.CreateClan;
+using ClashRoyaleManager.Application.Commands.Admin.DeleteClan;
+using ClashRoyaleManager.Application.Commands.Admin.UpdateClan;
 
 namespace ClashRoyaleManage.Api.Auth;
 
