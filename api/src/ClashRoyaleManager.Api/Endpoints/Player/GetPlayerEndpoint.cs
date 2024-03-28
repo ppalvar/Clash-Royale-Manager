@@ -14,6 +14,7 @@ public class GetPlayerEndpoint : Endpoint<PlayerQuery, PlayerQueryResponse>
 
     public async override Task HandleAsync(PlayerQuery req, CancellationToken ct)
     {
+        req.Id = Route<Guid>("playerId");
         var response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }

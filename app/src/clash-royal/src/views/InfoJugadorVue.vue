@@ -49,15 +49,16 @@ export default {
         },
 
         loadData() {
-            axios.get(`${API_URL}/players/${this.playerId}`)
+            axios.get(`${API_URL}/players/${this.playerId}`,{id:this.playerId})
                 .then(res => {
                     this.player = res.data;
+                    
                 })
                 .catch(error => {
                     this.error = error.response.data;
                 });
                 
-            axios.get(`${API_URL}/cards-by-player/${this.playerId}`)
+            axios.get(`${API_URL}/cards-by-player/${this.playerId}`,{id:this.playerId})
                 .then(res => {
                     this.cards = res.data.cards;
                 })
@@ -65,7 +66,7 @@ export default {
                     this.error = error.response.data;
                 });
             
-            axios.get(`${API_URL}/battles-by-player/${this.playerId}`)
+            axios.get(`${API_URL}/battles-by-player/${this.playerId}`,{id:this.playerId})
                 .then(res => {
                     this.battles = res.data.battles;
                 })

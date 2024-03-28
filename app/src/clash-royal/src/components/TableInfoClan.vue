@@ -7,17 +7,17 @@
             <th>Region</th>
             <th>Miembros</th>
             <th v-if="!minimalice">Trofeos para entrar</th>
-            <th v-if="auth && !minimalice">Acciones</th>
+            <!-- <th v-if="isUserAuthenticated">Acciones</th> -->
         </template>
         <template #tbody>
             <tr v-for="clan in clanes" :key="clan.id" @click="$emit('info', clan.id, type)">
-                <td> {{ clan.nombre }} </td>
-                <td v-if="!minimalice"> {{ clan.descripcion }} </td>
-                <td v-if="!minimalice"> {{ clan.trofeos }} </td>
+                <td> {{ clan.name }} </td>
+                <td v-if="!minimalice"> {{ clan.description }} </td>
+                <td v-if="!minimalice"> {{ clan.numberOfTrophiesObtainedInWars }} </td>
                 <td> {{ clan.region }} </td>
-                <td> {{ clan.miembros }} </td>
+                <td> {{ clan.numberOfMembers }} </td>
                 <td v-if="!minimalice"> {{ clan.condicion }} </td>
-                <td v-if="auth && !minimalice">aqui van botones</td>
+                <!-- <td v-if="isUserAuthenticated">aqui van botones</td> -->
             </tr>
         </template>
     </TableInfo>
@@ -25,7 +25,7 @@
 
 <script>
 import TableInfo from '@/components/TableInfo.vue';
-import consts from '../router/auth'
+import { isAuthenticated } from '@/auth/auth';
 
 export default {
     props: {
@@ -40,11 +40,11 @@ export default {
         TableInfo,
     },
 
-    data() {
-        return {
-            type: consts.typeEntity.clan,
-            auth: consts.auth,
+    computed: {
+        isUserAuthenticated() {
+            return isAuthenticated();
         }
     },
+
 }
 </script>

@@ -16,6 +16,8 @@ import CrearBattle from "@/components/CrearBattle.vue";
 import EditarCarta from "@/components/EditarCarta.vue";
 import EditarJugador from "@/components/EditarJugador.vue";
 import BattlesVue from "@/views/BattlesVue.vue";
+import TableInfoUsers from "@/components/TableInfoUsers.vue";
+import CrearClan from "@/components/CrearClan.vue";
 
 const routes = [
     {
@@ -42,6 +44,12 @@ const routes = [
         path: '/register',
         name: 'Register',
         component: Register,
+    },
+    {
+        path: '/users',
+        name: 'Users',
+        component: TableInfoUsers,
+        meta: { requiresAuth: true }
     },
     {
       path: '/perfil',
@@ -81,6 +89,12 @@ const routes = [
       name: 'EdiPlayer',
       component: EditarJugador,
       props: true,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/add-clan',
+      name: 'AddClan',
+      component: CrearClan,
       meta: { requiresAuth: true }
     },
     {

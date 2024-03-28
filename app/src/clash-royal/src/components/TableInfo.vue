@@ -12,15 +12,18 @@
         </thead>
         <tbody>
             <slot name="tbody">
-                <tr name="fila 1">
-                    <td rowspan="4">Loading data...</td>
-                </tr>
+                <!-- <tr name="fila 1"> -->
+                    <td colspan="4" class="row-none">Sin elementos</td>
+                <!-- </tr> -->
             </slot>
         </tbody>
     </table>
 </template>
 
 <style>
+.row-none {
+    text-align: center;
+}
 tr {
     border-bottom: 1px solid #ddd;
 }

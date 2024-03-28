@@ -5,6 +5,7 @@
             <th>Resultados</th>
             <th>Jugador 2</th>
             <th>Cantidad de Trofeos</th>
+            <th>Acciones</th>
         </template>
 
         <template #tbody>
@@ -14,6 +15,9 @@
                 <td v-else> 1 - 0 </td>
                 <td> {{ battle.player2 }} </td>
                 <td> {{ battle.battle.numberOfTrophies }} </td>
+                <td class="actions">
+                    <img height="20px" :src="Details" @click="$emit('seeInfo', index)"/>
+                </td>
             </tr>
         </template>
     </TableInfo>
@@ -36,14 +40,14 @@ export default {
     },
 
     components: {
-        TableInfo
+        TableInfo,
     },
 
     data() {
         return {
             Edit,
             Delete,
-            Details
+            Details,
         }
     },
 
@@ -52,6 +56,13 @@ export default {
             return isAuthenticated();
         }
     },
+
+    methods: {
+        seeInfo(index) {
+            this.item = this.battles[index];
+            this.show_table = false;
+        },
+    }
 }
 </script>
 
@@ -61,4 +72,5 @@ export default {
     justify-content: space-around;
     width: 100%;
 }
+
 </style>

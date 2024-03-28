@@ -13,6 +13,7 @@ public class GetByPlayerBattle : Endpoint<ListBattleByPlayerQuery, ListBattleByP
 
     public async override Task HandleAsync(ListBattleByPlayerQuery req, CancellationToken ct)
     {
+        req.Id = Route<Guid>("playerId");
         var response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }

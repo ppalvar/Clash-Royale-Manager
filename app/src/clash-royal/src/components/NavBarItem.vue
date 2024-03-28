@@ -34,7 +34,10 @@ export default {
       <RouterLink to="/battle">Batallas</RouterLink>
       <RouterLink to="/clan">Clan</RouterLink>
       
-      <RouterLink to="/clan" class="items-admin">Usuarios</RouterLink>
+      <RouterLink to="/users" 
+        class="items-admin"
+        v-show="isUserAuthenticated"
+      >Usuarios</RouterLink>
     </div>
     
     <div class="navbar-items-right">

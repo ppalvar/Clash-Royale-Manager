@@ -35,11 +35,15 @@ export default {
 
     methods: {
         loadData() {
-            axios.get(`${API_URL}/cards/${this.cardId}`)
+            axios.get(`${API_URL}/cards/${this.cardId}`,{
+                    id:this.cardId
+                })
                 .then(res => {
                     this.card = res.data;
+                    console.log(res.data);
                 })
                 .catch(error => {
+                    console.log(error);
                     this.error = error.response.data;
                 });
         },
