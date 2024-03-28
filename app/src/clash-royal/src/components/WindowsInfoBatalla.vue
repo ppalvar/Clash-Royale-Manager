@@ -6,7 +6,7 @@
         <template #column1>
             <div class="detail">
                 <h3>Jugador1</h3>
-                <p class="clan-name"> {{ seeName(jugador1) }} </p>
+                <p class="clan-name"> {{ jugador1 }} </p>
             </div>
             <div class="detail">
                 <h3>Ganador</h3>
@@ -20,7 +20,7 @@
         <template #column2>
             <div class="detail">
                 <h3>Jugador2</h3>
-                <p class="clan-description"> {{ seeName(jugador2) }} </p>
+                <p class="clan-description"> {{ jugador2 }} </p>
             </div>
             <div class="detail">
                 <h3>Trofeos</h3>
@@ -71,11 +71,7 @@ export default {
 
     methods: {
         seeGanador() {
-            return this.seeName(this.winner ? this.jugador2 : this.jugador1)
-        },
-
-        seeName(item) {
-            return item.apodo
+            return this.winner ? this.jugador2 : this.jugador1;
         },
     },
 }

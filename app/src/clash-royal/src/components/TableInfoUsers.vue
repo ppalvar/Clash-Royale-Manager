@@ -21,7 +21,7 @@
                         <td> {{ user.username }} </td>
                         <td> {{ user.email }} </td>
                         <td>
-                            <input type="checkbox" v-model="user.isActive" @click="updateUser(user.id)">
+                            <input type="checkbox" v-model="user.isActive" @click="updateUser(user.id, !user.isActive)">
                         </td>
                         <!-- <td class="actions">
                             //TODO - Create actions users
@@ -88,17 +88,16 @@ export default {
                 });
         },
         
-        updateUser(userId) {
-            userId;
-            // axios.put(`${API_URL}/auth/update-account/${userId}`)
-            //     .then(res => {
-            //         res;
-            //         this.msg("Usuario activado con éxito.");
-            //         location.reload();
-            //     })
-            //     .catch(error => {
-            //         this.error = error.response.data;
-            //     });
+        updateUser(userId, active) {
+            axios.get(`${API_URL}/admin/active-user/${userId}/${active}`)
+                .then(async res => {
+                    await this.loadData();
+                    this.msg = res.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.error = error.response.data;
+                });
         },
     }
 }
