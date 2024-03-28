@@ -1,4 +1,6 @@
 <template>
+    <div class="btn" @click="to_back()">Atrás</div>
+
     <WindowsInfo :oneColumn="false">
         <template #entity>
             <h2>Jugador</h2>
@@ -68,5 +70,32 @@ export default {
     components: {
         WindowsInfo,
     },
+
+    methods: {
+        to_back() {
+            let url = `/jugador`;
+            this.$router.push(url);
+        }
+    }
 }
 </script>
+
+<style scoped>
+.btn {
+  text-align: center;
+  height: 1em;
+  padding: 10px;
+  border: solid 1px;
+  background-color: #ffde00;
+  border-radius: 0.5em;
+  color: #121212;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  margin: 20px auto;
+}
+
+.btn:hover {
+  background-color: #f1c208dd;
+}
+</style>
