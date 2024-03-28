@@ -102,9 +102,4 @@ export default {
 .btn-add:hover {
   background-color: #f1c208dd;
 }
-
-.navbar-icon {
-  /* height: 2em; */
-  /* margin: auto; */
-}
 </style>

@@ -7,13 +7,6 @@ import { API_URL } from '@/config';
 import axios from 'axios';
 
 export default {
-    props: {
-        minimalice: {
-            type: Boolean,
-            default: false,
-        },
-    },
-
     components: {
         EntityDefaultViews,
         TableInfoJugador,
@@ -78,8 +71,8 @@ export default {
     <EntityDefaultViews url="/add-player">
         <template #tabla>
             <TableInfoJugador 
-                :jugadores="players" :minimalice="minimalice" 
-                @info="seeInfo" @edit="editPlayer" @delete="deletePlayer"
+                :jugadores="players" @info="seeInfo"
+                @edit="editPlayer" @delete="deletePlayer"
             />
         </template>
     </EntityDefaultViews>

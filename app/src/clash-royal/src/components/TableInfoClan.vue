@@ -2,21 +2,21 @@
     <TableInfo>
         <template #thead>
             <th>Nombre</th>
-            <th v-if="!minimalice">Descripcion</th>
-            <th v-if="!minimalice">Trofeos de guerra</th>
+            <th>Descripcion</th>
+            <th>Trofeos de guerra</th>
             <th>Region</th>
             <th>Miembros</th>
-            <th v-if="!minimalice">Trofeos para entrar</th>
+            <th>Trofeos para entrar</th>
             <!-- <th v-if="isUserAuthenticated">Acciones</th> -->
         </template>
         <template #tbody>
             <tr v-for="clan in clanes" :key="clan.id" @click="$emit('info', clan.id, type)">
                 <td> {{ clan.name }} </td>
-                <td v-if="!minimalice"> {{ clan.description }} </td>
-                <td v-if="!minimalice"> {{ clan.numberOfTrophiesObtainedInWars }} </td>
+                <td> {{ clan.description }} </td>
+                <td> {{ clan.numberOfTrophiesObtainedInWars }} </td>
                 <td> {{ clan.region }} </td>
                 <td> {{ clan.numberOfMembers }} </td>
-                <td v-if="!minimalice"> {{ clan.condicion }} </td>
+                <td> {{ clan.condicion }} </td>
                 <!-- <td v-if="isUserAuthenticated">aqui van botones</td> -->
             </tr>
         </template>
@@ -30,10 +30,6 @@ import { isAuthenticated } from '@/auth/auth';
 export default {
     props: {
         clanes: [],
-        minimalice: {
-            type: Boolean,
-            default: false,
-        },
     },
 
     components: {
