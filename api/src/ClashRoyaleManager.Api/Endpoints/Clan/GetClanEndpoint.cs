@@ -8,13 +8,13 @@ public class GetClanEndpoint : Endpoint<ClanQuery, ClanQueryResponse>
 {
     public override void Configure()
     {
-        Get("/clans/{clanId}");
+        Get("/clans/{Id}");
         AllowAnonymous();
     }
 
     public async override Task HandleAsync(ClanQuery req, CancellationToken ct)
     {
-        req.Id = Route<Guid>("clanId"); 
+        //req.Id = Route<Guid>("clanId"); 
         var response = await req.ExecuteAsync(ct);
         await SendAsync(response);
     }
