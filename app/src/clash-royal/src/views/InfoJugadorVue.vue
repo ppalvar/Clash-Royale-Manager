@@ -90,11 +90,11 @@ export default {
         </template>
 
         <template #tabla>
-            <TableInfoCarta :cards="cards" :minimalice="minimalice" @info="seeInfoCard"/>
+            <TableInfoCarta :cards="cards" @info="seeInfoCard"/>
         </template>
     </EntityDefaultViews>
 
-    <EntityDefaultViews :minimalice="true">
+    <EntityDefaultViews>
         <template #head>
             <h2>Batallas del Jugador</h2>
         </template>

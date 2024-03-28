@@ -11,13 +11,6 @@ import { API_URL } from '@/config';
 import axios from 'axios';
 
 export default {
-    props: {
-        minimalice: {
-            type: Boolean,
-            default: false,
-        },
-    },
-
     components: {
         EntityDefaultViews,
         TableInfoClan,
@@ -70,7 +63,7 @@ export default {
 
     <EntityDefaultViews url="/add-clan">
         <template #tabla>
-            <TableInfoClan :clanes="clans" :minimalice="minimalice" @info="seeInfo" />
+            <TableInfoClan :clanes="clanes" @info="seeInfo" />
         </template>
     </EntityDefaultViews>
 </template>
