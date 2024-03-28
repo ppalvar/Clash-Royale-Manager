@@ -53,12 +53,12 @@ export default {
 
             this.batallas.forEach(battle => {
                 batallasVue.push({
-                    player1: battle.jugador1.apodo,
-                    player2: battle.jugador2.apodo,
-                    winner: battle.winner ? battle.jugador2.apodo : battle.jugador1.apodo,
-                    trofeos: battle.trofeos,
-                    date: battle.date,
-                    duracion: battle.duracion,
+                    player1: battle.player1,
+                    player2: battle.player2,
+                    winner: battle.battle.winner ? battle.player1 : battle.player2,
+                    trofeos: battle.battle.numberOfTrophies,
+                    date: battle.battle.date,
+                    duracion: battle.battle.duracion,
                 })
             });
 

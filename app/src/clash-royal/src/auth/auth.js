@@ -4,7 +4,7 @@ export function isAuthenticated() {
     if (token) {
         const jwtPayload = JSON.parse(atob(token.split('.')[1]));
 
-        return jwtPayload && jwtPayload.exp > Date.now() / 1000;
+        return jwtPayload && jwtPayload.exp > Date.now() / 1000 && jwtPayload.UserActivated;
     }
 
     return false;

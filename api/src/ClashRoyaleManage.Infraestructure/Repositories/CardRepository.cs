@@ -63,6 +63,39 @@ public class CardRepository : ICardRepository
         return (cards, page, _dbContext.Cards.Count() / size);
     }
 
+    public async Task<Card?> MostDonatedInRegion(RegionsEnum region)
+    {
+        var resp = (await _dbContext.Clans.Where(c => c.Region == region)
+                                    .Include(c => c.PlayerCards)
+                                    .SelectMany(c => c.PlayerCards)
+                                    .Select(pc => _dbContext.Cards.Find(pc.IdCard)!)
+                                    .GroupBy(c => c.Id)
+                                    .OrderByDescending(c => c.Count())
+                                    .FirstOrDefaultAsync())?
+                                    .FirstOrDefault();
+
+        return resp;
+    }
+
+    public async Task<(IQueryable<Card> Cards, int Page, int TotalPages)> MostPopularInClan(Guid clanId, int page = 1, int size = 10)
+    {
+        var playerIds = (await _dbContext.Clans.Include(c => c.PlayerClans)
+                                            .Where(c => c.Id == clanId)
+                                            .FirstOrDefaultAsync())!.PlayerClans
+                                            .Select(pc => pc.IdPlayer);
+
+        var playerCards = _dbContext.Players.Where(p => playerIds.Contains(p.Id))
+                                            .Include(p => p.PlayerCards)
+                                            .SelectMany(p => p.PlayerCards)
+                                            .Where(pc => pc.IsFavority)
+                                            .Select(pc => pc.IdCard);
+
+        var cards = _dbContext.Cards.Where(c => playerCards.Contains(c.Id));
+
+        var paginatedCards = Paginate(cards, page, size);
+        return (paginatedCards, page, cards.Count() / size);
+    }
+
     public async Task Remove(Guid Id)
     {
         Card? card = await Get(Id) ?? throw new EntityDoesNotExistException($"The entity of type <{nameof(Card)}> and Id <{Id}> not exists");
@@ -79,4 +112,9 @@ public class CardRepository : ICardRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    private static IQueryable<T> Paginate<T>(IQueryable<T> players, int page, int pageSize)
+    {
+        int skip = (page - 1) * pageSize;
+        return players.Skip(skip).Take(pageSize);
+    }
 }
