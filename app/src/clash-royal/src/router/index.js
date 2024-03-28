@@ -18,153 +18,160 @@ import EditarJugador from "@/components/EditarJugador.vue";
 import BattlesVue from "@/views/BattlesVue.vue";
 import TableInfoUsers from "@/components/TableInfoUsers.vue";
 import CrearClan from "@/components/CrearClan.vue";
+import InfoBatalla from "@/views/InfoBatallaVue.vue";
 
 const routes = [
-    {
-        path: '/',
-        name: 'Home',
-        component: Home,
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
+  {
+    path: "/logout",
+    name: "Logout",
+    beforeEnter: (to, from, next) => {
+      logout();
+      next('/login');
+      location.reload();
     },
-    {
-      path: "/logout",
-      name: "Logout",
-      beforeEnter: (to, from, next) => {
-        logout();
-        next('/login');
-        location.reload();
-      },
-      meta: { requiresAuth: true }
-    },
-    {
-        path: '/login',
-        name: 'Login',
-        component: Login,
-    },
-    {
-        path: '/register',
-        name: 'Register',
-        component: Register,
-    },
-    {
-        path: '/users',
-        name: 'Users',
-        component: TableInfoUsers,
-        meta: { requiresAuth: true }
-    },
-    {
-      path: '/perfil',
-      name: 'Perfil',
-      component: PerfilVue,
-      meta: { requiresAuth: true }
-    },
-    {
-        path: '/carta',
-        name: 'Carta',
-        component: Cartas,
-    },
-    {
-        path: '/battle',
-        name: 'Battles',
-        component: BattlesVue,
-    },
-    {
-        path: '/add-battle',
-        name: 'AddBattle',
-        component: CrearBattle,
-        meta: { requiresAuth: true }
-    },
-    {
-        path: '/add-player',
-        name: 'AddJugador',
-        component: CrearJugador,
-        meta: { requiresAuth: true }
-    },
-    {
-        path: '/jugador',
-        name: 'Jugador',
-        component: Jugadores,
-    },
-    {
-      path: '/edit-player/:playerId',
-      name: 'EdiPlayer',
-      component: EditarJugador,
-      props: true,
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/add-clan',
-      name: 'AddClan',
-      component: CrearClan,
-      meta: { requiresAuth: true }
-    },
-    {
-        path: '/clan',
-        name: 'Clan',
-        component: Clanes,
-    },
-    {
-        path: '/info-carta/:cardId',
-        name: 'InfoCarta',
-        component: InfoCarta,
-        props: true,
-    },
-    {
-        path: '/info-clan',
-        name: 'InfoClan',
-        component: InfoClan,
-    },
-    {
-        path: '/info-jugador/:playerId',
-        name: 'InfoJugador',
-        component: InfoJugador,
-        props: true,
-    },
-    {
-        path: '/add-card',
-        name: 'AddCard',
-        component: CrearCarta,
-        meta: { requiresAuth: true }
-    },
-    {
-        path: '/edit-card/:cardId',
-        name: 'EditCard',
-        component: EditarCarta,
-        props: true,
-        meta: { requiresAuth: true }
-    },
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
+  },
+  {
+    path: '/users',
+    name: 'Users',
+    component: TableInfoUsers,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/perfil',
+    name: 'Perfil',
+    component: PerfilVue,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/carta',
+    name: 'Carta',
+    component: Cartas,
+  },
+  {
+    path: '/battle',
+    name: 'Battles',
+    component: BattlesVue,
+  },
+  {
+    path: '/add-battle',
+    name: 'AddBattle',
+    component: CrearBattle,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/add-player',
+    name: 'AddJugador',
+    component: CrearJugador,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/jugador',
+    name: 'Jugador',
+    component: Jugadores,
+  },
+  {
+    path: '/edit-player/:playerId',
+    name: 'EdiPlayer',
+    component: EditarJugador,
+    props: true,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/add-clan',
+    name: 'AddClan',
+    component: CrearClan,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/clan',
+    name: 'Clan',
+    component: Clanes,
+  },
+  {
+    path: '/info-carta/:cardId',
+    name: 'InfoCarta',
+    component: InfoCarta,
+    props: true,
+  },
+  {
+    path: '/info-clan',
+    name: 'InfoClan',
+    component: InfoClan,
+  },
+  {
+    path: '/info-jugador/:playerId',
+    name: 'InfoJugador',
+    component: InfoJugador,
+    props: true,
+  },
+  {
+    path: '/info-battle/:playerId/:date',
+    name: 'InfoBattle',
+    component: InfoBatalla,
+    props: true,
+  },
+  {
+    path: '/add-card',
+    name: 'AddCard',
+    component: CrearCarta,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/edit-card/:cardId',
+    name: 'EditCard',
+    component: EditarCarta,
+    props: true,
+    meta: { requiresAuth: true }
+  },
 ]
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes
+  history: createWebHistory(process.env.BASE_URL),
+  routes
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-      // esta ruta requiere autenticación, comprobar si el usuario está autenticado
-      // si no, redirigir a la página de inicio de sesión.
-      if (!isAuthenticated()) {
-        next({
-          path: '/login',
-          query: { redirect: to.fullPath }
-        })
-      } else {
-        next()
-      }
-    } else if (to.matched.some(record => record.meta.guest)) {
-      // esta ruta solo está disponible para usuarios no autenticados
-      // si el usuario está autenticado, redirigir a la página de inicio
-      if (isAuthenticated()) {
-        next({
-          path: '/',
-          query: { redirect: to.fullPath }
-        })
-      } else {
-        next()
-      }
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // esta ruta requiere autenticación, comprobar si el usuario está autenticado
+    // si no, redirigir a la página de inicio de sesión.
+    if (!isAuthenticated()) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
     } else {
       next()
     }
-  })
+  } else if (to.matched.some(record => record.meta.guest)) {
+    // esta ruta solo está disponible para usuarios no autenticados
+    // si el usuario está autenticado, redirigir a la página de inicio
+    if (isAuthenticated()) {
+      next({
+        path: '/',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
 
 export default router
