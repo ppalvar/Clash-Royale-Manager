@@ -44,6 +44,25 @@ export default {
             this.$emit('info', id)
         },
 
+        editClan(id) {
+            let url = `/edit-clan/${id}`;
+            this.$router.push(url);
+        },
+
+        deleteClan(id) {
+            if (confirm('Está seguro que desea eliminar el clan seleccionado?')) {
+                axios.delete(`${API_URL}/admin/delete-clan/${id}`)
+                    .then(async res => {
+                            res;
+                            await this.loadData();
+                            this.msg = 'Clan eliminado con éxito.';
+                        })
+                        .catch(error => {
+                                this.error = error.response.data;
+                            });
+            }
+        },
+
         loadData() {
             axios.get(`${API_URL}/clans`)
                 .then(res => {
@@ -63,7 +82,8 @@ export default {
 
     <EntityDefaultViews url="/add-clan">
         <template #tabla>
-            <TableInfoClan :clanes="clanes" @info="seeInfo" />
+            <TableInfoClan :clanes="clanes" @info="seeInfo" 
+                @edit="editClan" @delete="deleteClan"/>/>
         </template>
     </EntityDefaultViews>
 </template>

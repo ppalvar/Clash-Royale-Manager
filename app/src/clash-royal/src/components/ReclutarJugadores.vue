@@ -1,6 +1,6 @@
 <script>
 import TableInfo from './TableInfo.vue';
-import SearchBox from './SearchBox.vue';
+import PlayerInputSugerence from './PlayerInputSugerence.vue';
 
 export default {
     props: {
@@ -12,7 +12,7 @@ export default {
 
     components: {
         TableInfo,
-        SearchBox,
+        PlayerInputSugerence,
     },
 
     data() {
@@ -43,7 +43,7 @@ export default {
         <div v-if="show" class="modal-mask">
             <div class="modal-container">
                 <div class="modal-header">
-                    <SearchBox @search="searchOptions" />
+                    <PlayerInputSugerence @input="member = $event" />
                     <button class="add-member" @click="addMember">Agregar</button>
                 </div>
 

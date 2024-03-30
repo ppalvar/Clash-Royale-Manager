@@ -8,7 +8,7 @@
             <th>Victorias</th>
             <th>Cartas encontradas</th>
             <th>Racha</th>
-            <th>Acciones</th>
+            <th v-if="edit">Acciones</th>
         </template>
 
         <template #tbody>
@@ -20,7 +20,7 @@
                 <td> {{ jugador.numberOfWins }} </td>
                 <td> {{ jugador.numberOfCardsFound }} </td>
                 <td> {{ jugador.maximunTrophiesAchieved }} </td>
-                <td class="actions">
+                <td class="actions" v-if="edit">
                     <img height="20px" :src="Details" @click="$emit('info', jugador.id)"/>
                     <img v-if="isUserAuthenticated" height="20px" :src="Edit" @click="$emit('edit', jugador.id)"/>
                     <img v-if="isUserAuthenticated" height="20px" :src="Delete" @click="$emit('delete', jugador.id)"/>
@@ -41,6 +41,10 @@ import { isAuthenticated } from '@/auth/auth';
 export default {
     props: {
         jugadores: [],
+        edit: {
+            type: Boolean,
+            default: true,
+        },
     },
 
     components: {

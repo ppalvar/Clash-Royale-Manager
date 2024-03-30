@@ -1,9 +1,10 @@
 <script>
 import WindowsInfoJugador from '@/components/WindowsInfoJugador.vue';
 import EntityDefaultViews from '@/components/EntityDefaultViews.vue';
-import TableInfoBatalla from '@/components/TableInfoBatalla.vue';
+import TableInfoBattle from '@/components/TableInfoBattle.vue';
 import TableInfoCarta from '@/components/TableInfoCarta.vue';
 import ErrorPopup from '@/components/ErrorPopup.vue';
+import { isAuthenticated } from '@/auth/auth';
 import { API_URL } from '@/config';
 import axios from 'axios';
 
@@ -17,13 +18,14 @@ export default {
     components: {
         WindowsInfoJugador,
         EntityDefaultViews,
-        TableInfoBatalla,
+        TableInfoBattle,
         TableInfoCarta,
         ErrorPopup,
     },
 
     data() {
         return {
+            isAuthenticated,
             player: {
                 nickname: '',
                 level: '',
@@ -88,9 +90,13 @@ export default {
         <template #head>
             <h2>Cartas del Jugador</h2>
         </template>
+        
+        <template #botonCrear>
+            <label v-if="isAuthenticated()">NewCart</label>
+        </template>
 
         <template #tabla>
-            <TableInfoCarta :cards="cards" @info="seeInfoCard"/>
+            <TableInfoCarta :cards="cards" @info="seeInfoCard" :edit="false" />
         </template>
     </EntityDefaultViews>
 
@@ -100,7 +106,7 @@ export default {
         </template>
 
         <template #tabla>
-            <TableInfoBatalla :batallas="battles" @infobatalla="seeInfoBatalla" />
+            <TableInfoBattle :batallas="battles" @infobatalla="seeInfoBatalla" :edit="false" />
         </template>
     </EntityDefaultViews>
 </template>

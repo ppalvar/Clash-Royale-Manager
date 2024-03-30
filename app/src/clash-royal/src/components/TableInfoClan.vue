@@ -30,6 +30,10 @@ import { isAuthenticated } from '@/auth/auth';
 export default {
     props: {
         clanes: [],
+        edit: {
+            type: Boolean,
+            default: true,
+        },
     },
 
     components: {

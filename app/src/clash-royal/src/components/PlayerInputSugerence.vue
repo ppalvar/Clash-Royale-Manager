@@ -35,12 +35,16 @@
             value_input: {
                 type: String,
                 default: ''
+            },
+            init_input: {
+                type: String,
+                default: ''
             }
         },
         data() {
             return {
                 open: false,
-                input: "",
+                input: this.init_input,
                 active: 0,
                 value: this.value_input,
                 suggestions: []
@@ -88,6 +92,7 @@
                 this.open = false;
     
                 this.$emit('input', this.value);
+                this.$emit('getText', this.input);
             },
             reset() {
                 this.active = 0;
