@@ -43,24 +43,35 @@
             </tr>
             <tr>
                 <th>
+                    <label for="typeClan">Tipo</label>
+                </th>
+                <td>
+                    <select id="typeClan" v-model="typeClan">
+                        <option value="1e2b59b1-3be6-40cf-a7de-660de6478331">Invitacion</option>
+                        <option value="bd818cb4-26b0-402b-a6e8-ea8c63eb0416">Abierto</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>
                     <label for="region">Region</label>
                 </th>
                 <td>
                     <select id="region" v-model="region">
-                        <option value="Training_Camp">Training_Camp</option>
-                        <option value="Goblin_Stadium">Goblin_Stadium</option>
-                        <option value="Bone_Pit">Bone_Pit</option>
-                        <option value="Barbarian_Bowl">Barbarian_Bowl</option>
-                        <option value="PEKKAs_Playhouse">PEKKAs_Playhouse</option>
-                        <option value="Spell_Valley">Spell_Valley</option>
-                        <option value="Builder_Workshop">Builder_Workshop</option>
-                        <option value="Royal_Arena">Royal_Arena</option>
-                        <option value="Frozen_Peak">Frozen_Peak</option>
-                        <option value="Jungle_Arena">Jungle_Arena</option>
-                        <option value="Hog_Mountain">Hog_Mountain</option>
-                        <option value="Electro_Valley">Electro_Valley</option>
-                        <option value="Spooky_Town">Spooky_Town</option>
-                        <option value="Legendary_Aren">Legendary_Aren</option>
+                        <option value="0">Training_Camp</option>
+                        <option value="1">Goblin_Stadium</option>
+                        <option value="2">Bone_Pit</option>
+                        <option value="3">Barbarian_Bowl</option>
+                        <option value="4">PEKKAs_Playhouse</option>
+                        <option value="5">Spell_Valley</option>
+                        <option value="6">Builder_Workshop</option>
+                        <option value="7">Royal_Arena</option>
+                        <option value="8">Frozen_Peak</option>
+                        <option value="9">Jungle_Arena</option>
+                        <option value="10">Hog_Mountain</option>
+                        <option value="11">Electro_Valley</option>
+                        <option value="12">Spooky_Town</option>
+                        <option value="13">Legendary_Aren</option>
                     </select>
                 </td>
             </tr>
@@ -109,6 +120,7 @@ export default {
             description: '',
             liderId: '',
             numberOfTrophies: 0,
+            typeClan: '',
             region: '',
             condition: 0,
 
@@ -120,15 +132,16 @@ export default {
     methods: {
         createClan() {
             axios.post(`${API_URL}/admin/createclan`, {
+                idType: this.typeClan,
+                liderId: this.liderId.toString(),
                 name: this.name,
                 description: this.description,
-                numberOfTrophies: this.numberOfTrophies,
-                members: [this.liderId],
-                numberOfTrophiesToEnter: this.condition,
+                numberOfTrophiesObtainedInWars: this.numberOfTrophies,
                 region: this.region,
+                numberOfMembers: 0,
+                trophiesNeededToEnter: this.condition,
             })
                 .then(res => {
-
                     res;
                     this.error = '';
                     this.msg = `Se ha agregado el clan "${this.name}".`;
@@ -137,6 +150,7 @@ export default {
                     this.description = '';
                     this.liderId = '';
                     this.numberOfTrophies = 0;
+                    this.typeClan = '';
                     this.region = '';
                     this.condition = 0;
                 })

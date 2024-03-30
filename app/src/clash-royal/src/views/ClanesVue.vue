@@ -41,7 +41,8 @@ export default {
 
     methods: {
         seeInfo(id) {
-            this.$emit('info', id)
+            let url = `/info-clan/${id}`;
+            this.$router.push(url);
         },
 
         editClan(id) {
@@ -67,6 +68,7 @@ export default {
             axios.get(`${API_URL}/clans`)
                 .then(res => {
                     this.clanes = res.data.clans;
+                    console.log(this.clanes)
                 })
                 .catch(error => {
                     this.error = error.response.data;
@@ -83,7 +85,7 @@ export default {
     <EntityDefaultViews url="/add-clan">
         <template #tabla>
             <TableInfoClan :clanes="clanes" @info="seeInfo" 
-                @edit="editClan" @delete="deleteClan"/>/>
+                @edit="editClan" @delete="deleteClan"/>
         </template>
     </EntityDefaultViews>
 </template>

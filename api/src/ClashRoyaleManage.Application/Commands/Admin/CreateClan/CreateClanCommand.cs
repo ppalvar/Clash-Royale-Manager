@@ -1,3 +1,4 @@
+using ClashRoyaleManager.Domain.Entities;
 using FastEndpoints;
 
 namespace ClashRoyaleManager.Application.Commands.Admin.CreateClan;
@@ -5,6 +6,7 @@ namespace ClashRoyaleManager.Application.Commands.Admin.CreateClan;
 public class CreateClanCommand : ICommand<CreateClanCommandResponse>
 {
     public Guid IdType { get; set; }
+    public Guid IdLider { get; set; }
     public string Name { get; set; }
 
     public string Description { get; set; }
