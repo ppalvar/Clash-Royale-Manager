@@ -49,6 +49,16 @@ public class BattleRepository : IBattleRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task Remove(Battle entity)
+    {
+        var existingBattle = await _dbContext.Battles
+                            .FirstOrDefaultAsync(b => b.Player1Id == entity.Player1Id && b.Date == entity.Date) ?? 
+                            throw new EntityDoesNotExistException($"The entity of type <{nameof(Battle)}> with Player1 <{entity.Player1Id}> and Date <{entity.Date}> does not exist.");
+        
+        _dbContext.Battles.Remove(entity);
+        await _dbContext.SaveChangesAsync();
+    }
+
     public async Task<BattlePlayerInfo> Get(Guid Player1Id, DateTime Date)
     {
         var battleWithPlayers = await _dbContext.Battles.Where(b => b.Player1Id == Player1Id)

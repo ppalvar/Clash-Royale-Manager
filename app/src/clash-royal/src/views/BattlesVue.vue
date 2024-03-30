@@ -60,6 +60,20 @@ export default {
             let url = `/edit-battle/${p1}/${date}`;
             this.$router.push(url);
         },
+
+        deleteBattle(p1, date) {
+            if (confirm('Está seguro que desea eliminar la batalla seleccionada?')) {
+                axios.delete(`${API_URL}/admin/delete-battle/${p1}/${date}`)
+                    .then(res => {
+                        res;
+                        this.loadData();
+                        this.msg = 'Batalla eliminada con éxito.';
+                    })
+                    .catch(error => {
+                        this.error = error.response.data;
+                    });
+            }
+        },
     },
 }
 </script>
@@ -69,9 +83,8 @@ export default {
     <SuccessPopup v-if="msg != ''" :msg="msg"></SuccessPopup>
 
     <EntityDefaultViews url="/add-battle">
-    <EntityDefaultViews url="/add-battle">
         <template #tabla>
-            <TableInfoBattle :battles="battles" @info="seeInfo" @edit="editBattle" />
+            <TableInfoBattle :battles="battles" @info="seeInfo" @edit="editBattle" @delete="deleteBattle"/>
         </template>
     </EntityDefaultViews>
 </template>
