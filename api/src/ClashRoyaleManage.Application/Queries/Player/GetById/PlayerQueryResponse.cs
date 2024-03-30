@@ -4,6 +4,7 @@ namespace ClashRoyaleManager.Application.Query.Players;
 
 public record PlayerQueryResponse
 {
+    public string Code { get; set; } = null!;
     public string Nickname { get; set; } = null!;
 
     public int Level { get; set; }

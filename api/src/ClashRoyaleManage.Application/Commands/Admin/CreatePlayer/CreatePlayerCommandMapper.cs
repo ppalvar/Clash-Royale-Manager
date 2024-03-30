@@ -9,6 +9,7 @@ public class CreatePlayerCommandMapper : AbstractMapper<Player, CreatePlayerComm
     public override Player ToEntity(CreatePlayerCommand command)
     {
         return new Player{
+            Code = command.Code,
             Nickname =command.Nickname,
             Level = command.Level,
             NumberOfTrophies = command.NumberOfTrophies,
@@ -21,6 +22,7 @@ public class CreatePlayerCommandMapper : AbstractMapper<Player, CreatePlayerComm
     {
         return new CreatePlayerCommandResponse
         {
+            Code = entity.Code,
             Nickname = entity.Nickname,
             Level = entity.Level,
             NumberOfTrophies = entity.NumberOfTrophies,

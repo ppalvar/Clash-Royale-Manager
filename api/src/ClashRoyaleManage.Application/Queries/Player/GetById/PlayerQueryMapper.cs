@@ -11,6 +11,7 @@ public class PlayerQueryMapper : AbstractMapper<Player, PlayerQuery, PlayerQuery
     {
         return new PlayerQueryResponse
         {
+            Code = entitie.Code,
             Nickname = entitie.Nickname,
             Level = entitie.Level,
             NumberOfTrophies = entitie.NumberOfTrophies,

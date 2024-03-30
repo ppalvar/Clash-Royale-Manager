@@ -4,6 +4,7 @@ namespace ClashRoyaleManager.Application.Commands.Admin.CreatePlayer;
 
 public class CreatePlayerCommandResponse
 {
+    public string Code { get; set; } = null!;
     public string Nickname { get; set; } = null!;
 
     public int Level { get; set; }

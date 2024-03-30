@@ -4,6 +4,9 @@
     <WindowsInfo :oneColumn="false">
         <template #entity>
             <h2>Jugador</h2>
+            <div class="info-code">
+                <h4>{{ code }}</h4>
+            </div>
         </template>
         <template #column1>
             <div class="detail">
@@ -41,9 +44,13 @@ import WindowsInfo from "../components/WindowsInfo.vue"
 
 export default {
     props:{
+        code: {
+            type: String,
+            default: 'CODE'
+        },
         apodo: {
             type: String,
-            default: 'Pepe',
+            default: '',
         },
         nivel: {
             type: Number,
@@ -51,7 +58,7 @@ export default {
         },
         cartas: {
             type: Number,
-            default: 5,
+            default: 0,
         },
         victorias: {
             type: Number,
@@ -98,4 +105,10 @@ export default {
 .btn:hover {
   background-color: #f1c208dd;
 }
+
+.info-code {
+    text-align: center;
+    margin: 8px auto;
+}
+
 </style>

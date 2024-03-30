@@ -54,7 +54,6 @@ export default {
             axios.get(`${API_URL}/players/${this.playerId}`,{id:this.playerId})
                 .then(res => {
                     this.player = res.data;
-                    
                 })
                 .catch(error => {
                     this.error = error.response.data;
@@ -83,8 +82,15 @@ export default {
 <template>
     <ErrorPopup v-if="error != ''" :msg="error"></ErrorPopup>
 
-    <WindowsInfoJugador :apodo=player.nickname :nivel=player.level :victorias=player.numberOfWins :cartas=player.numberOfCardsFound
-        :trofeos=player.numberOfTrophies :racha=player.maximunTrophiesAchieved />
+    <WindowsInfoJugador 
+        :code="player.code" 
+        :apodo="player.nickname" 
+        :nivel="player.level" 
+        :victorias="player.numberOfWins" 
+        :cartas="player.numberOfCardsFound"
+        :trofeos="player.numberOfTrophies" 
+        :racha="player.maximunTrophiesAchieved" 
+    />
 
     <EntityDefaultViews url="/add-card">
         <template #head>
