@@ -25,6 +25,9 @@
 
 <script>
 import TableInfo from '@/components/TableInfo.vue';
+import Edit from '@/assets/svg/edit.svg';
+import Delete from '@/assets/svg/delete.svg';
+import Details from '@/assets/svg/details.svg';
 import { isAuthenticated } from '@/auth/auth';
 
 export default {
@@ -40,9 +43,40 @@ export default {
         TableInfo,
     },
 
+    data() {
+        return {
+            Edit,
+            Delete,
+            Details,
+        }
+    },
+
     computed: {
         isUserAuthenticated() {
             return isAuthenticated();
+        },
+    },
+
+    methods: {
+        getRegion(id) {
+            const regions = [
+                "Training_Camp",
+                "Goblin_Stadium",
+                "Bone_Pit",
+                "Barbarian_Bowl",
+                "PEKKAs_Playhouse",
+                "Spell_Valley",
+                "Builder_Workshop",
+                "Royal_Arena",
+                "Frozen_Peak",
+                "Jungle_Arena",
+                "Hog_Mountain",
+                "Electro_Valley",
+                "Spooky_Town",
+                "Legendary_Aren"
+            ]
+
+            return regions[id];
         }
     },
 

@@ -1,16 +1,17 @@
 <script>
 import WindowsInfoClan from '@/components/WindowsInfoClan.vue';
-import BBDD from '@/router/BBDD';
-import { isAuthenticated } from '@/auth/auth';
 import EntityDefaultViews from '@/components/EntityDefaultViews.vue';
 import TableInfoJugador from '@/components/TableInfoJugador.vue';
 import TableInfoCarta from '@/components/TableInfoCarta.vue';
+import { isAuthenticated } from '@/auth/auth';
+import { API_URL } from '@/config';
+import axios from 'axios';
 
 export default {
     props: {
-        item: {
-            type: Object,
-            default: null,
+        clanId: {
+            type: String,
+            default: "",
         },
     },
 
@@ -23,29 +24,77 @@ export default {
 
     data() {
         return {
-            isAuthenticated
+            isAuthenticated,
+            item: {
+                "idType": "",
+                "name": "",
+                "description": "",
+                "type": "",
+                "numberOfTrophiesObtainedInWars": 0,
+                "region": 0,
+                "numberOfMembers": 0,
+                "trophiesNeededToEnter": 0
+            },
         }
     },
 
+    mounted() {
+        this.loadData();
+    },
+
     methods: {
+        loadData() {
+            axios.get(`${API_URL}/clans/${this.clanId}`)
+                .then(res => {
+                    this.item = res.data;
+                })
+                .catch(error => {
+                    this.error = error.response.data;
+                });
+        },
+
         seeCarts() {
-            return BBDD.getAllCarts()
+            //TODO - CartsOfclan
         },
 
         seeMembers() {
-            return BBDD.getMembersOfClan(this.item.id)
+            //TODO - members of clans
         },
 
-        seeInfo(id, type) {
-            this.$emit('info', id, type)
-        },
+        getRegion(id) {
+            const regions = [
+                "Training_Camp",
+                "Goblin_Stadium",
+                "Bone_Pit",
+                "Barbarian_Bowl",
+                "PEKKAs_Playhouse",
+                "Spell_Valley",
+                "Builder_Workshop",
+                "Royal_Arena",
+                "Frozen_Peak",
+                "Jungle_Arena",
+                "Hog_Mountain",
+                "Electro_Valley",
+                "Spooky_Town",
+                "Legendary_Aren"
+            ]
+
+            return regions[id];
+        }
     },
 }
 </script>
 
 <template>
-    <WindowsInfoClan :nombre=item.nombre :descripcion=item.descripcion :trofeos=item.trofeos :region=item.region
-        :miembros=item.miembros :condicion=item.condicion :minimalice="true" />
+    <WindowsInfoClan 
+        :nombre="item.name" 
+        :descripcion="item.description" 
+        :trofeos="item.numberOfTrophiesObtainedInWars" 
+        :region="getRegion(item.region)"
+        :miembros="item.numberOfMembers" 
+        :condicion="item.trophiesNeededToEnter" 
+        :minimalice="true" 
+    />
 
     <EntityDefaultViews>
         <template #heard>
