@@ -21,14 +21,11 @@ export default {
 
     data() {
         return {
-            battle: {
-                player1id: '',
-                player2id: '',
-                winner: false,
-                numberOfTrophies: 0,
-                date: new Date(),
-                duration: new Date(),
-            },
+            player1Id: '',
+            player2Id: '',
+            winner: false,
+            numberOfTrophies: 0,
+            duration: new Date(),
             player1nickname: '',
             player2nickname: '',
             error: ''
@@ -48,7 +45,11 @@ export default {
         loadData() {
             axios.get(`${API_URL}/battles/${this.playerId}/${this.date}`)
                 .then(res => {
-                    this.battle = res.data.battle;
+                    this.player1Id = res.data.player1Id;
+                    this.player2Id = res.data.player2Id;
+                    this.winner = res.data.winner;
+                    this.numberOfTrophies = res.data.numberOfTrophies;
+                    this.duration = res.data.duration;
                     this.player1nickname = res.data.player1Name;
                     this.player2nickname = res.data.player2Name;
                 })
@@ -63,15 +64,21 @@ export default {
 <template>
     <ErrorPopup v-if="error != ''" :msg="error"></ErrorPopup>
 
-    <WindowsInfoBatalla :jugador1=item.jugador1 :jugador2=item.jugador2 :winner=item.winner :trofeos=item.trofeos
-        :date=item.date :duracion=item.duracion />
+    <WindowsInfoBatalla 
+        :jugador1=player1nickname 
+        :jugador2=player2nickname 
+        :winner=winner 
+        :trofeos=numberOfTrophies
+        :date=date 
+        :duracion=duration 
+    />
 
     <div class="estetic-list-contener">
-        <div class="jugadores-contener" @click="$emit('info', battle.player1Id)">
-            <h2>{{player1nickname}}</h2>
+        <div class="jugadores-contener" @click="$emit('info', player1Id)">
+            <h2>{{ player1nickname }}</h2>
         </div>
 
-        <div class="jugadores-contener" @click="$emit('info', battle.player2Id)">
+        <div class="jugadores-contener" @click="$emit('info', player2Id)">
             <h2>{{ player2nickname }}</h2>
         </div>
     </div>

@@ -54,7 +54,7 @@
             <tr>
                 <td></td>
                 <td>
-                    <div class="btn edit-profile-btn" @click="createCard()">Crear</div>
+                    <div class="btn edit-profile-btn" @click="createPlayer()">Crear</div>
                 </td>
                 <td>
                     <div class="btn change-password-btn" @click="cancel()">Cancelar</div>
@@ -89,12 +89,12 @@ export default {
             numberOfCardsFound: '',
 
             msg: '',
-            error: ''
+            error: '',
         }
     },
 
     methods: {
-        createCard() {
+        createPlayer() {
             axios.post(`${API_URL}/admin/createplayer`, {
                 nickname: this.nickname,
                 level: this.level,

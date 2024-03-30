@@ -5,7 +5,7 @@
             <th>Descripcion</th>
             <th>Costo de elixir</th>
             <th>Calidad</th>
-            <th>Acciones</th>
+            <th v-if="edit">Acciones</th>
         </template>
 
         <template #tbody>
@@ -14,7 +14,7 @@
                 <td> {{ card.description }} </td>
                 <td> {{ card.elixirCost }} </td>
                 <td> {{ card.quality }} </td>
-                <td class="actions">
+                <td class="actions" v-if="edit">
                     <img height="20px" :src="Details" @click="$emit('info', card.id)"/>
                     <img v-if="isUserAuthenticated" height="20px" :src="Edit" @click="$emit('edit', card.id)"/>
                     <img v-if="isUserAuthenticated" height="20px" :src="Delete" @click="$emit('delete', card.id)"/>
@@ -34,6 +34,10 @@ import { isAuthenticated } from '@/auth/auth';
 export default {
     props: {
         cards: [],
+        edit: {
+            type: Boolean,
+            default: true,
+        },
     },
 
     components: {

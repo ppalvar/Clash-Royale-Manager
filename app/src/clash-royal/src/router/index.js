@@ -19,6 +19,8 @@ import BattlesVue from "@/views/BattlesVue.vue";
 import TableInfoUsers from "@/components/TableInfoUsers.vue";
 import CrearClan from "@/components/CrearClan.vue";
 import InfoBatalla from "@/views/InfoBatallaVue.vue";
+import EditarClan from "@/components/EditarClan.vue";
+import EditarBatalla from "@/components/EditarBatalla.vue";
 
 const routes = [
   {
@@ -127,6 +129,12 @@ const routes = [
     props: true,
   },
   {
+    path: '/edit-battle/:playerId/:date',
+    name: 'EditBattle',
+    component: EditarBatalla,
+    props: true,
+  },
+  {
     path: '/add-card',
     name: 'AddCard',
     component: CrearCarta,
@@ -136,6 +144,13 @@ const routes = [
     path: '/edit-card/:cardId',
     name: 'EditCard',
     component: EditarCarta,
+    props: true,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/edit-clan/:clanId',
+    name: 'EditClan',
+    component: EditarClan,
     props: true,
     meta: { requiresAuth: true }
   },

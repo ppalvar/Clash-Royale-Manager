@@ -38,7 +38,7 @@ export default {
         },
 
         deleteCard(id) {
-            if (confirm('Éstá seguro que desea eliminar la carta seleccionada?')) {
+            if (confirm('Está seguro que desea eliminar la carta seleccionada?')) {
                 axios.delete(`${API_URL}/admin/delete-card/${id}`)
                     .then(async res => {
                             res;
