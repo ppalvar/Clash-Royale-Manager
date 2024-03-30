@@ -23,6 +23,7 @@ public class UpdatePlayerCommandMapper : AbstractMapper<Player, UpdatePlayerComm
         return new UpdatePlayerCommandResponse
         {
             Id = entity.Id,
+            Code = entity.Code,
             Nickname = entity.Nickname,
             Level = entity.Level,
             NumberOfTrophies = entity.NumberOfTrophies,

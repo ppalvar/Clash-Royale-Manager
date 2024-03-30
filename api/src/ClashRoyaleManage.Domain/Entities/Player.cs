@@ -7,6 +7,7 @@ namespace ClashRoyaleManager.Domain.Entities;
 public class Player
 {
     public Guid Id { get; set; }
+    public string Code { get; set; }
     
     public string Nickname { get; set; }
 

@@ -10,6 +10,12 @@
         <template #form>
             <tr>
                 <th>
+                    <label for="code">C&oacute;digo</label>
+                </th>
+                <td>
+                    <input type="text" placeholder="C&oacute;digo" required id="code" v-model="code" /><br>
+                </td>
+                <th>
                     <label for="apodo">Apodo</label>
                 </th>
                 <td>
@@ -87,6 +93,7 @@ export default {
 
     data() {
         return {
+            code: '',
             nickname: '',
             level: '',
             numberOfTrophies: '',
@@ -107,6 +114,7 @@ export default {
         loadData() {
             axios.get(`${API_URL}/players/${this.playerId}`)
                 .then(res => {
+                    this.code = res.data.code;
                     this.nickname = res.data.nickname;
                     this.level = res.data.level;
                     this.numberOfTrophies = res.data.numberOfTrophies;
@@ -121,6 +129,7 @@ export default {
         
         updatePlayer() {
             axios.post(`${API_URL}/admin/update-player/${this.playerId}`, {
+                code: this.code,
                 nickname: this.nickname,
                 level: this.level,
                 numberOfTrophies: this.numberOfTrophies,
@@ -134,6 +143,7 @@ export default {
                     this.error='';
                     this.msg = `Se ha actualizado el jugador "${this.nickname}" correctamente.`;
 
+                    this.code = '';
                     this.nickname = '';
                     this.level = '';
                     this.numberOfTrophies = '';
