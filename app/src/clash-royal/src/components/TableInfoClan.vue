@@ -4,8 +4,11 @@
             <th>Nombre</th>
             <th>Descripcion</th>
             <th>Trofeos de guerra</th>
+            <th>Descripcion</th>
+            <th>Trofeos de guerra</th>
             <th>Region</th>
             <th>Miembros</th>
+            <th>Trofeos para entrar</th>
             <th>Trofeos para entrar</th>
             <!-- <th v-if="isUserAuthenticated">Acciones</th> -->
         </template>
@@ -14,8 +17,11 @@
                 <td> {{ clan.name }} </td>
                 <td> {{ clan.description }} </td>
                 <td> {{ clan.numberOfTrophiesObtainedInWars }} </td>
+                <td> {{ clan.description }} </td>
+                <td> {{ clan.numberOfTrophiesObtainedInWars }} </td>
                 <td> {{ clan.region }} </td>
                 <td> {{ clan.numberOfMembers }} </td>
+                <td> {{ clan.condicion }} </td>
                 <td> {{ clan.condicion }} </td>
                 <!-- <td v-if="isUserAuthenticated">aqui van botones</td> -->
             </tr>

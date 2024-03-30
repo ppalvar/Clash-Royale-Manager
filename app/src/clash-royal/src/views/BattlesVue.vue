@@ -69,6 +69,7 @@ export default {
     <SuccessPopup v-if="msg != ''" :msg="msg"></SuccessPopup>
 
     <EntityDefaultViews url="/add-battle">
+    <EntityDefaultViews url="/add-battle">
         <template #tabla>
             <TableInfoBattle :battles="battles" @info="seeInfo" @edit="editBattle" />
         </template>

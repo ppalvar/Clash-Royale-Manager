@@ -5,6 +5,7 @@
             <th>Apodo</th>
             <th>Nivel</th>
             <th>Trofeos</th>
+            <th>Trofeos</th>
             <th>Victorias</th>
             <th>Cartas encontradas</th>
             <th>Racha</th>
@@ -16,6 +17,7 @@
                 <ImagenConenter />
                 <td> {{ jugador.nickname }} </td>
                 <td> {{ jugador.level }} </td>
+                <td> {{ jugador.numberOfTrophies }} </td>
                 <td> {{ jugador.numberOfTrophies }} </td>
                 <td> {{ jugador.numberOfWins }} </td>
                 <td> {{ jugador.numberOfCardsFound }} </td>

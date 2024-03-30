@@ -1,11 +1,19 @@
 <script>
 import ErrorPopup from '@/components/ErrorPopup.vue';
+import ErrorPopup from '@/components/ErrorPopup.vue';
 import WindowsInfoBatalla from '@/components/WindowsInfoBatalla.vue';
+import { API_URL } from '@/config';
+import axios from 'axios';
 import { API_URL } from '@/config';
 import axios from 'axios';
 
 export default {
     props: {
+        playerId: {
+            type: String
+        },
+        date: {
+            type: Date
         playerId: {
             type: String
         },
@@ -102,6 +110,7 @@ export default {
 
 .jugadores-contener:hover {
     background-color: #f1c20875;
+    color: #000;
     color: #000;
 }
 </style>

@@ -101,6 +101,7 @@ export default {
     </EntityDefaultViews>
 
     <EntityDefaultViews>
+    <EntityDefaultViews>
         <template #head>
             <h2>Batallas del Jugador</h2>
         </template>
