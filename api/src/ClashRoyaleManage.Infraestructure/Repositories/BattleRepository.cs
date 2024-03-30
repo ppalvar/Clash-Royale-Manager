@@ -22,8 +22,8 @@ public class BattleRepository : IBattleRepository
 
     public async Task Create(Battle entity)
     {
-        var battle1 = (await GetByPlayer(entity.Player1Id)).Where(b => b.Battle!.Date == _dateTimeProvider.UtcNow).FirstOrDefault();
-        var battle2 = (await GetByPlayer(entity.Player2Id)).Where(b => b.Battle!.Date == _dateTimeProvider.UtcNow).FirstOrDefault();
+        var battle1 = (await GetByPlayer(entity.Player1Id)).Where(b => b.Battle!.Date == entity.Date).FirstOrDefault();
+        var battle2 = (await GetByPlayer(entity.Player2Id)).Where(b => b.Battle!.Date == entity.Date).FirstOrDefault();
 
         if (battle1 != null)
         {
@@ -36,6 +36,16 @@ public class BattleRepository : IBattleRepository
         }
 
         _dbContext.Battles.Add(entity);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task Update(Battle entity)
+    {
+        var existingBattle = await _dbContext.Battles
+                            .FirstOrDefaultAsync(b => b.Player1Id == entity.Player1Id && b.Date == entity.Date) ?? 
+                            throw new EntityDoesNotExistException($"The entity of type <{nameof(Battle)}> with Player1 <{entity.Player1Id}> and Date <{entity.Date}> does not exist.");
+        
+        _dbContext.Entry(existingBattle).CurrentValues.SetValues(entity);
         await _dbContext.SaveChangesAsync();
     }
 

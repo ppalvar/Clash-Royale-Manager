@@ -55,6 +55,11 @@ export default {
             let url = `/info-battle/${p1}/${date}`;
             this.$router.push(url);
         },
+
+        editBattle(p1, date) {
+            let url = `/edit-battle/${p1}/${date}`;
+            this.$router.push(url);
+        },
     },
 }
 </script>
@@ -65,7 +70,7 @@ export default {
 
     <EntityDefaultViews url="/add-battle">
         <template #tabla>
-            <TableInfoBattle :battles="battles" @info="seeInfo"/>
+            <TableInfoBattle :battles="battles" @info="seeInfo" @edit="editBattle" />
         </template>
     </EntityDefaultViews>
 </template>
