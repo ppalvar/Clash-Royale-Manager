@@ -112,9 +112,10 @@ const routes = [
     props: true,
   },
   {
-    path: '/info-clan',
+    path: '/info-clan/:clanId',
     name: 'InfoClan',
     component: InfoClan,
+    props: true,
   },
   {
     path: '/info-jugador/:playerId',
