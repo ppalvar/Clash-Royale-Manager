@@ -29,6 +29,18 @@ using ClashRoyaleManager.Application.Commands.Admin.CreateBattle;
 using ClashRoyaleManager.Application.Commands.Admin.CreateClan;
 using ClashRoyaleManager.Application.Commands.Admin.DeleteClan;
 using ClashRoyaleManager.Application.Commands.Admin.UpdateClan;
+using ClashRoyaleManager.Application.Commands.Admin.CreateSpellCard;
+using ClashRoyaleManager.Application.Query.SpellCards;
+using ClashRoyaleManager.Application.Commands.Admin.DeleteSpellCard;
+using ClashRoyaleManager.Application.Commands.Admin.UpdateSpellCard;
+using ClashRoyaleManager.Application.Commands.Admin.CreateStructureCard;
+using ClashRoyaleManager.Application.Query.StructureCards;
+using ClashRoyaleManager.Application.Commands.Admin.DeleteStructureCard;
+using ClashRoyaleManager.Application.Commands.Admin.UpdateStructureCard;
+using ClashRoyaleManager.Application.Commands.Admin.CreateTroopCard;
+using ClashRoyaleManager.Application.Query.TroopCards;
+using ClashRoyaleManager.Application.Commands.Admin.DeleteTroopCard;
+using ClashRoyaleManager.Application.Commands.Admin.UpdateTroopCard;
 
 namespace ClashRoyaleManage.Api.Auth;
 

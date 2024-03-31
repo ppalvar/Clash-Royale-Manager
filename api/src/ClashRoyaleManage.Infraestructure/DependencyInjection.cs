@@ -58,7 +58,10 @@ public static class DependencyInjection
                 .AddScoped<IClanRepository, ClanRepository>()
                 .AddScoped<IWarRepository, WarRepository>()
                 .AddScoped<IChallengeRepository, ChallengeRepository>()
-                .AddScoped<IPlayerRepository, PlayerRepository>();
+                .AddScoped<IPlayerRepository, PlayerRepository>()
+                .AddScoped<ISpellCardRepository, SpellCardRepository>()
+                .AddScoped<IStructureCardRepository, StructureCardRepository>()
+                .AddScoped<ITroopCardRepository, TroopCardRepository>();
 
         services.AddScoped<IGetCurrentUserLoginService, GetCurrentUserLoginService>();
 
