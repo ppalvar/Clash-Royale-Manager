@@ -56,7 +56,7 @@ public class PlayerChallengeRepository(DefaultDbContext _dbContext) : IPlayerCha
     {
         int skip = (page - 1) * pageSize;
         var all = _dbContext.PlayerChallenges.AsQueryable();
-        var playerChallenge = all.OrderByDescending(x => x.IdPlayer).Skip(skip);
+        var playerChallenge = all.OrderByDescending(x => x.IdPlayer).Skip(skip).Take(pageSize);
         return Task.FromResult((playerChallenge, all.Count() / pageSize));
     }
 }

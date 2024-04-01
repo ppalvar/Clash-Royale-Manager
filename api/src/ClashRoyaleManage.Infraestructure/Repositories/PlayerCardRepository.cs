@@ -32,7 +32,7 @@ public class PlayerCardRepository(DefaultDbContext _dbContext) : IPlayerCardRepo
     {
         int skip = (page - 1) * pageSize;
         var all = _dbContext.PlayerCards.AsQueryable();
-        var playerCard = all.OrderByDescending(x => x.IdPlayer).Skip(skip);
+        var playerCard = all.OrderByDescending(x => x.IdPlayer).Skip(skip).Take(pageSize);
         return Task.FromResult((playerCard, all.Count() / pageSize));
     }
 

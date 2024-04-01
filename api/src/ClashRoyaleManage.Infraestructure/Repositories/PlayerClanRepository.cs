@@ -35,7 +35,7 @@ public class PlayerClanRepository(DefaultDbContext _dbContext) : IPlayerClanRepo
     {
         int skip = (page - 1) * pageSize;
         var all = _dbContext.PlayerClans.AsQueryable();
-        var playerClan = all.OrderByDescending(x => x.IdPlayer).Skip(skip);
+        var playerClan = all.OrderByDescending(x => x.IdPlayer).Skip(skip).Take(pageSize);
         return Task.FromResult((playerClan, all.Count() / pageSize));
     }
 

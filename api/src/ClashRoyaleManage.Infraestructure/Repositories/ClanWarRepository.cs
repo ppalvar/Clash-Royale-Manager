@@ -32,7 +32,7 @@ public class ClanWarRepository(DefaultDbContext _dbContext) : IClanWarRepository
     {
         int skip = (page - 1) * pageSize;
         var all = _dbContext.ClanWars.AsQueryable();
-        var clanWar = all.OrderByDescending(x => x.Clan).Skip(skip);
+        var clanWar = all.OrderByDescending(x => x.Clan).Skip(skip).Take(pageSize);
         return Task.FromResult((clanWar, all.Count() / pageSize));
     }
 
