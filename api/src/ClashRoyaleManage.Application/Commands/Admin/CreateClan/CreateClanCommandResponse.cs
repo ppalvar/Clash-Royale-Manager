@@ -16,5 +16,4 @@ public class CreateClanCommandResponse
     public int NumberOfMembers { get; set; }
 
     public int TrophiesNeededToEnter { get; set; }
-
 }

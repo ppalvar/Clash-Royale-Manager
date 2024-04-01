@@ -22,8 +22,8 @@ public class BattleRepository : IBattleRepository
 
     public async Task Create(Battle entity)
     {
-        var battle1 = (await GetByPlayer(entity.Player1Id)).Where(b => b.Battle!.Date == _dateTimeProvider.UtcNow).FirstOrDefault();
-        var battle2 = (await GetByPlayer(entity.Player2Id)).Where(b => b.Battle!.Date == _dateTimeProvider.UtcNow).FirstOrDefault();
+        var battle1 = (await GetByPlayer(entity.Player1Id)).Where(b => b.Battle!.Date == entity.Date).FirstOrDefault();
+        var battle2 = (await GetByPlayer(entity.Player2Id)).Where(b => b.Battle!.Date == entity.Date).FirstOrDefault();
 
         if (battle1 != null)
         {
@@ -39,10 +39,29 @@ public class BattleRepository : IBattleRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<(Battle? Battle, string Player1, string Player2)?> Get(Guid Player1Id, Guid Player2Id, DateTime Date)
+    public async Task Update(Battle entity)
+    {
+        var existingBattle = await _dbContext.Battles
+                            .FirstOrDefaultAsync(b => b.Player1Id == entity.Player1Id && b.Date == entity.Date) ?? 
+                            throw new EntityDoesNotExistException($"The entity of type <{nameof(Battle)}> with Player1 <{entity.Player1Id}> and Date <{entity.Date}> does not exist.");
+        
+        _dbContext.Entry(existingBattle).CurrentValues.SetValues(entity);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task Remove(Battle entity)
+    {
+        var existingBattle = await _dbContext.Battles
+                            .FirstOrDefaultAsync(b => b.Player1Id == entity.Player1Id && b.Date == entity.Date) ?? 
+                            throw new EntityDoesNotExistException($"The entity of type <{nameof(Battle)}> with Player1 <{entity.Player1Id}> and Date <{entity.Date}> does not exist.");
+        
+        _dbContext.Battles.Remove(entity);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<BattlePlayerInfo> Get(Guid Player1Id, DateTime Date)
     {
         var battleWithPlayers = await _dbContext.Battles.Where(b => b.Player1Id == Player1Id)
-                                                        .Where(b => b.Player2Id == Player2Id)
                                                         .Include(b => b.Player1)
                                                         .Include(b => b.Player2)
                                                         .FirstOrDefaultAsync();
@@ -52,9 +71,11 @@ public class BattleRepository : IBattleRepository
             return null;
         }
 
-        return (battleWithPlayers,
-                battleWithPlayers.Player1.Nickname,
-                battleWithPlayers.Player2.Nickname);
+        return new BattlePlayerInfo {
+            Battle = battleWithPlayers,
+            Player1 = battleWithPlayers.Player1.Nickname,
+            Player2 = battleWithPlayers.Player2.Nickname
+        };
     }
 
     public Task<IQueryable<BattlePlayerInfo>> GetByPlayer(Guid Id)

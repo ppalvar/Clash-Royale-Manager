@@ -17,6 +17,8 @@ public class CreateClanCommandHandler : CommandHandler<CreateClanCommand, Create
     
     public override async Task<CreateClanCommandResponse> ExecuteAsync(CreateClanCommand command, CancellationToken ct = default)
     {
+        //TODO: crear lider de clan
+        
         Clan clan = _mapper.ToEntity(command);
         await _repository.Create(clan);
         CreateClanCommandResponse dev = _mapper.ToResponse(clan);

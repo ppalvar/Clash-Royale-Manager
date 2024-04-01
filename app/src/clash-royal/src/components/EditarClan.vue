@@ -4,7 +4,7 @@
 
     <CrearEntity>
         <template #entity>
-            <h2>Crear Clan</h2>
+            <h2>Editar Clan</h2>
         </template>
 
         <template #form>
@@ -83,16 +83,12 @@
                     <input type="number" v-model="condition" id="condicion" required placeholder="0.0"><br>
                 </td>
             </tr>
-            <tr></tr>
             <tr>
                 <td></td>
-                <td>
-                    <div class="btn edit-profile-btn" @click="createClan()">Crear</div>
-                </td>
-                <td>
+                <div class="actions">
+                    <div class="btn edit-profile-btn" @click="updateClan()">Actualizar</div>
                     <div class="btn change-password-btn" @click="cancel()">Cancelar</div>
-                </td>
-                <td></td>
+                </div>
             </tr>
         </template>
     </CrearEntity>
@@ -100,18 +96,24 @@
 
 <script>
 import CrearEntity from '@/components/CrearEntity.vue';
-import ErrorPopup from './ErrorPopup.vue';
-import SuccessPopup from './SuccessPopup.vue';
-import PlayerInputSugerence from './PlayerInputSugerence.vue';
+import PlayerInputSugerence from '@/components/PlayerInputSugerence.vue';
+import SuccessPopup from '@/components/SuccessPopup.vue';
+import ErrorPopup from '@/components/ErrorPopup.vue';
 import { API_URL } from '@/config';
 import axios from 'axios';
 
 export default {
+    props: {
+        clanId: {
+            type: String,
+        }
+    },
+
     components: {
-        CrearEntity,
-        ErrorPopup,
-        SuccessPopup,
         PlayerInputSugerence,
+        CrearEntity,
+        SuccessPopup,
+        ErrorPopup,
     },
 
     data() {
@@ -120,39 +122,57 @@ export default {
             description: '',
             liderId: '',
             numberOfTrophies: 0,
-            typeClan: '',
+            typeClan: "",
             region: '',
             condition: 0,
-
             msg: '',
-            error: '',
+            error: ''
         }
     },
 
+    mounted() {
+        this.loadData();
+    },
+
     methods: {
-        createClan() {
-            axios.post(`${API_URL}/admin/createclan`, {
-                idType: this.typeClan,
-                liderId: this.liderId.toString(),
+        loadData() {
+            axios.get(`${API_URL}/clans/${this.clanId}`)
+                .then(res => {
+                    this.name = res.data.name;
+                    this.typeClan = res.data.idType;
+                    this.description = res.data.description;
+                    this.numberOfTrophies = res.data.numberOfTrophiesObtainedInWars;
+                    this.liderId = res.data.liderId;
+                    this.condition = res.data.trophiesNeededToEnter;
+                    this.region = res.data.region;
+                })
+                .catch(error => {
+                    this.error = error.response.data;
+                });
+        },
+
+        updateClan() {
+            axios.post(`${API_URL}/admin/update-clan/${this.clanId}`, {
                 name: this.name,
+                idType: this.typeClan,
                 description: this.description,
                 numberOfTrophiesObtainedInWars: this.numberOfTrophies,
-                region: this.region,
-                numberOfMembers: 0,
+                liderId: this.liderId,
                 trophiesNeededToEnter: this.condition,
+                region: this.region,
             })
                 .then(res => {
+
                     res;
                     this.error = '';
-                    this.msg = `Se ha agregado el clan "${this.name}".`;
+                    this.msg = `Se ha actualizado el clan "${this.name}" correctamente.`;
 
                     this.name = '';
                     this.description = '';
-                    this.liderId = '';
                     this.numberOfTrophies = 0;
-                    this.typeClan = '';
-                    this.region = '';
+                    this.liderId = '';
                     this.condition = 0;
+                    this.region = '';
                 })
                 .catch(error => {
                     this.error = error.response.data;

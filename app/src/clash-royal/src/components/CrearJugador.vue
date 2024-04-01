@@ -10,6 +10,12 @@
         <template #form>
             <tr>
                 <th>
+                    <label for="code">C&oacute;digo</label>
+                </th>
+                <td>
+                    <input type="text" placeholder="C&oacute;digo" required id="code" v-model="code" /><br>
+                </td>
+                <th>
                     <label for="apodo">Apodo</label>
                 </th>
                 <td>
@@ -54,7 +60,7 @@
             <tr>
                 <td></td>
                 <td>
-                    <div class="btn edit-profile-btn" @click="createCard()">Crear</div>
+                    <div class="btn edit-profile-btn" @click="createPlayer()">Crear</div>
                 </td>
                 <td>
                     <div class="btn change-password-btn" @click="cancel()">Cancelar</div>
@@ -81,6 +87,7 @@ export default {
 
     data() {
         return {
+            code: '',
             nickname: '',
             level: '',
             numberOfTrophies: '',
@@ -89,13 +96,14 @@ export default {
             numberOfCardsFound: '',
 
             msg: '',
-            error: ''
+            error: '',
         }
     },
 
     methods: {
-        createCard() {
+        createPlayer() {
             axios.post(`${API_URL}/admin/createplayer`, {
+                code: this.code,
                 nickname: this.nickname,
                 level: this.level,
                 numberOfTrophies: this.numberOfTrophies,
@@ -109,6 +117,7 @@ export default {
                     this.error='';
                     this.msg = `Se ha agregado el jugador "${this.nickname}".`;
 
+                    this.code = '';
                     this.nickname = '';
                     this.level = '';
                     this.numberOfTrophies = '';

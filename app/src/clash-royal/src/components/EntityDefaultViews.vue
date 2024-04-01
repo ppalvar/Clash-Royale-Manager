@@ -1,6 +1,6 @@
 <script>
 import PaginacionItem from '@/components/PaginacionItem.vue';
-import SearchBox from '../components/SearchBox.vue';
+// import SearchBox from '../components/SearchBox.vue';
 import TableInfo from '../components/TableInfo.vue';
 import { isAuthenticated } from '@/auth/auth';
 
@@ -12,7 +12,7 @@ export default {
     }
   },
   components: {
-    SearchBox,
+    // SearchBox,
     TableInfo,
     PaginacionItem,
   },
@@ -44,7 +44,7 @@ export default {
     <slot name="head"></slot>
     
     <div class="table-header">
-      <SearchBox />
+      <!-- <SearchBox /> -->
       
       <div 
         v-if="isUserAuthenticated" 
@@ -101,10 +101,5 @@ export default {
 
 .btn-add:hover {
   background-color: #f1c208dd;
-}
-
-.navbar-icon {
-  /* height: 2em; */
-  /* margin: auto; */
 }
 </style>

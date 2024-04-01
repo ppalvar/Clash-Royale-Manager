@@ -12,23 +12,22 @@ public class BattleQueryHandler : CommandHandler<BattleQuery, BattleQueryRespons
     public BattleQueryHandler(IBattleRepository repository)
     {
         _repository = repository;
-        _mapper = new BattleQueryMapper();
     }
 
     public override async Task<BattleQueryResponse> ExecuteAsync(BattleQuery command, CancellationToken ct = default)
     {
-        var entitie = await _repository.Get(command.Player1Id, command.Player2Id, command.Date);
+        var entitie = await _repository.Get(command.Player1Id, command.Date);
 
         return new BattleQueryResponse
         {
-            Player1Id = entitie.Value.Battle!.Player1Id,
-            Player2Id = entitie.Value.Battle.Player2Id,
-            Player1Name = entitie.Value.Player1,
-            Player2Name = entitie.Value.Player2,
-            Winner = entitie.Value.Battle.Winner,
-            NumberOfTrophies = entitie.Value.Battle.NumberOfTrophies,
-            Date = entitie.Value.Battle.Date,
-            Duration = entitie.Value.Battle.Duration,
+            Player1Id = entitie.Battle!.Player1Id,
+            Player2Id = entitie.Battle.Player2Id,
+            Player1Name = entitie.Player1,
+            Player2Name = entitie.Player2,
+            Winner = entitie.Battle.Winner,
+            NumberOfTrophies = entitie.Battle.NumberOfTrophies,
+            Date = entitie.Battle.Date,
+            Duration = entitie.Battle.Duration,
         };
     }
 }

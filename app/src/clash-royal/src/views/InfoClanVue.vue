@@ -1,48 +1,128 @@
 <script>
 import WindowsInfoClan from '@/components/WindowsInfoClan.vue';
-import CartasVue from '@/views/CartasVue.vue';
-import JugadoresVue from '@/views/JugadoresVue.vue';
-import BBDD from '@/router/BBDD';
+import EntityDefaultViews from '@/components/EntityDefaultViews.vue';
+import TableInfoJugador from '@/components/TableInfoJugador.vue';
+import TableInfoCarta from '@/components/TableInfoCarta.vue';
+import { isAuthenticated } from '@/auth/auth';
+import { API_URL } from '@/config';
+import axios from 'axios';
 
 export default {
     props: {
-        item: {
-            type: Object,
-            default: null,
+        clanId: {
+            type: String,
+            default: "",
         },
     },
 
     components: {
-        JugadoresVue,
+        EntityDefaultViews,
+        TableInfoJugador,
         WindowsInfoClan,
-        CartasVue,
+        TableInfoCarta,
+    },
+
+    data() {
+        return {
+            isAuthenticated,
+            item: {
+                "idType": "",
+                "name": "",
+                "description": "",
+                "type": "",
+                "numberOfTrophiesObtainedInWars": 0,
+                "region": 0,
+                "numberOfMembers": 0,
+                "trophiesNeededToEnter": 0
+            },
+        }
+    },
+
+    mounted() {
+        this.loadData();
     },
 
     methods: {
+        loadData() {
+            axios.get(`${API_URL}/clans/${this.clanId}`)
+                .then(res => {
+                    this.item = res.data;
+                })
+                .catch(error => {
+                    this.error = error.response.data;
+                });
+        },
+
         seeCarts() {
-            return BBDD.getAllCarts()
+            //TODO - CartsOfclan
         },
 
         seeMembers() {
-            return BBDD.getMembersOfClan(this.item.id)
+            //TODO - members of clans
         },
 
-        seeInfo(id, type) {
-            this.$emit('info', id, type)
-        },
+        getRegion(id) {
+            const regions = [
+                "Training_Camp",
+                "Goblin_Stadium",
+                "Bone_Pit",
+                "Barbarian_Bowl",
+                "PEKKAs_Playhouse",
+                "Spell_Valley",
+                "Builder_Workshop",
+                "Royal_Arena",
+                "Frozen_Peak",
+                "Jungle_Arena",
+                "Hog_Mountain",
+                "Electro_Valley",
+                "Spooky_Town",
+                "Legendary_Aren"
+            ]
+
+            return regions[id];
+        }
     },
 }
 </script>
 
 <template>
-    <WindowsInfoClan :nombre=item.nombre :descripcion=item.descripcion :trofeos=item.trofeos :region=item.region
-        :miembros=item.miembros :condicion=item.condicion :minimalice="true" />
+    <WindowsInfoClan 
+        :nombre="item.name" 
+        :descripcion="item.description" 
+        :trofeos="item.numberOfTrophiesObtainedInWars" 
+        :region="getRegion(item.region)"
+        :miembros="item.numberOfMembers" 
+        :condicion="item.trophiesNeededToEnter" 
+        :minimalice="true" 
+    />
 
-    <div class="estetic-list-container">
-        <JugadoresVue :minimalice="true" :jugadores="seeMembers()" @info="seeInfo" />
+    <EntityDefaultViews>
+        <template #heard>
+            <h2>Miembros</h2>
+        </template>
 
-        <CartasVue @info="seeInfo" :carts="seeCarts()" :minimalice="true" />
-    </div>
+        <template #botonCrear>
+            <label v-if="isAuthenticated()">NewMember</label>
+        </template>
+
+        <template #tabla>
+            <TableInfoJugador :jugadores="seeMembers()" @info="seeInfo" />
+        </template>
+    </EntityDefaultViews>
+
+    <EntityDefaultViews>
+        <template #heard>
+            <h2>Cartas Donadas</h2>
+        </template>
+
+        <template #botonCrear>
+            <label v-if="isAuthenticated()">NewCart</label>
+        </template>
+
+        <template #tabla>
+            <TableInfoCarta :carts="seeCarts()" @info="seeInfo" />
+        </template>
+    </EntityDefaultViews>
 </template>
 
 <style>

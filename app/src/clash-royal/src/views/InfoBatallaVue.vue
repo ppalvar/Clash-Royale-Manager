@@ -1,31 +1,85 @@
 <script>
+import ErrorPopup from '@/components/ErrorPopup.vue';
 import WindowsInfoBatalla from '@/components/WindowsInfoBatalla.vue';
+import { API_URL } from '@/config';
+import axios from 'axios';
 
 export default {
     props: {
-        item: {
-            type: Object,
-            default: null,
+        playerId: {
+            type: String
+        },
+        date: {
+            type: Date
         },
     },
 
     components: {
         WindowsInfoBatalla,
+        ErrorPopup,
+    },
+
+    data() {
+        return {
+            player1Id: '',
+            player2Id: '',
+            winner: false,
+            numberOfTrophies: 0,
+            duration: new Date(),
+            player1nickname: '',
+            player2nickname: '',
+            error: ''
+        }
+    },
+
+    mounted() {
+        this.loadData();
+    },
+
+    methods: {
+        seeInfoJugador(id) {
+            let url = `/info-player/${id}`;
+            this.$router.push(url);
+        },
+
+        loadData() {
+            axios.get(`${API_URL}/battles/${this.playerId}/${this.date}`)
+                .then(res => {
+                    this.player1Id = res.data.player1Id;
+                    this.player2Id = res.data.player2Id;
+                    this.winner = res.data.winner;
+                    this.numberOfTrophies = res.data.numberOfTrophies;
+                    this.duration = res.data.duration;
+                    this.player1nickname = res.data.player1Name;
+                    this.player2nickname = res.data.player2Name;
+                })
+                .catch(error => {
+                    this.error = error.response.data;
+                });
+        },
     },
 }
 </script>
 
 <template>
-    <WindowsInfoBatalla :jugador1=item.jugador1 :jugador2=item.jugador2 :winner=item.winner :trofeos=item.trofeos
-        :date=item.date :duracion=item.duracion :minimalice="true" />
+    <ErrorPopup v-if="error != ''" :msg="error"></ErrorPopup>
+
+    <WindowsInfoBatalla 
+        :jugador1=player1nickname 
+        :jugador2=player2nickname 
+        :winner=winner 
+        :trofeos=numberOfTrophies
+        :date=date 
+        :duracion=duration 
+    />
 
     <div class="estetic-list-contener">
-        <div class="jugadores-contener" @click="$emit('info', id1, type)">
-            <h2>Jugador1</h2>
+        <div class="jugadores-contener" @click="$emit('info', player1Id)">
+            <h2>{{ player1nickname }}</h2>
         </div>
 
-        <div class="jugadores-contener" @click="$emit('info', id2, type)">
-            <h2>Jugador2</h2>
+        <div class="jugadores-contener" @click="$emit('info', player2Id)">
+            <h2>{{ player2nickname }}</h2>
         </div>
     </div>
 </template>
@@ -48,5 +102,7 @@ export default {
 
 .jugadores-contener:hover {
     background-color: #f1c20875;
+    color: #000;
+    color: #000;
 }
 </style>

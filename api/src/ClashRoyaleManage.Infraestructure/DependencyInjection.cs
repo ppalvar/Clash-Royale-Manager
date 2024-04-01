@@ -3,6 +3,7 @@ using ClashRoyaleManage.Infrastructure.Services.Auth;
 using ClashRoyaleManager.Application.Repositories;
 using ClashRoyaleManager.Application.Services;
 using ClashRoyaleManager.Application.Services.Auth;
+using ClashRoyaleManager.Domain.Entities;
 using ClashRoyaleManager.Infraestructure.DbContexts;
 using ClashRoyaleManager.Infraestructure.Repositories;
 using ClashRoyaleManager.Infraestructure.Services;
@@ -56,6 +57,7 @@ public static class DependencyInjection
                 .AddScoped<IBattleRepository, BattleRepository>()
                 .AddScoped<ICardRepository, CardRepository>()
                 .AddScoped<IClanRepository, ClanRepository>()
+                .AddScoped<ITypeClanRepository, TypeClanRepository>()
                 .AddScoped<IWarRepository, WarRepository>()
                 .AddScoped<IChallengeRepository, ChallengeRepository>()
                 .AddScoped<IPlayerRepository, PlayerRepository>()
@@ -70,6 +72,29 @@ public static class DependencyInjection
 
     public static async Task InitializeDatabase(DefaultDbContext context)
     {
+        Guid InvitationId = new("1e2b59b1-3be6-40cf-a7de-660de6478331");
+        Guid OpenId = new("bd818cb4-26b0-402b-a6e8-ea8c63eb0416");
 
+        TypeClanRepository typeClanRepository = new TypeClanRepository(context);
+        
+        if (await typeClanRepository.Get(InvitationId) is not TypeClan typeClanInvitation)
+        {
+            typeClanInvitation = new TypeClan{
+                Id = InvitationId,
+                Name = TipoEnum.Invitacion
+            };
+
+            await typeClanRepository.Create(typeClanInvitation);
+        }
+        
+        if (await typeClanRepository.Get(OpenId) is not TypeClan typeClanOpen)
+        {
+            typeClanOpen = new TypeClan{
+                Id = OpenId,
+                Name = TipoEnum.Abierto
+            };
+
+            await typeClanRepository.Create(typeClanOpen);
+        }
     }
 }

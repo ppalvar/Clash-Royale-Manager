@@ -7,13 +7,6 @@ import { API_URL } from '@/config';
 import axios from 'axios';
 
 export default {
-    props: {
-        minimalice: {
-            type: Boolean,
-            default: false,
-        },
-    },
-
     components: {
         EntityDefaultViews,
         TableInfoCarta,
@@ -45,7 +38,7 @@ export default {
         },
 
         deleteCard(id) {
-            if (confirm('Éstá seguro que desea eliminar la carta seleccionada?')) {
+            if (confirm('Está seguro que desea eliminar la carta seleccionada?')) {
                 axios.delete(`${API_URL}/admin/delete-card/${id}`)
                     .then(async res => {
                             res;
@@ -77,8 +70,8 @@ export default {
 
     <EntityDefaultViews url="/add-card">
         <template #tabla>
-            <TableInfoCarta :cards="cards" :minimalice="minimalice" 
-                @info="seeInfo" @edit="editCard" @delete="deleteCard"/>
+            <TableInfoCarta :cards="cards" @info="seeInfo" 
+                @edit="editCard" @delete="deleteCard"/>
         </template>
     </EntityDefaultViews>
 </template>

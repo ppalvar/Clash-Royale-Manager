@@ -4,11 +4,12 @@
             <th>Imagen</th>
             <th>Apodo</th>
             <th>Nivel</th>
-            <th v-if="!minimalice">Trofeos</th>
+            <th>Trofeos</th>
+            <th>Trofeos</th>
             <th>Victorias</th>
-            <th v-if="!minimalice">Cartas encontradas</th>
-            <th v-if="!minimalice">Racha</th>
-            <th>Acciones</th>
+            <th>Cartas encontradas</th>
+            <th>Racha</th>
+            <th v-if="edit">Acciones</th>
         </template>
 
         <template #tbody>
@@ -16,11 +17,12 @@
                 <ImagenConenter />
                 <td> {{ jugador.nickname }} </td>
                 <td> {{ jugador.level }} </td>
-                <td v-if="!minimalice"> {{ jugador.numberOfTrophies }} </td>
+                <td> {{ jugador.numberOfTrophies }} </td>
+                <td> {{ jugador.numberOfTrophies }} </td>
                 <td> {{ jugador.numberOfWins }} </td>
-                <td v-if="!minimalice"> {{ jugador.numberOfCardsFound }} </td>
-                <td v-if="!minimalice"> {{ jugador.maximunTrophiesAchieved }} </td>
-                <td class="actions">
+                <td> {{ jugador.numberOfCardsFound }} </td>
+                <td> {{ jugador.maximunTrophiesAchieved }} </td>
+                <td class="actions" v-if="edit">
                     <img height="20px" :src="Details" @click="$emit('info', jugador.id)"/>
                     <img v-if="isUserAuthenticated" height="20px" :src="Edit" @click="$emit('edit', jugador.id)"/>
                     <img v-if="isUserAuthenticated" height="20px" :src="Delete" @click="$emit('delete', jugador.id)"/>
@@ -41,9 +43,9 @@ import { isAuthenticated } from '@/auth/auth';
 export default {
     props: {
         jugadores: [],
-        minimalice: {
+        edit: {
             type: Boolean,
-            default: false,
+            default: true,
         },
     },
 

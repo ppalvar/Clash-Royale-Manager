@@ -5,7 +5,7 @@
             <th>Resultados</th>
             <th>Jugador 2</th>
             <th>Cantidad de Trofeos</th>
-            <th>Acciones</th>
+            <th v-if="edit">Acciones</th>
         </template>
 
         <template #tbody>
@@ -15,8 +15,10 @@
                 <td v-else> 1 - 0 </td>
                 <td> {{ battle.player2 }} </td>
                 <td> {{ battle.battle.numberOfTrophies }} </td>
-                <td class="actions">
-                    <img height="20px" :src="Details" @click="$emit('seeInfo', index)"/>
+                <td class="actions" v-if="edit">
+                    <img height="20px" :src="Details" @click="$emit('info', battle.battle.player1Id, battle.battle.date)"/>
+                    <img v-if="isUserAuthenticated" height="20px" :src="Edit" @click="$emit('edit', battle.battle.player1Id, battle.battle.date)"/>
+                    <img v-if="isUserAuthenticated" height="20px" :src="Delete" @click="$emit('delete', battle.battle.player1Id, battle.battle.date)"/>
                 </td>
             </tr>
         </template>
@@ -33,9 +35,9 @@ import { isAuthenticated } from '@/auth/auth';
 export default {
     props: {
         battles: [],
-        minimalice: {
+        edit: {
             type: Boolean,
-            default: false,
+            default: true,
         },
     },
 
@@ -56,13 +58,6 @@ export default {
             return isAuthenticated();
         }
     },
-
-    methods: {
-        seeInfo(index) {
-            this.item = this.battles[index];
-            this.show_table = false;
-        },
-    }
 }
 </script>
 
