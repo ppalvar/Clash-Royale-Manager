@@ -10,7 +10,7 @@ public interface IStructureCardRepository
     Task Create(StructureCard entity);
     Task Update(StructureCard entity);
     Task Remove(Guid Id);
-    Task<(StructureCard? StructureCard, string Name, string Description)?> Get(Guid Id);
+    Task<(StructureCard? StructureCard, Card Card)?> Get(Guid Id);
     Task<IQueryable<CardInfo1>> GetAll();
     Task<StructureCard?> Get1(Guid Id);
 

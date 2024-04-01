@@ -31,13 +31,18 @@ public class SpellCardRepository : ISpellCardRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<(SpellCard? SpellCard, string Name, string Description)?> Get(Guid Id)
+    public async Task<(SpellCard? SpellCard, Card Card)?> Get(Guid Id)
     {
         SpellCard? SpellCard = await _dbContext.SpellCards
         .Where(spellCard => spellCard.CardId == Id)
         .Include(spellCard => spellCard.Card)
         .FirstOrDefaultAsync();
-        return (SpellCard, SpellCard.Card.Name.ToString(), SpellCard.Card.Description.ToString());
+
+        if (SpellCard is null){
+            throw new EntityDoesNotExistException($"The entity of type <{nameof(SpellCard)}> and Id <{Id}> already exists");
+        }
+
+        return (SpellCard, SpellCard!.Card);
     }
 
     public Task<IQueryable<CardInfo>> GetAll()

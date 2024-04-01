@@ -19,6 +19,7 @@ public class CreateCardCommandMapper : AbstractMapper<Card, CreateCardCommand, C
     {
         return new CreateCardCommandResponse
         {
+            Id = entity.Id,
             Name = entity.Name,
             ElixirCost = entity.ElixirCost,
             Quality = entity.Quality,

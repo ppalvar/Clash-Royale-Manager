@@ -31,13 +31,19 @@ public class TroopCardRepository : ITroopCardRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<(TroopCard? TroopCard, string Name, string Description)?> Get(Guid Id)
+    public async Task<(TroopCard? TroopCard, Card Card)?> Get(Guid Id)
     {
         TroopCard? TroopCard = await _dbContext.TroopCards
         .Where(troopCard => troopCard.CardId == Id)
         .Include(troopCard => troopCard.Card)
         .FirstOrDefaultAsync();
-        return (TroopCard, TroopCard.Card.Name.ToString(), TroopCard.Card.Description.ToString());
+
+        if (TroopCard is null)
+        {
+            throw new EntityDoesNotExistException($"The entity of type <{nameof(TroopCard)}> and Id <{Id}> already exists");
+        }
+
+        return (TroopCard, TroopCard!.Card);
     }
 
     public Task<IQueryable<CardInfo2>> GetAll()

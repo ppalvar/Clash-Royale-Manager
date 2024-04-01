@@ -22,8 +22,10 @@ public class StructureCardQueryHandler : CommandHandler<StructureCardQuery, Stru
         return new StructureCardQueryResponse
         {
             LifePoints = entitie.Value.StructureCard.LifePoints,
-            Name = entitie.Value.Name,
-            Description = entitie.Value.Description
+            Name = entitie.Value.Card.Name,
+            Description = entitie.Value.Card.Description,
+            ElixirCost = entitie.Value.Card!.ElixirCost,
+            Quality = entitie.Value.Card!.Quality,
         };
     }
 }
