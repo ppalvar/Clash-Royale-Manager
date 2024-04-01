@@ -63,7 +63,11 @@ public static class DependencyInjection
                 .AddScoped<IPlayerRepository, PlayerRepository>()
                 .AddScoped<ISpellCardRepository, SpellCardRepository>()
                 .AddScoped<IStructureCardRepository, StructureCardRepository>()
-                .AddScoped<ITroopCardRepository, TroopCardRepository>();
+                .AddScoped<ITroopCardRepository, TroopCardRepository>()
+                .AddScoped<IClanWarRepository, ClanWarRepository>()
+                .AddScoped<IPlayerCardRepository, PlayerCardRepository>()
+                .AddScoped<IPlayerChallengeRepository, PlayerChallengeRepository>()
+                .AddScoped<IPlayerClanRepository, PlayerClanRepository>();
 
         services.AddScoped<IGetCurrentUserLoginService, GetCurrentUserLoginService>();
 
@@ -76,20 +80,22 @@ public static class DependencyInjection
         Guid OpenId = new("bd818cb4-26b0-402b-a6e8-ea8c63eb0416");
 
         TypeClanRepository typeClanRepository = new TypeClanRepository(context);
-        
+
         if (await typeClanRepository.Get(InvitationId) is not TypeClan typeClanInvitation)
         {
-            typeClanInvitation = new TypeClan{
+            typeClanInvitation = new TypeClan
+            {
                 Id = InvitationId,
                 Name = TipoEnum.Invitacion
             };
 
             await typeClanRepository.Create(typeClanInvitation);
         }
-        
+
         if (await typeClanRepository.Get(OpenId) is not TypeClan typeClanOpen)
         {
-            typeClanOpen = new TypeClan{
+            typeClanOpen = new TypeClan
+            {
                 Id = OpenId,
                 Name = TipoEnum.Abierto
             };
