@@ -103,5 +103,6 @@ export default {
 .jugadores-contener:hover {
     background-color: #f1c20875;
     color: #000;
+    color: #000;
 }
 </style>
