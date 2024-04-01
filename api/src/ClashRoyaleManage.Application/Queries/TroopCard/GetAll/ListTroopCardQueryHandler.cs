@@ -16,12 +16,13 @@ public class ListTroopCardQueryHandler : CommandHandler<ListTroopCardQuery, List
 
     public override async Task<ListTroopCardQueryResponse> ExecuteAsync(ListTroopCardQuery command, CancellationToken ct = default)
     {
-        var data = await _repository.GetAll();
+        var data = await _repository.GetPagination(command.Page, command.Size);
 
-
-         return new ListTroopCardQueryResponse
+        return new ListTroopCardQueryResponse
         {
-            TroopCards = data
+            TroopCards = data.TroopCards,
+            Page = data.Page,
+            TotalPages = data.TotalPages
         };
     }
 }

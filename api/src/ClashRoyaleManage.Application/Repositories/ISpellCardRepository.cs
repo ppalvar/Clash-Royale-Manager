@@ -13,7 +13,7 @@ public interface ISpellCardRepository
     Task<(SpellCard? SpellCard, string Name, string Description)?> Get(Guid Id);
     Task<IQueryable<CardInfo>> GetAll();
     Task<SpellCard?> Get1(Guid Id);
-
+    Task<(IQueryable<CardInfo> SpellCards, int Page, int TotalPages)> GetPagination(int page = 1, int size = 10);
 }
 
 public class CardInfo

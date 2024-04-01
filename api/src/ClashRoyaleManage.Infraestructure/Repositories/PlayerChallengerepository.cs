@@ -52,11 +52,11 @@ public class PlayerChallengeRepository(DefaultDbContext _dbContext) : IPlayerCha
         await _dbContext.SaveChangesAsync();
     }
 
-    Task<(IQueryable<PlayerChallenge> playerChallenges, int totalPages)> IPlayerChallengeRepository.GetPagination(int page, int pageSize)
+    Task<(IQueryable<PlayerChallenge> playerChallenges, int Page, int totalPages)> IPlayerChallengeRepository.GetPagination(int page, int pageSize)
     {
         int skip = (page - 1) * pageSize;
         var all = _dbContext.PlayerChallenges.AsQueryable();
         var playerChallenge = all.OrderByDescending(x => x.IdPlayer).Skip(skip).Take(pageSize);
-        return Task.FromResult((playerChallenge, all.Count() / pageSize));
+        return Task.FromResult((playerChallenge, page, all.Count() / pageSize));
     }
 }

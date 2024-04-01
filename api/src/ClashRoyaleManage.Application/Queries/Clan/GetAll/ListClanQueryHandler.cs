@@ -16,12 +16,14 @@ public class ListClanQueryHandler : CommandHandler<ListClanQuery, ListClanQueryR
 
     public override async Task<ListClanQueryResponse> ExecuteAsync(ListClanQuery command, CancellationToken ct = default)
     {
-        var data = await _repository.GetAll();
+        var data = await _repository.GetPagination(command.Page, command.Size);
 
 
          return new ListClanQueryResponse
         {
-            Clans = data
+            Clans = data.Clans,
+            Page = data.Page,
+            TotalPages = data.TotalPages
         };
     }
 }

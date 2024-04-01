@@ -52,7 +52,24 @@ public class StructureCardRepository : IStructureCardRepository
         .AsQueryable();
         return Task.FromResult(resultQuery.Cast<CardInfo1?>());
     }
+    public async Task<(IQueryable<CardInfo1> StructureCards, int Page, int TotalPages)> GetPagination(int page, int size)
+    {
+        int skipCount = (page - 1) * size;
 
+        var resultQuery = _dbContext.StructureCards
+        .Join(_dbContext.Cards, b => b.CardId, p => p.Id, (b, p1) => new CardInfo1
+        {
+            StructureCard = b,
+            Name = b.Card.Name.ToString(),
+            Description = b.Card.Description.ToString(),
+        })
+            //.OrderBy(cd => cd.Name)
+            .Skip(skipCount)
+            .Take(size)
+            .AsQueryable();
+
+        return (resultQuery.Cast<CardInfo1?>(), page, _dbContext.StructureCards.Count() / size);
+    }
     public async Task Update(StructureCard entity)
     {
         StructureCard? structureCard = await Get1(entity.CardId) ?? throw new EntityDoesNotExistException($"The entity of type <{nameof(StructureCard)}> and Id <{entity.CardId}> not exists");

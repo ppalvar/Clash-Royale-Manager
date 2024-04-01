@@ -16,9 +16,13 @@ public class ListUserQueryHandler : CommandHandler<ListUserQuery, ListUserQueryR
 
     public override async Task<ListUserQueryResponse> ExecuteAsync(ListUserQuery command, CancellationToken ct = default)
     {
-        var data = await _repository.GetAll();
-        var response = _mapper.ToResponse(data);
+        var data = await _repository.GetPagination(command.Page, command.Size);
 
-        return response;
+        return new ListUserQueryResponse
+        {
+            Users = data.Users,
+            Page = data.Page,
+            TotalPages = data.TotalPages
+        };
     }
 }

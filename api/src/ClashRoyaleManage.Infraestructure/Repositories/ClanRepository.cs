@@ -81,4 +81,21 @@ public class ClanRepository : IClanRepository
                                     .FirstOrDefaultAsync();
         return (Clan, Clan.TypeClan.Name.ToString());
     }
+    public async Task<(IQueryable<ClanTypeInfo> Clans, int Page, int TotalPages)> GetPagination(int page, int size)
+    {
+        int skipCount = (page - 1) * size;
+
+         var resultQuery = _dbContext.Clans
+        .Join(_dbContext.TypeClans, b => b.IdType, p => p.Id, (b, p1) => new ClanTypeInfo
+        {
+            Clan = b,
+            Type = b.TypeClan.Name.ToString(),
+        })
+            .OrderBy(cd => cd.Clan.Id)
+            .Skip(skipCount)
+            .Take(size)
+            .AsQueryable();
+        return (resultQuery.Cast<ClanTypeInfo?>(), page, _dbContext.Clans.Count() / size);
+    }
+
 }

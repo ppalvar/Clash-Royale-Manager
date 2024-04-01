@@ -46,7 +46,17 @@ public class UserRepository : IUserRepository
     {
         return Task.FromResult(_dbContext.Users.AsQueryable());
     }
+    public async Task<(IQueryable<User> Users, int Page, int TotalPages)> GetPagination(int page, int size)
+    {
+        int skipCount = (page - 1) * size;
 
+        IQueryable<User> users = _dbContext.Users
+            .OrderBy(cd => cd.Id)
+            .Skip(skipCount)
+            .Take(size);
+
+        return (users, page, _dbContext.Users.Count() / size);
+    }
     public async Task Update(User entity)
     {
         User? user = await Get(entity.Id) ?? throw new EntityDoesNotExistException($"The entity of type <{nameof(User)}> and Id <{entity.Id}> not exists");
