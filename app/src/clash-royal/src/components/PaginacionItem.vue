@@ -1,23 +1,53 @@
 <template>
     <div class="pagination-container">
-        <!-- <span class="page-item" @click="gotoPage(1)">Primera</span>
-        <span class="page-item" @click="gotoPage(2)"> &laquo; </span>
-        <span class="page-item" @click="gotoPage(3)">1</span>
-        <span class="page-item" @click="gotoPage(4)">2</span>
-        <span class="page-item" @click="gotoPage(5)">3</span>
-        <span class="page-item" @click="gotoPage(6)"> &raquo; </span>
-        <span class="page-item" @click="gotoPage(7)"> Última</span> -->
+        <span class="page-item" @click="gotoPage(1)">Primera</span>
+        <span class="page-item" @click="gotoPage(page - 1 > 0 ? page - 1 : 1)"> &laquo; </span>
+        <span v-for="pageNumber in suggestedPages" :key="pageNumber" 
+              class="page-item" @click="gotoPage(pageNumber)" :class="{ 'active': pageNumber === page }">
+              {{ pageNumber }}
+        </span>
+        <span class="page-item" @click="gotoPage(page + 1 <= totalPage ? page + 1 : totalPage)"> &raquo; </span>
+        <span class="page-item" @click="gotoPage(totalPage)"> Última</span>
     </div>
 </template>
 
 <script>
 export default {
     props: ['page', 'totalPage'],
+    data() {
+        return {
+            suggestedPages: []
+        };
+    },
+    watch: {
+        page() {
+            this.calculateSuggestedPages();
+        },
+        totalPage() {
+            this.calculateSuggestedPages();
+        }
+    },
     methods: {
         gotoPage(toPage) {
-            toPage;
-            alert('NO IMPLEMENTED');
+            if (toPage >= 1 && toPage <= this.totalPage) {
+                this.$emit('goto-page', toPage);
+            }
+        },
+        calculateSuggestedPages() {
+            const currentPage = this.page;
+            const maxSuggestedPages = 5;
+            
+            let startPage = Math.max(1, currentPage - Math.floor(maxSuggestedPages / 2));
+            let endPage = startPage + maxSuggestedPages - 1;
+            if (endPage > this.totalPage) {
+                endPage = this.totalPage;
+                startPage = Math.max(1, endPage - maxSuggestedPages + 1);
+            }
+            this.suggestedPages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
         }
+    },
+    mounted() {
+        this.calculateSuggestedPages();
     }
 }
 </script>
