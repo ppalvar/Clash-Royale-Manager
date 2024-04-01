@@ -176,7 +176,6 @@ SuccessPopup,
                 quality: this.qualityCard,
             })
                 .then(res => {
-                    console.log(res.data);
                     this.createTypeCard(res.data.id);
                 })
                 .catch(error => {

@@ -48,6 +48,71 @@
                 </td>
             </tr>
             <tr>
+                <th colspan="2">
+                    <h2>Cualidades del Tipo</h2>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <label for="type">Tipo</label>
+                </th>
+                <td>
+                    <select id="type" v-model="type">
+                        <option value="tropa" selected>tropas</option>
+                        <option value="hechizo">hechizo</option>
+                        <option value="estructura">estructura</option>
+                    </select>
+                </td>
+            </tr>
+            <tr v-if="type != 'hechizo'">
+                <th>
+                    <label for="HP">Puntos de vida</label>
+                </th>
+                <td>
+                    <input type="number" placeholder="0.0" required id="HP" v-model="troop_card.lifePoints" /><br>
+                </td>
+            </tr>
+            <tr v-if="type != 'estructura'">
+                <th>
+                    <label for="area">Daño en Área</label>
+                </th>
+                <td>
+                    <input type="number" placeholder="0.0" required id="area" v-model="troop_card.damageInArea"><br>
+                </td>
+            </tr>
+            <tr v-if="type == 'tropa'">
+                <th>
+                    <label for="units">Número de unidades</label>
+                </th>
+                <td>
+                    <input type="number" placeholder="0.0" required id="units" v-model="troop_card.numberOfUnits"><br>
+                </td>
+            </tr>
+            <tr v-if="type == 'hechizo'">
+                <th>
+                    <label for="ratio">Radio</label>
+                </th>
+                <td>
+                    <input type="number" placeholder="0.0" required id="ratio" v-model="spell_card.radio"><br>
+                </td>
+            </tr>
+            <tr v-if="type == 'hechizo'">
+                <th>
+                    <label for="duration">Duración</label>
+                </th>
+                <td>
+                    <input type="number" placeholder="0.0" required id="duration" v-model="spell_card.duration"><br>
+                </td>
+            </tr>
+            <tr v-if="type == 'hechizo'">
+                <th>
+                    <label for="damageToTowers">Daño a torres</label>
+                </th>
+                <td>
+                    <input type="number" placeholder="0.0" required id="damageToTowers" v-model="spell_card.damageToTowers"><br>
+                </td>
+            </tr>
+            <tr>
                 <td></td>
                 <div class="actions">
                     <div class="btn edit-profile-btn" @click="updateCard()">Actualizar</div>
@@ -84,6 +149,20 @@ export default {
             descriptionCard: '',
             costoElixir: '',
             qualityCard: '',
+            spell_card: {
+                radio: 0,
+                duration: 0,
+                damageToTowers: 0,
+                damageInArea: 0
+            },
+            struct_card: {
+                lifePoints: 0
+            },
+            troop_card: {
+                lifePoints: 0,
+                damageInArea: 0,
+                numberOfUnits: 0
+            },
             msg: '',
             error: ''
         }
@@ -94,7 +173,7 @@ export default {
     },
 
     methods: {
-        loadData() {
+        async loadData() {
             axios.get(`${API_URL}/cards/${this.cardId}`)
                 .then(res => {
                     this.nameCard = res.data.name;
@@ -105,6 +184,15 @@ export default {
                 .catch(error => {
                     this.error = error.response.data;
                 });
+            
+            await this.infoSpellCard();
+            await this.infoStructureCard();
+            await this.infoTroopCard();
+
+            if (this.type === "none")
+            {
+                this.error = 'Ha ocurrido un error a la hora de cargar la información de la carta.'
+            }
         },
         
         updateCard() {
@@ -117,8 +205,8 @@ export default {
                 .then(res => {
                     
                     res;
-                    this.error='';
-                    this.msg = `Se ha actualizado la carta "${this.nameCard}" correctamente.`;
+
+                    this.updateTypeCard();
 
                     this.nameCard = '';
                     this.descriptionCard = '';
@@ -127,6 +215,92 @@ export default {
                 })
                 .catch(error => {
                     this.error = error.response.data;
+                });
+        },
+
+        updateTypeCard() {
+            this.struct_card.lifePoints = this.troop_card.lifePoints;
+            this.spell_card.damageInArea = this.troop_card.damageInArea;
+
+            let url =
+                this.type === "tropa" ? `${API_URL}/admin/update-structurecard/${this.cardId}` :
+                this.type === "hechizo" ? `${API_URL}/admin/update-structurecard/${this.cardId}` :
+                this.type === "estructura" ? `${API_URL}/admin/update-structurecard/${this.cardId}` :
+                null;
+
+            let body =
+                this.type === "tropa" ? this.troop_card :
+                this.type === "hechizo" ? this.spell_card :
+                this.type === "estructura" ? this.struct_card :
+                {};
+
+            axios.post(url, body)
+                .then(res => {
+                    res;
+                    this.error='';
+                    this.msg = `Se ha actualizado la carta "${this.nameCard}" correctamente.`;
+
+                    this.spell_card = {
+                        radio: 0,
+                        duration: 0,
+                        damageToTowers: 0,
+                        damageInArea: 0
+                    };
+                    this.struct_card = {
+                        lifePoints: 0
+                    };
+                    this.troop_card = {
+                        lifePoints: 0,
+                        damageInArea: 0,
+                        numberOfUnits: 0
+                    };
+                })
+                .catch(error => {
+                    this.error = error.response.data;
+                });
+        },
+
+        async infoSpellCard() {
+            await axios.get(`${API_URL}/spellcards/${this.cardId}`)
+                .then(res => {
+                    this.type = 'hechizo';
+                    this.spell_card = {
+                        radio: res.data.radio,
+                        duration: res.data.duration,
+                        damageToTowers: res.data.damageToTowers,
+                        damageInArea: res.data.damageInArea
+                    }
+                })
+                .catch(error => {
+                    error;
+                });
+        },
+
+        async infoStructureCard() {
+            await axios.get(`${API_URL}/structurecards/${this.cardId}`)
+                .then(res => {
+                    this.type = 'estructura';
+                    this.struct_card = {
+                        lifePoints: res.data.lifePoints
+                    }
+                })
+                .catch(error => {
+                    error;
+                });
+        },
+
+        async infoTroopCard() {
+            await axios.get(`${API_URL}/troopcards/${this.cardId}`)
+                .then(res => {
+                    this.type = 'tropa';
+                    this.troop_card = {
+                        lifePoints: res.data.lifePoints,
+                        damageInArea: res.data.damageInArea,
+                        numberOfUnits: res.data.numberOfUnits
+                    }
+                })
+                .catch(error => {
+                    error;
                 });
         },
 
