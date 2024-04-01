@@ -53,13 +53,20 @@ public class ChallengeRepository : IChallengeRepository
     public async Task<(IQueryable<Challenge> Challenges, int Page, int TotalPages)> GetPagination(int page, int size)
     {
         int skipCount = (page - 1) * size;
+        int cantElements = size;
+        int totalElements = _dbContext.Challenges.Count();
+        int totalPages = (int)Math.Ceiling((double)totalElements / size);
 
+        if (page == totalPages && totalElements % size != 0)
+        {
+            cantElements = totalElements % size;
+        }
         IQueryable<Challenge> challenges = _dbContext.Challenges
             .OrderBy(cd => cd.Id)
             .Skip(skipCount)
-            .Take(size);
+            .Take(cantElements);
 
-        return (challenges, page, _dbContext.Challenges.Count() / size);
+        return (challenges, page, totalPages);
     }
 
     public async Task Remove(Guid Id)

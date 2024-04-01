@@ -60,6 +60,14 @@ public class SpellCardRepository : ISpellCardRepository
     public async Task<(IQueryable<CardInfo> SpellCards, int Page, int TotalPages)> GetPagination(int page, int size)
     {
         int skipCount = (page - 1) * size;
+        int cantElements = size;
+        int totalElements = _dbContext.SpellCards.Count();
+        int totalPages = (int)Math.Ceiling((double)totalElements / size);
+
+        if (page == totalPages && totalElements % size != 0)
+        {
+            cantElements = totalElements % size;
+        }
 
         var resultQuery = _dbContext.SpellCards
         .Join(_dbContext.Cards, b => b.CardId, p => p.Id, (b, p1) => new CardInfo
@@ -70,10 +78,10 @@ public class SpellCardRepository : ISpellCardRepository
         })
             //.OrderBy(cd => cd.Name)
             .Skip(skipCount)
-            .Take(size)
+            .Take(cantElements)
             .AsQueryable();
 
-        return (resultQuery.Cast<CardInfo?>(), page, _dbContext.SpellCards.Count() / size);
+        return (resultQuery.Cast<CardInfo?>(), page, totalPages);
     }
     public async Task Update(SpellCard entity)
     {

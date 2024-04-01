@@ -61,6 +61,14 @@ public class StructureCardRepository : IStructureCardRepository
     public async Task<(IQueryable<CardInfo1> StructureCards, int Page, int TotalPages)> GetPagination(int page, int size)
     {
         int skipCount = (page - 1) * size;
+        int cantElements = size;
+        int totalElements = _dbContext.StructureCards.Count();
+        int totalPages = (int)Math.Ceiling((double)totalElements / size);
+
+        if (page == totalPages && totalElements % size != 0)
+        {
+            cantElements = totalElements % size;
+        }
 
         var resultQuery = _dbContext.StructureCards
         .Join(_dbContext.Cards, b => b.CardId, p => p.Id, (b, p1) => new CardInfo1
@@ -71,10 +79,10 @@ public class StructureCardRepository : IStructureCardRepository
         })
             //.OrderBy(cd => cd.Name)
             .Skip(skipCount)
-            .Take(size)
+            .Take(cantElements)
             .AsQueryable();
 
-        return (resultQuery.Cast<CardInfo1?>(), page, _dbContext.StructureCards.Count() / size);
+        return (resultQuery.Cast<CardInfo1?>(), page, totalPages);
     }
     public async Task Update(StructureCard entity)
     {
