@@ -2,7 +2,8 @@
     <ErrorPopup v-if="error != ''" :msg="error"></ErrorPopup>
     <SuccessPopup v-if="msg != ''" :msg="msg"></SuccessPopup>
     
-    <EntityDefaultViews>
+    <EntityDefaultViews @goto="loadData"
+        :page="page" :totalPage="totalPage">
         <template #heard>
             <h2>Users</h2>
         </template>
@@ -45,7 +46,7 @@ import Delete from '@/assets/svg/delete.svg';
 import Details from '@/assets/svg/details.svg';
 import TableInfo from '@/components/TableInfo.vue';
 import { isAuthenticated } from '@/auth/auth';
-import { API_URL } from '@/config';
+import { API_URL, PAGE_SIZE } from '@/config';
 import axios from 'axios';
 
 export default {
@@ -59,6 +60,8 @@ export default {
     data() {
         return {
             users: [],
+            page: 1,
+            totalPage: 1,
             error: '',
             msg: '',
             Edit,
@@ -68,7 +71,7 @@ export default {
     },
 
     mounted() {
-        this.loadData();
+        this.loadData(1);
     },
 
     computed: {
@@ -78,10 +81,12 @@ export default {
     },
 
     methods: {
-        loadData() {
-            axios.get(`${API_URL}/admin/users`)
+        loadData(page) {
+            axios.get(`${API_URL}/admin/users?page=${page}&size=${PAGE_SIZE}`)
                 .then(res => {
                     this.users = res.data.users;
+                    this.page = res.data.page;
+                    this.totalPage = res.data.totalPages;
                 })
                 .catch(error => {
                     this.error = error.response.data;

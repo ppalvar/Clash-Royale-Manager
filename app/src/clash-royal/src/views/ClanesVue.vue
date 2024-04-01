@@ -7,7 +7,7 @@ import Edit from '@/assets/svg/edit.svg';
 import Delete from '@/assets/svg/delete.svg';
 import Details from '@/assets/svg/details.svg';
 import { isAuthenticated } from '@/auth/auth';
-import { API_URL } from '@/config';
+import { API_URL, PAGE_SIZE } from '@/config';
 import axios from 'axios';
 
 export default {
@@ -21,6 +21,8 @@ export default {
     data() {
         return {
             clanes: [],
+            page: 1,
+            totalPage: 1,
             error: '',
             msg: '',
             Edit,
@@ -30,7 +32,7 @@ export default {
     },
 
     mounted() {
-        this.loadData();
+        this.loadData(1);
     },
 
     computed: {
@@ -64,11 +66,12 @@ export default {
             }
         },
 
-        loadData() {
-            axios.get(`${API_URL}/clans`)
+        loadData(page) {
+            axios.get(`${API_URL}/clans?page=${page}&size=${PAGE_SIZE}`)
                 .then(res => {
                     this.clanes = res.data.clans;
-                    console.log(this.clanes)
+                    this.page = res.data.page;
+                    this.totalPage = res.data.totalPages;
                 })
                 .catch(error => {
                     this.error = error.response.data;
@@ -82,7 +85,8 @@ export default {
     <ErrorPopup v-if="error != ''" :msg="error"></ErrorPopup>
     <SuccessPopup v-if="msg != ''" :msg="msg"></SuccessPopup>
 
-    <EntityDefaultViews url="/add-clan">
+    <EntityDefaultViews url="/add-clan" @goto="loadData"
+        :page="page" :totalPage="totalPage">
         <template #tabla>
             <TableInfoClan :clanes="clanes" @info="seeInfo" 
                 @edit="editClan" @delete="deleteClan"/>
