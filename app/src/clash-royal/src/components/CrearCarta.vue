@@ -1,5 +1,5 @@
 <template>
-    <ErrorPopup v-if="error != ''" :msg="error"></ErrorPopup>
+<ErrorPopup v-if="error != ''" :msg="error"></ErrorPopup>
     <SuccessPopup v-if="msg != ''" :msg="msg"></SuccessPopup>
 
     <CrearEntity>
@@ -48,6 +48,71 @@
                 </td>
             </tr>
             <tr>
+                <th colspan="2">
+                    <h2>Cualidades del Tipo</h2>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <label for="type">Tipo</label>
+                </th>
+                <td>
+                    <select id="type" v-model="type">
+                        <option value="tropa" selected>tropas</option>
+                        <option value="hechizo">hechizo</option>
+                        <option value="estructura">estructura</option>
+                    </select>
+                </td>
+            </tr>
+            <tr v-if="type != 'hechizo'">
+                <th>
+                    <label for="HP">Puntos de vida</label>
+                </th>
+                <td>
+                    <input type="number" placeholder="0.0" required id="HP" v-model="troop_card.lifePoints" /><br>
+                </td>
+            </tr>
+            <tr v-if="type != 'estructura'">
+                <th>
+                    <label for="area">Daño en Área</label>
+                </th>
+                <td>
+                    <input type="number" placeholder="0.0" required id="area" v-model="troop_card.damageInArea"><br>
+                </td>
+            </tr>
+            <tr v-if="type == 'tropa'">
+                <th>
+                    <label for="units">Número de unidades</label>
+                </th>
+                <td>
+                    <input type="number" placeholder="0.0" required id="units" v-model="troop_card.numberOfUnits"><br>
+                </td>
+            </tr>
+            <tr v-if="type == 'hechizo'">
+                <th>
+                    <label for="ratio">Radio</label>
+                </th>
+                <td>
+                    <input type="number" placeholder="0.0" required id="ratio" v-model="spell_card.radio"><br>
+                </td>
+            </tr>
+            <tr v-if="type == 'hechizo'">
+                <th>
+                    <label for="duration">Duración</label>
+                </th>
+                <td>
+                    <input type="number" placeholder="0.0" required id="duration" v-model="spell_card.duration"><br>
+                </td>
+            </tr>
+            <tr v-if="type == 'hechizo'">
+                <th>
+                    <label for="damageToTowers">Daño a torres</label>
+                </th>
+                <td>
+                    <input type="number" placeholder="0.0" required id="damageToTowers" v-model="spell_card.damageToTowers"><br>
+                </td>
+            </tr>
+            <tr>
                 <td></td>
                 <div class="actions">
                     <div class="btn edit-profile-btn" @click="createCard()">Crear</div>
@@ -68,21 +133,41 @@ import axios from 'axios';
 export default {
     components: {
         CrearEntity,
-        SuccessPopup,
+SuccessPopup,
         ErrorPopup,
     },
+
     data() {
         return {
+            type: 'tropa',
             nameCard: '',
             descriptionCard: '',
             costoElixir: '',
             qualityCard: '',
+            spell_card: {
+                cardId: "id",
+                radio: 0,
+                duration: 0,
+                damageToTowers: 0,
+                damageInArea: 0
+            },
+            struct_card: {
+                cardId: "id",
+                lifePoints: 0
+            },
+            troop_card: {
+                cardId: "id",
+                lifePoints: 0,
+                damageInArea: 0,
+                numberOfUnits: 0
+            },
             msg: '',
             error: ''
         }
     },
 
     methods: {
+
         createCard() {
             axios.post(`${API_URL}/admin/createcard`, {
                 name: this.nameCard,
@@ -91,15 +176,37 @@ export default {
                 quality: this.qualityCard,
             })
                 .then(res => {
-                    
+                    console.log(res.data);
+                    this.createTypeCard(res.data.id);
+                })
+                .catch(error => {
+                    this.error = error.response.data;
+                });
+        },
+
+        createTypeCard(cardId) {
+            this.struct_card.lifePoints = this.troop_card.lifePoints;
+            this.spell_card.damageInArea = this.troop_card.damageInArea;
+
+            let url =
+                this.type === "tropa" ? `${API_URL}/admin/createspellcard` :
+                this.type === "hechizo" ? `${API_URL}/admin/createstructurecard` :
+                this.type === "estructura" ? `${API_URL}/admin/createtroopcard` :
+                null;
+
+            let body =
+                this.type === "tropa" ? this.troop_card :
+                this.type === "hechizo" ? this.spell_card :
+                this.type === "estructura" ? this.struct_card :
+                {};
+
+            body['cardId'] = cardId;
+
+            axios.post(url, body)
+                .then(res => {
                     res;
                     this.error='';
                     this.msg = `Se ha agregado la carta "${this.nameCard}".`;
-
-                    this.nameCard = '';
-                    this.descriptionCard = '';
-                    this.costoElixir = '';
-                    this.qualityCard = '';
                 })
                 .catch(error => {
                     this.error = error.response.data;
@@ -121,7 +228,7 @@ export default {
 
 #descripcionCarta {
     height: 50px;
-    width: 25rem;
+    width: 20rem;
     resize: none;
 }
 
