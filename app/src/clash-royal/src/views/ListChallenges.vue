@@ -2,14 +2,18 @@
     <ErrorPopup v-if="error != ''" :msg="error"></ErrorPopup>
     <SuccessPopup v-if="msg != ''" :msg="msg"></SuccessPopup>
 
-    
+
     <div class="content">
+        <div v-if="isUserAuthenticated" class="btn-add" @click.prevent="toRoute()">
+            <b>Agregar</b>
+        </div>
+
         <button v-if="filter" @click.prevent="filterAction()">Filtrar por retos completados</button>
         <button v-else @click.prevent="filterAction()">Eliminar filtro</button>
 
         <challenge-list :challenges="challenges" />
 
-        <PaginacionItem :page="page" :totalPage="totalPage" @goto-page="goTo"/>
+        <PaginacionItem :page="page" :totalPage="totalPage" @goto-page="goTo" />
     </div>
 </template>
 
@@ -19,6 +23,7 @@ import PaginacionItem from '@/components/PaginacionItem.vue';
 import ErrorPopup from '@/components/ErrorPopup.vue';
 import SuccessPopup from '@/components/SuccessPopup.vue';
 import { API_URL, PAGE_SIZE } from '@/config';
+import { isAuthenticated } from '@/auth/auth';
 import axios from 'axios';
 
 export default {
@@ -44,6 +49,12 @@ export default {
         this.loadData(1);
     },
 
+    computed: {
+        isUserAuthenticated() {
+            return isAuthenticated();
+        }
+    },
+
     methods: {
         loadData(page) {
             axios.get(`${API_URL}/challenges?page=${page}&size=${PAGE_SIZE}`)
@@ -55,10 +66,10 @@ export default {
                 .catch(error => {
                     this.error = error.response.data;
                 });
-            },
-            
-            loadFilterData(page) {
-                axios.get(`${API_URL}/challenges/completed-by-some-player?page=${page}&pageSize=${PAGE_SIZE}`)
+        },
+
+        loadFilterData(page) {
+            axios.get(`${API_URL}/challenges/completed-by-some-player?page=${page}&pageSize=${PAGE_SIZE}`)
                 .then(res => {
                     this.challenges = res.data.challenges;
                     this.page = res.data.page;
@@ -85,7 +96,12 @@ export default {
             } else {
                 this.loadData(page);
             }
-        }
+        },
+
+        async toRoute() {
+            await this.$router.push('/add-challenge');
+            location.reload();
+        },
     }
 };
 </script>
@@ -102,5 +118,23 @@ h1 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.btn-add {
+    margin-top: 10px;
+    text-align: center;
+    height: 1em;
+    padding: 10px;
+    border: solid 1px;
+    background-color: #ffde00;
+    border-radius: 0.5em;
+    color: #121212;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.btn-add:hover {
+    background-color: #f1c208dd;
 }
 </style>
