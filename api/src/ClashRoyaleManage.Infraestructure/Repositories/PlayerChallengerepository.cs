@@ -28,6 +28,27 @@ public class PlayerChallengeRepository(DefaultDbContext _dbContext) : IPlayerCha
         return Task.FromResult(_dbContext.PlayerChallenges.AsQueryable());
     }
 
+    public Task<(IQueryable<Player> playerChallenges, int page, int totalPages)> GetByChallenge(Guid Id, int page, int size)
+    {
+        int skipCount = (page - 1) * size;
+        int cantElements = size;
+        int totalElements = _dbContext.Cards.Count();
+        int totalPages = (int)Math.Ceiling((double)totalElements / size);
+
+        if (page == totalPages && totalElements % size != 0)
+        {
+            cantElements = totalElements % size;
+        }
+
+        var players = _dbContext.PlayerChallenges.Where(pc => pc.IdChallenge == Id)
+                                .Join(_dbContext.Players, pc => pc.IdPlayer, p => p.Id, (pc, p) => p)
+                                .OrderBy(p => p.Id)
+                                .Skip(skipCount)
+                                .Take(cantElements);
+
+        return Task.FromResult((players, page, size));
+    }
+
     public async Task<PlayerChallenge> Remove(Guid idPlayer, Guid idChallenge)
     {
         var playerChallenge = await _dbContext.PlayerChallenges.Where(c => c.IdPlayer == idPlayer)

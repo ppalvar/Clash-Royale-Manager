@@ -21,6 +21,10 @@ import CrearClan from "@/components/CrearClan.vue";
 import InfoBatalla from "@/views/InfoBatallaVue.vue";
 import EditarClan from "@/components/EditarClan.vue";
 import EditarBatalla from "@/components/EditarBatalla.vue";
+import ListChallenges from "@/views/ListChallenges.vue";
+import CreateChallenge from "@/views/CreateChallenge.vue";
+import EditChallenge from "@/views/EditChallenge.vue";
+import InfoChallenge from "@/views/InfoChallenge.vue";
 
 const routes = [
   {
@@ -104,6 +108,28 @@ const routes = [
     path: '/clan',
     name: 'Clan',
     component: Clanes,
+  },
+  {
+    path: '/challenge',
+    name: 'Challenge',
+    component: ListChallenges,
+  },
+  {
+    path: '/add-challenge',
+    name: 'CrearChallenge',
+    component: CreateChallenge,
+  },
+  {
+    path: '/edit-challenge/:id',
+    name: 'EditChallenge',
+    component: EditChallenge,
+    props: true,
+  },
+  {
+    path: '/info-challenge/:id',
+    name: 'InfoChallenge',
+    component: InfoChallenge,
+    props: true,
   },
   {
     path: '/info-carta/:cardId',
