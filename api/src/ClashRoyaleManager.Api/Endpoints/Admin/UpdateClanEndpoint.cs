@@ -8,7 +8,6 @@ public class UpdateClanEndpoint : Endpoint<UpdateClanCommand, UpdateClanCommandR
     public override void Configure()
     {
         Post("/admin/update-clan/{clanId}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(UpdateClanCommand req, CancellationToken ct)

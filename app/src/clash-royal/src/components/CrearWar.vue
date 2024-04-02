@@ -24,6 +24,13 @@
                     <button @click="show = true">AgregarClanes</button>
                 </td>
             </tr>
+            <tr>
+                <td></td>
+                <div class="actions">
+                    <div class="btn edit-profile-btn" @click="createWar()">Crear</div>
+                    <div class="btn change-password-btn" @click="cancel()">Cancelar</div>
+                </div>
+            </tr>
         </template>
     </CrearEntity>
 
@@ -59,34 +66,42 @@ export default {
     },
 
     methods: {
-        methods: {
-            setClanes(clanes) {
-                this.clanes = clanes;
-                this.show = false;
-            },
+        setClanes(clanes) {
+            this.clanes = clanes;
+            this.show = false;
         },
 
-        createCard() {
-            axios.post(`${API_URL}/admin/createcard`, {
-                name: this.nameCard,
-                description: this.descriptionCard,
-                elixirCost: this.costoElixir,
-                quality: this.qualityCard,
-            })
+        createWar() {
+            axios.post(`${API_URL}/admin/createwar`, {date: this.date})
                 .then(res => {
-
-                    res;
+                    this.addClansToWar(res.data.id);
+                    
                     this.error = '';
-                    this.msg = `Se ha agregado la carta "${this.nameCard}".`;
+                    this.msg = 'Se ha agregado la guerra correctamente';
 
-                    this.nameCard = '';
-                    this.descriptionCard = '';
-                    this.costoElixir = '';
-                    this.qualityCard = '';
+                    this.date = new Date();
                 })
                 .catch(error => {
                     this.error = error.response.data;
                 });
+        },
+
+        addClansToWar(warId) {
+            this.clanes.forEach(clan => {
+                axios.post(`${API_URL}/admin/clan-war`, {
+                    clanId: clan.id,
+                    warId: warId,
+                    numberOfPrizes: clan.numberOfPrizes
+                })
+                    .then(res => {
+                        res;
+                    })
+                    .catch(error => {
+                        this.error = error.response.data;
+                    });
+            });
+
+            this.clanes = [];
         },
 
         async cancel() {

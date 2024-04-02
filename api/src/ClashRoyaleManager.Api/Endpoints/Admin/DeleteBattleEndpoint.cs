@@ -8,7 +8,6 @@ public class DeleteBattleEndpoint : Endpoint<DeleteBattleCommand, DeleteBattleCo
     public override void Configure()
     {
         Delete("/admin/delete-battle/{Id}/{Date}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(DeleteBattleCommand req, CancellationToken ct)

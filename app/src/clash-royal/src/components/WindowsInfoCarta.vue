@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import WindowsInfo from "../components/WindowsInfo.vue"
+import WindowsInfo from "@/components/WindowsInfo.vue"
 
 export default {
     props: {

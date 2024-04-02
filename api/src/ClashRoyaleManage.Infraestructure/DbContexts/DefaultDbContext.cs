@@ -24,6 +24,10 @@ namespace ClashRoyaleManager.Infraestructure.DbContexts
             modelBuilder.Entity<Challenge>()
                 .Property(e => e.Date)
                 .HasConversion(e => e.ToUniversalTime(), e => DateTime.SpecifyKind(e, DateTimeKind.Utc));
+            
+            modelBuilder.Entity<War>()
+                .Property(e => e.Date)
+                .HasConversion(e => e.ToUniversalTime(), e => DateTime.SpecifyKind(e, DateTimeKind.Utc));
         }
 
         private void HasKey(ModelBuilder modelBuilder)

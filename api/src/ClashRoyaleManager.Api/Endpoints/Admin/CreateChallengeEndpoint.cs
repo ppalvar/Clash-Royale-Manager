@@ -8,7 +8,6 @@ public class CreateChallengeEndpoint : Endpoint<CreateChallengeCommand, CreateCh
     public override void Configure()
     {
         Post("/admin/createchallenge");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(CreateChallengeCommand req, CancellationToken ct)

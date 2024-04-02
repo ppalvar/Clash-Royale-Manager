@@ -8,7 +8,6 @@ public class CreateWarEndpoint : Endpoint<CreateWarCommand, CreateWarCommandResp
     public override void Configure()
     {
         Post("/admin/createwar");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(CreateWarCommand req, CancellationToken ct)

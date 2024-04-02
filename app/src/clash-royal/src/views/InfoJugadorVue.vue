@@ -3,9 +3,10 @@ import WindowsInfoJugador from '@/components/WindowsInfoJugador.vue';
 import EntityDefaultViews from '@/components/EntityDefaultViews.vue';
 import TableInfoBattle from '@/components/TableInfoBattle.vue';
 import TableInfoCarta from '@/components/TableInfoCarta.vue';
+import TableInfoClan from '@/components/TableInfoClan.vue';
 import ErrorPopup from '@/components/ErrorPopup.vue';
 import { isAuthenticated } from '@/auth/auth';
-import { API_URL } from '@/config';
+import { API_URL, PAGE_SIZE } from '@/config';
 import axios from 'axios';
 
 export default {
@@ -20,6 +21,7 @@ export default {
         EntityDefaultViews,
         TableInfoBattle,
         TableInfoCarta,
+        TableInfoClan,
         ErrorPopup,
     },
 
@@ -35,7 +37,14 @@ export default {
                 numberOfCardsFound: '',
             },
             cards: [],
+            pageCard: 1,
+            totalPageCard: 0,
             battles: [],
+            pageBattle: 1,
+            totalPageBattle: 0,
+            clans: [],
+            pageClan: 1,
+            totalPageClan: 0,
             error: ''
         }
     },
@@ -58,18 +67,42 @@ export default {
                 .catch(error => {
                     this.error = error.response.data;
                 });
-                
-            axios.get(`${API_URL}/cards-by-player/${this.playerId}`,{id:this.playerId})
+            
+            this.getCards(1);
+            this.getBattles(1);
+            this.getClans(1);
+        },
+
+        getCards(page) {
+            axios.get(`${API_URL}/cards-by-player/${this.playerId}?page=${page}&size=${PAGE_SIZE}`)
                 .then(res => {
                     this.cards = res.data.cards;
+                    this.pageCard = res.data.page;
+                    this.totalPageCard = res.data.totalPages;
                 })
                 .catch(error => {
                     this.error = error.response.data;
                 });
-            
-            axios.get(`${API_URL}/battles-by-player/${this.playerId}`,{id:this.playerId})
+        },
+
+        getBattles(page) {
+            axios.get(`${API_URL}/battles-by-player/${this.playerId}?page=${page}&size=${PAGE_SIZE}`,{id:this.playerId})
                 .then(res => {
                     this.battles = res.data.battles;
+                    this.pageBattle = res.data.page;
+                    this.totalPageBattle = res.data.totalPages;
+                })
+                .catch(error => {
+                    this.error = error.response.data;
+                });
+        },
+        
+        getClans(page) {
+            axios.get(`${API_URL}/players/clans-can-join/${this.playerId}?page=${page}&size=${PAGE_SIZE}`,{id:this.playerId})
+                .then(res => {
+                    this.clans = res.data.clans;
+                    this.pageClan = res.data.page;
+                    this.totalPageClan = res.data.totalPages;
                 })
                 .catch(error => {
                     this.error = error.response.data;
@@ -92,27 +125,47 @@ export default {
         :racha="player.maximunTrophiesAchieved" 
     />
 
-    <EntityDefaultViews url="/add-card">
-        <template #head>
-            <h2>Cartas del Jugador</h2>
-        </template>
+
+
+    <div class="grid-container">
+        <EntityDefaultViews @goto="getCards">
+            <template #head>
+                <h2>Cartas del Jugador</h2>
+            </template>
+            
+            <template #tabla>
+                <TableInfoCarta :cards="cards" @info="seeInfoCard" :edit="false" />
+            </template>
+        </EntityDefaultViews>
         
-        <template #botonCrear>
-            <label v-if="isAuthenticated()">NewCart</label>
-        </template>
+        <EntityDefaultViews @goto="getBattles">
+            <template #head>
+                <h2>Batallas del Jugador</h2>
+            </template>
+            
+            <template #tabla>
+                <TableInfoBattle :batallas="battles" @infobatalla="seeInfoBatalla" :edit="false" />
+            </template>
+        </EntityDefaultViews>
+    </div>
 
-        <template #tabla>
-            <TableInfoCarta :cards="cards" @info="seeInfoCard" :edit="false" />
-        </template>
-    </EntityDefaultViews>
-
-    <EntityDefaultViews>
+    <EntityDefaultViews @goto="getClans"
+        :page="page" :totalPage="totalPage">
         <template #head>
-            <h2>Batallas del Jugador</h2>
+            <h2>Clanes a los que puede unirse</h2>
         </template>
 
         <template #tabla>
-            <TableInfoBattle :batallas="battles" @infobatalla="seeInfoBatalla" :edit="false" />
+            <TableInfoClan :clanes="clanes" @info="seeInfo" 
+                @edit="editClan" @delete="deleteClan"/>
         </template>
     </EntityDefaultViews>
 </template>
+
+<style>
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+</style>

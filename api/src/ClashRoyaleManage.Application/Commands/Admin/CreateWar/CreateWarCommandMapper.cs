@@ -16,6 +16,7 @@ public class CreateWarCommandMapper : AbstractMapper<War, CreateWarCommand, Crea
     {
         return new CreateWarCommandResponse
         {
+            Id = entity.Id,
             Date = entity.Date
         };
     }

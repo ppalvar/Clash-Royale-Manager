@@ -8,7 +8,6 @@ public class UpdateStructureCardEndpoint : Endpoint<UpdateStructureCardCommand, 
     public override void Configure()
     {
         Post("/admin/update-structurecard/{Id}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(UpdateStructureCardCommand req, CancellationToken ct)

@@ -8,7 +8,6 @@ public class DeleteChallengeEndpoint : Endpoint<DeleteChallengeCommand, DeleteCh
     public override void Configure()
     {
         Delete("/admin/delete-challenge/{challengeId}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(DeleteChallengeCommand req, CancellationToken ct)

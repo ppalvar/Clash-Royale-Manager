@@ -38,7 +38,7 @@ export default {
         },
 
         deleteWar(id) {
-            if (confirm('Está seguro que desea eliminar la guerra seleccionado?')) {
+            if (confirm('Está seguro que desea eliminar la guerra seleccionada?')) {
                 axios.delete(`${API_URL}/admin/delete-war/${id}`)
                     .then(async res => {
                             res;
@@ -54,8 +54,7 @@ export default {
         loadData() {
             axios.get(`${API_URL}/wars`)
                 .then(res => {
-                    this.wars = res.data;
-                    console.log(this.wars);
+                    this.wars = res.data.wars;
                 })
                 .catch(error => {
                     this.error = error.response.data;

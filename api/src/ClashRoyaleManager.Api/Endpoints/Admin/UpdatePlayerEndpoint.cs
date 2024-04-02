@@ -8,7 +8,6 @@ public class UpdatePlayerEndpoint : Endpoint<UpdatePlayerCommand, UpdatePlayerCo
     public override void Configure()
     {
         Post("/admin/update-player/{userId}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(UpdatePlayerCommand req, CancellationToken ct)

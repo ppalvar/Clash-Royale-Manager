@@ -8,7 +8,6 @@ public class CreateSpellCardEndpoint : Endpoint<CreateSpellCardCommand, CreateSp
     public override void Configure()
     {
         Post("/admin/createspellcard");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(CreateSpellCardCommand req, CancellationToken ct)

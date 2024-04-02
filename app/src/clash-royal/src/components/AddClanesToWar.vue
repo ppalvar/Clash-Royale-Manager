@@ -21,8 +21,8 @@ export default {
             Delete,
             clanes: [],
             clan: {
-                id: '2',
-                name: 'Juan',
+                id: '',
+                name: '',
                 numberOfPrizes: 0,
             },
         }
@@ -34,8 +34,13 @@ export default {
         },
 
         deleteClan(index) {
-            this.clanes.slice(index, 1)
+            this.clanes.splice(index, 1)
         },
+
+        readInput(name, id) {
+            this.clan.name = name;
+            this.clan.id = id;
+        }
     },
 }
 </script>
@@ -45,7 +50,7 @@ export default {
         <div v-if="show" class="modal-mask">
             <div class="modal-container">
                 <div class="modal-header">
-                    <ClanInputSugerence @input="member = $event" />
+                    <ClanInputSugerence @input="readInput" />
                     <input type="number" v-model="clan.numberOfPrizes" >
                     <button class="add-member" @click="addMember">Agregar</button>
                 </div>
@@ -77,6 +82,64 @@ export default {
         </div>
     </Transition>
 </template>
+
+<style>
+.modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    transition: opacity 0.3s ease;
+}
+
+.modal-container {
+    width: 36rem;
+    margin: auto;
+    padding: 20px 30px;
+    background-color: rgba(0, 0, 0);
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    transition: all 0.3s ease;
+}
+
+.modal-header h3 {
+    margin-top: 0;
+    color: #42b983;
+}
+
+.modal-body {
+    margin: 20px 0;
+    height: 20rem;
+    overflow-y: scroll;
+}
+
+.modal-default-button {
+    margin-left: 17rem;
+}
+
+.modal-enter-from {
+    opacity: 0;
+}
+
+.modal-leave-to {
+    opacity: 0;
+}
+
+.add-member {
+    padding: 6px;
+    margin-left: 3%;
+}
+
+.modal-enter-from .modal-container,
+.modal-leave-to .modal-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+</style>
 
 <style scoped>
 .players-table td {

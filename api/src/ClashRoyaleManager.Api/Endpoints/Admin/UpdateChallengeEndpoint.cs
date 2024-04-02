@@ -8,7 +8,6 @@ public class UpdateChallengeEndpoint : Endpoint<UpdateChallengeCommand, UpdateCh
     public override void Configure()
     {
         Post("/admin/update-challenge/{challengeId}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(UpdateChallengeCommand req, CancellationToken ct)

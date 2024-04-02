@@ -8,7 +8,6 @@ public class UpdateTroopCardEndpoint : Endpoint<UpdateTroopCardCommand, UpdateTr
     public override void Configure()
     {
         Post("/admin/update-troopcard/{Id}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(UpdateTroopCardCommand req, CancellationToken ct)

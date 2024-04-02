@@ -82,7 +82,7 @@ export default {
             this.value = suggestion.clan.id;
             this.open = false;
 
-            this.$emit('input', this.value);
+            this.$emit('input', this.input, this.value);
         },
 
         reset() {

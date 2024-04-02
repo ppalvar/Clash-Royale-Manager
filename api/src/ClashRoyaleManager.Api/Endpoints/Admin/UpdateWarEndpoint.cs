@@ -8,7 +8,6 @@ public class UpdateWarEndpoint : Endpoint<UpdateWarCommand, UpdateWarCommandResp
     public override void Configure()
     {
         Post("/admin/update-war/{warId}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(UpdateWarCommand req, CancellationToken ct)

@@ -8,7 +8,6 @@ public class DeleteClanEndpoint : Endpoint<DeleteClanCommand, DeleteClanCommandR
     public override void Configure()
     {
         Delete("/admin/delete-clan/{clanId}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(DeleteClanCommand req, CancellationToken ct)

@@ -8,7 +8,6 @@ public class CreateClanEndpoint : Endpoint<CreateClanCommand, CreateClanCommandR
     public override void Configure()
     {
         Post("/admin/createclan");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(CreateClanCommand req, CancellationToken ct)

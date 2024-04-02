@@ -8,7 +8,6 @@ public class DeleteSpellCardEndpoint : Endpoint<DeleteSpellCardCommand, DeleteSp
     public override void Configure()
     {
         Delete("/admin/delete-spellcard/{Id}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(DeleteSpellCardCommand req, CancellationToken ct)

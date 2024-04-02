@@ -8,7 +8,6 @@ public class UpdateBattleEndpoint : Endpoint<UpdateBattleCommand, UpdateBattleCo
     public override void Configure()
     {
         Post("/admin/update-battle/{Player1Id}/{Date}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(UpdateBattleCommand req, CancellationToken ct)

@@ -7,8 +7,8 @@ public class ListClanWarEndpoint : Endpoint<GetAllClanWarsQuery, GetAllClanWarsQ
 {
     public override void Configure()
     {
-        AllowAnonymous();
         Get("/clan-war");
+        AllowAnonymous();
     }
 
     public override async Task<GetAllClanWarsQueryResponse> ExecuteAsync(GetAllClanWarsQuery req, CancellationToken ct)

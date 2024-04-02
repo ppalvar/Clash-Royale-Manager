@@ -8,7 +8,6 @@ public class CreatePlayerEndpoint : Endpoint<CreatePlayerCommand, CreatePlayerCo
     public override void Configure()
     {
         Post("/admin/createplayer");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(CreatePlayerCommand req, CancellationToken ct)

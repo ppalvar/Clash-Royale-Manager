@@ -8,7 +8,6 @@ public class DeleteTroopCardEndpoint : Endpoint<DeleteTroopCardCommand, DeleteTr
     public override void Configure()
     {
         Delete("/admin/delete-troopcard/{Id}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(DeleteTroopCardCommand req, CancellationToken ct)

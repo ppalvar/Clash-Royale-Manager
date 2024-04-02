@@ -8,7 +8,6 @@ public class DeleteStructureCardEndpoint : Endpoint<DeleteStructureCardCommand, 
     public override void Configure()
     {
         Delete("/admin/delete-structurecard/{Id}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(DeleteStructureCardCommand req, CancellationToken ct)

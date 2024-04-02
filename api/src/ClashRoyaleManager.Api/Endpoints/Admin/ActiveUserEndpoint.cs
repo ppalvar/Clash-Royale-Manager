@@ -9,7 +9,6 @@ public class ActiveUserEndpoint : Endpoint<ActiveUserCommand>
     public override void Configure()
     {
         Get("/admin/active-user/{Id}/{Active}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(ActiveUserCommand req, CancellationToken ct)

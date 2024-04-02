@@ -8,7 +8,6 @@ public class DeleteWarEndpoint : Endpoint<DeleteWarCommand, DeleteWarCommandResp
     public override void Configure()
     {
         Delete("/admin/delete-war/{warId}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(DeleteWarCommand req, CancellationToken ct)

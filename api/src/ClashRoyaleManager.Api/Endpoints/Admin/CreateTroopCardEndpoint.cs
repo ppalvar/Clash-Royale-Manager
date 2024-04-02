@@ -8,7 +8,6 @@ public class CreateTroopCardEndpoint : Endpoint<CreateTroopCardCommand, CreateTr
     public override void Configure()
     {
         Post("/admin/createtroopcard");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(CreateTroopCardCommand req, CancellationToken ct)

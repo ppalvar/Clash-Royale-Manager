@@ -8,7 +8,6 @@ public class CreateBattleEndpoint : Endpoint<CreateBattleCommand, CreateBattleCo
     public override void Configure()
     {
         Post("/admin/createbattle");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(CreateBattleCommand req, CancellationToken ct)

@@ -8,7 +8,6 @@ public class UpdateSpellCardEndpoint : Endpoint<UpdateSpellCardCommand, UpdateSp
     public override void Configure()
     {
         Post("/admin/update-spellcard/{Id}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(UpdateSpellCardCommand req, CancellationToken ct)

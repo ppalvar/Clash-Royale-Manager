@@ -8,7 +8,6 @@ public class DeleteCardEndpoint : Endpoint<DeleteCardCommand, DeleteCardCommandR
     public override void Configure()
     {
         Delete("/admin/delete-card/{userId}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(DeleteCardCommand req, CancellationToken ct)

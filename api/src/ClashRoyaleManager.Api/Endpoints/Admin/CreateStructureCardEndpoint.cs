@@ -8,7 +8,6 @@ public class CreateStructureCardEndpoint : Endpoint<CreateStructureCardCommand, 
     public override void Configure()
     {
         Post("/admin/createstructurecard");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(CreateStructureCardCommand req, CancellationToken ct)

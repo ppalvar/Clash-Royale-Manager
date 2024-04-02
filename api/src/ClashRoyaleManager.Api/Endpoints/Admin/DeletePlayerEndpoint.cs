@@ -8,7 +8,6 @@ public class DeletePlayerEndpoint : Endpoint<DeletePlayerCommand, DeletePlayerCo
     public override void Configure()
     {
         Delete("/admin/delete-player/{userId}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(DeletePlayerCommand req, CancellationToken ct)

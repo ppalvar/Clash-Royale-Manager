@@ -8,7 +8,6 @@ public class UpdateCardEndpoint : Endpoint<UpdateCardCommand, UpdateCardCommandR
     public override void Configure()
     {
         Post("/admin/update-card/{userId}");
-        AllowAnonymous();
     }
 
     public override async Task HandleAsync(UpdateCardCommand req, CancellationToken ct)

@@ -5,7 +5,7 @@
         <template #entity>
             <h2>Jugador</h2>
             <div class="info-code">
-                <h4>{{ code }}</h4>
+                <h4>C&oacute;digo: <b>{{ code }}</b></h4>
             </div>
         </template>
         <template #column1>

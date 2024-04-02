@@ -16,7 +16,7 @@ tasks:
       # $timestamp = Get-Date -Format "yyyyMMddHHmmss"
       # dotnet ef migrations add "Migration$timestamp" --project "{{.API_PROJECT}}" --context DefaultDbContext --output-dir Migrations/SqliteMigrations
     cmd: |
-      dotnet ef migrations add "ChangeDateInChallengeMigration" --project "{{.INFRAESTRUCTURE_PROJECT}}" --context DefaultDbContext --output-dir Migrations/SqliteMigrations
+      dotnet ef migrations add "ChangeDateInWarMigration" --project "{{.INFRAESTRUCTURE_PROJECT}}" --context DefaultDbContext --output-dir Migrations/SqliteMigrations
       dotnet ef database update --project "{{.API_PROJECT}}"
 
   ef-update:
