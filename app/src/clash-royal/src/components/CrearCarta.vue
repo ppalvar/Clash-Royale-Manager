@@ -188,9 +188,9 @@ SuccessPopup,
             this.spell_card.damageInArea = this.troop_card.damageInArea;
 
             let url =
-                this.type === "tropa" ? `${API_URL}/admin/createspellcard` :
-                this.type === "hechizo" ? `${API_URL}/admin/createstructurecard` :
-                this.type === "estructura" ? `${API_URL}/admin/createtroopcard` :
+                this.type === "hechizo" ? `${API_URL}/admin/createspellcard` :
+                this.type === "estructura" ? `${API_URL}/admin/createstructurecard` :
+                this.type === "tropa" ? `${API_URL}/admin/createtroopcard` :
                 null;
 
             let body =

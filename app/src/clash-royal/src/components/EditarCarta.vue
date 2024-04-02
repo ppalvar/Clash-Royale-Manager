@@ -163,6 +163,7 @@ export default {
                 damageInArea: 0,
                 numberOfUnits: 0
             },
+            type: 'none',
             msg: '',
             error: ''
         }
@@ -223,8 +224,8 @@ export default {
             this.spell_card.damageInArea = this.troop_card.damageInArea;
 
             let url =
-                this.type === "tropa" ? `${API_URL}/admin/update-structurecard/${this.cardId}` :
-                this.type === "hechizo" ? `${API_URL}/admin/update-structurecard/${this.cardId}` :
+                this.type === "tropa" ? `${API_URL}/admin/update-troopcard/${this.cardId}` :
+                this.type === "hechizo" ? `${API_URL}/admin/update-spellcard/${this.cardId}` :
                 this.type === "estructura" ? `${API_URL}/admin/update-structurecard/${this.cardId}` :
                 null;
 
