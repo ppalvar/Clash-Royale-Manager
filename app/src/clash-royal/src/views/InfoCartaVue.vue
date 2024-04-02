@@ -23,8 +23,15 @@ export default {
                 name: '',
                 description: '',
                 elixirCost: '',
-                quality: ''
+                quality: '',
+                lifePoints: 0,
+                damageToTowers: 0,
+                damageInArea: 0,
+                numberOfUnits: 0,
+                radio: 0,
+                duration: 0,
             },
+            type: 'none',
             error: ''
         }
     },
@@ -34,17 +41,50 @@ export default {
     },
 
     methods: {
-        loadData() {
-            axios.get(`${API_URL}/cards/${this.cardId}`,{
-                    id:this.cardId
-                })
+        async loadData() {
+            await this.infoSpellCard();
+            await this.infoStructureCard();
+            await this.infoTroopCard();
+
+            console.log(this.card);
+            console.log(this.type);
+
+            if (this.type === "none")
+            {
+                this.error = 'Ha ocurrido un error a la hora de cargar la información de la carta.'
+            }
+        },
+
+        async infoSpellCard() {
+            await axios.get(`${API_URL}/spellcards/${this.cardId}`)
                 .then(res => {
+                    this.type = 'hechizo';
                     this.card = res.data;
-                    console.log(res.data);
                 })
                 .catch(error => {
-                    console.log(error);
-                    this.error = error.response.data;
+                    error;
+                });
+        },
+
+        async infoStructureCard() {
+            await axios.get(`${API_URL}/structurecards/${this.cardId}`)
+                .then(res => {
+                    this.type = 'estructura';
+                    this.card = res.data;
+                })
+                .catch(error => {
+                    error;
+                });
+        },
+
+        async infoTroopCard() {
+            await axios.get(`${API_URL}/troopcards/${this.cardId}`)
+                .then(res => {
+                    this.type = 'tropa';
+                    this.card = res.data;
+                })
+                .catch(error => {
+                    error;
                 });
         },
     },
@@ -54,6 +94,18 @@ export default {
 <template>
     <ErrorPopup v-if="error != ''" :msg="error"></ErrorPopup>
 
-    <WindowsInfoCarta :nombre=card.name :descripcion=card.description :costo=card.elixirCost :calidad=card.quality
-            :minimalice="true" />
+    <WindowsInfoCarta v-if="type != 'none'"
+        :nombre="card.name"
+        :descripcion="card.description"
+        :costo="card.elixirCost"
+        :calidad="card.quality"
+        :lifePoints="card.lifePoints"
+        :damageToTowers="card.damageToTowers"
+        :damageInArea="card.damageInArea"
+        :numberOfUnits="card.numberOfUnits"
+        :radio="card.radio"
+        :duration="card.duration"
+        :type="type"
+        :minimalice="true" 
+    />
 </template>

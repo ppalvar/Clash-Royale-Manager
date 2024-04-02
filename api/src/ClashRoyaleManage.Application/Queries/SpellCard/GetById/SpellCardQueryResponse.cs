@@ -6,6 +6,8 @@ public record SpellCardQueryResponse
 {
     public string Name { get; set; }
     public string Description { get; set; }
+    public double ElixirCost { get; set; }
+    public string Quality { get; set; }
     public int Radio { get; set; }
     public int Duration { get; set; }
     public int DamageToTowers { get; set; }

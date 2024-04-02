@@ -21,12 +21,14 @@ public class SpellCardQueryHandler : CommandHandler<SpellCardQuery, SpellCardQue
 
         return new SpellCardQueryResponse
         {
-            Name = entitie.Value.Name,
-            Description = entitie.Value.Description,
-            Radio = entitie.Value.SpellCard.Radio,
-            Duration = entitie.Value.SpellCard.Duration,
-            DamageToTowers = entitie.Value.SpellCard.DamageToTowers,
-            DamageInArea = entitie.Value.SpellCard.DamageInArea
+            Name = entitie.Value.Card!.Name,
+            Description = entitie.Value.Card!.Description,
+            ElixirCost = entitie.Value.Card!.ElixirCost,
+            Quality = entitie.Value.Card!.Quality,
+            Radio = entitie.Value.SpellCard!.Radio,
+            Duration = entitie.Value.SpellCard!.Duration,
+            DamageToTowers = entitie.Value.SpellCard!.DamageToTowers,
+            DamageInArea = entitie.Value.SpellCard!.DamageInArea
         };
     }
 }

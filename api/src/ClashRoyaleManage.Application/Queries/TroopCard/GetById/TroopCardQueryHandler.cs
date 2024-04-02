@@ -24,8 +24,10 @@ public class TroopCardQueryHandler : CommandHandler<TroopCardQuery, TroopCardQue
             LifePoints = entitie.Value.TroopCard.LifePoints,
             DamageInArea = entitie.Value.TroopCard.DamageInArea,
             NumberOfUnits = entitie.Value.TroopCard.NumberOfUnits,
-            Name = entitie.Value.Name,
-            Description = entitie.Value.Description
+            Name = entitie.Value.Card!.Name,
+            Description = entitie.Value.Card!.Description,
+            ElixirCost = entitie.Value.Card!.ElixirCost,
+            Quality = entitie.Value.Card!.Quality,
         };
     }
 }

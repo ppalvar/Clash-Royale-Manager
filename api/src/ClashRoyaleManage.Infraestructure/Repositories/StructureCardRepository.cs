@@ -31,13 +31,19 @@ public class StructureCardRepository : IStructureCardRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<(StructureCard? StructureCard, string Name, string Description)?> Get(Guid Id)
+    public async Task<(StructureCard? StructureCard, Card Card)?> Get(Guid Id)
     {
         StructureCard? StructureCard = await _dbContext.StructureCards
         .Where(structureCard => structureCard.CardId == Id)
         .Include(structureCard => structureCard.Card)
         .FirstOrDefaultAsync();
-        return (StructureCard, StructureCard.Card.Name.ToString(), StructureCard.Card.Description.ToString());
+
+        if (StructureCard is null)
+        {
+            throw new EntityDoesNotExistException($"The entity of type <{nameof(StructureCard)}> and Id <{Id}> already exists");
+        }
+
+        return (StructureCard, StructureCard!.Card);
     }
 
     public Task<IQueryable<CardInfo1>> GetAll()
