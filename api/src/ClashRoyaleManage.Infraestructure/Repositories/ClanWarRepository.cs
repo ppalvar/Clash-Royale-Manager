@@ -44,6 +44,24 @@ public class ClanWarRepository(DefaultDbContext _dbContext) : IClanWarRepository
         return Task.FromResult((clanWar, page, totalPages));
     }
 
+    public Task<(IQueryable<Clan> Clans, int Page, int totalPages)> GetPaginationByWar(Guid id, int page, int pageSize)
+    {
+        int skip = (page - 1) * pageSize;
+        int cantElements = pageSize;
+        int totalElements = _dbContext.ClanWars.Count();
+        int totalPages = (int)Math.Ceiling((double)totalElements / pageSize);
+
+        if (page == totalPages && totalElements % pageSize != 0)
+        {
+            cantElements = totalElements % pageSize;
+        }
+        var all = _dbContext.ClanWars.Where(cw => cw.IdWar == id)
+                                    .Join(_dbContext.Clans, cw => cw.IdClan, c => c.Id, (cw, c) => c)
+                                    .OrderByDescending(x => x.NumberOfTrophiesObtainedInWars).Skip(skip).Take(cantElements);
+        
+        return Task.FromResult((all, page, totalPages));
+    }
+
     public async Task<ClanWar> Remove(Guid clanId, Guid warId)
     {
         var clanWar = await _dbContext.ClanWars.Where(c => c.IdWar == warId)

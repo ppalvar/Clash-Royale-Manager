@@ -7,5 +7,6 @@ public interface IClanWarRepository : IBaseRepository<ClanWar>
 {
     Task<ClanWar> Remove(Guid clanId, Guid warId);
     Task<(IQueryable<ClanWar> clanWar,  int Page, int totalPages)> GetPagination(int page, int pageSize);
+    Task<(IQueryable<Clan> Clans,  int Page, int totalPages)> GetPaginationByWar(Guid id, int page, int pageSize);
 }
 

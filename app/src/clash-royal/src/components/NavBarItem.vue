@@ -35,7 +35,7 @@ export default {
       <RouterLink to="/clan">Clan</RouterLink>
       <RouterLink to="/challenge">Retos</RouterLink>
       <RouterLink to="/war">Guerras</RouterLink>
-      <RouterLink to="/region">M&aacute;s Donadas</RouterLink>
+      <RouterLink to="/region">Regiones</RouterLink>
       
       <RouterLink to="/users" 
         class="items-admin"
