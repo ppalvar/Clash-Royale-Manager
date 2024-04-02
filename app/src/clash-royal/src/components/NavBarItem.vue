@@ -33,6 +33,7 @@ export default {
       <RouterLink to="/jugador">Jugadores</RouterLink>
       <RouterLink to="/battle">Batallas</RouterLink>
       <RouterLink to="/clan">Clan</RouterLink>
+      <RouterLink to="/challenge">Retos</RouterLink>
       
       <RouterLink to="/users" 
         class="items-admin"
