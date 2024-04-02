@@ -1,14 +1,18 @@
 <template>
     <div class="challenge-card">
-        <h3>{{ region_card.region }}</h3>
-        <p>{{ region_card.card }}</p>
+        <h3>{{ region.name }}</h3>
+        <h4>M&aacute;s donadas:</h4> 
+        <p>{{ region.card }}</p>
+        
+        <h4> Mejor clan: </h4>
+        <p>🏆{{ region.clan.tropheos }}  {{ region.clan.name }}</p>
     </div>
 </template>
 
 <script>
 export default {
     props: {
-        region_card: Object
+        region: Object
     },
 }
 </script>
