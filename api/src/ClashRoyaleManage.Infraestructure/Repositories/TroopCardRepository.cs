@@ -61,6 +61,14 @@ public class TroopCardRepository : ITroopCardRepository
     public async Task<(IQueryable<CardInfo2> TroopCards, int Page, int TotalPages)> GetPagination(int page, int size)
     {
         int skipCount = (page - 1) * size;
+        int cantElements = size;
+        int totalElements = _dbContext.TroopCards.Count();
+        int totalPages = (int)Math.Ceiling((double)totalElements / size);
+
+        if (page == totalPages && totalElements % size != 0)
+        {
+            cantElements = totalElements % size;
+        }
 
         var resultQuery = _dbContext.TroopCards
         .Join(_dbContext.Cards, b => b.CardId, p => p.Id, (b, p1) => new CardInfo2
@@ -71,10 +79,10 @@ public class TroopCardRepository : ITroopCardRepository
         })
             //.OrderBy(cd => cd.Name)
             .Skip(skipCount)
-            .Take(size)
+            .Take(cantElements)
             .AsQueryable();
 
-        return (resultQuery.Cast<CardInfo2?>(), page, _dbContext.TroopCards.Count() / size);
+        return (resultQuery.Cast<CardInfo2?>(), page, totalPages);
     }
     public async Task Update(TroopCard entity)
     {

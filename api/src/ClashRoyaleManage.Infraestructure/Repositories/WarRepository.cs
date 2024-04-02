@@ -43,13 +43,21 @@ public class WarRepository : IWarRepository
     public async Task<(IQueryable<War> Wars, int Page, int TotalPages)> GetPagination(int page, int size)
     {
         int skipCount = (page - 1) * size;
+        int cantElements = size;
+        int totalElements = _dbContext.Wars.Count();
+        int totalPages = (int)Math.Ceiling((double)totalElements / size);
+
+        if (page == totalPages && totalElements % size != 0)
+        {
+            cantElements = totalElements % size;
+        }
 
         IQueryable<War> wars = _dbContext.Wars
             .OrderBy(cd => cd.Id)
             .Skip(skipCount)
-            .Take(size);
+            .Take(cantElements);
 
-        return (wars, page, _dbContext.Wars.Count() / size);
+        return (wars, page, totalPages);
     }
     public async Task Update(War entity)
     {

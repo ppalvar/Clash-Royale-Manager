@@ -49,13 +49,21 @@ public class UserRepository : IUserRepository
     public async Task<(IQueryable<User> Users, int Page, int TotalPages)> GetPagination(int page, int size)
     {
         int skipCount = (page - 1) * size;
+        int cantElements = size;
+        int totalElements = _dbContext.Users.Count();
+        int totalPages = (int)Math.Ceiling((double)totalElements / size);
+
+        if (page == totalPages && totalElements % size != 0)
+        {
+            cantElements = totalElements % size;
+        }
 
         IQueryable<User> users = _dbContext.Users
             .OrderBy(cd => cd.Id)
             .Skip(skipCount)
-            .Take(size);
+            .Take(cantElements);
 
-        return (users, page, _dbContext.Users.Count() / size);
+        return (users, page, totalPages);
     }
     public async Task Update(User entity)
     {

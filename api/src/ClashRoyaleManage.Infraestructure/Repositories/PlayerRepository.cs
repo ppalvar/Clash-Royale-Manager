@@ -71,11 +71,20 @@ public class PlayerRepository : IPlayerRepository
     public Task<(IQueryable<Player> Players, int Page, int TotalPages)> GetPagination(int page, int size)
     {
         int skipCount = (page - 1) * size;
+        int cantElements = size;
+        int totalElements = _dbContext.Players.Count();
+        int totalPages = (int)Math.Ceiling((double)totalElements / size);
 
-        var _players = _dbContext.Players.OrderBy(cd => cd.Id);
-        var players = Paginate(_players, page, size);
+        if (page == totalPages && totalElements % size != 0)
+        {
+            cantElements = totalElements % size;
+        }
+        var _players = _dbContext.Players
+        .OrderBy(cd => cd.Id)
+        .Skip(skipCount)
+        .Take(cantElements);
 
-        return Task.FromResult((players, page, _players.Count() / size));
+        return Task.FromResult((_players, page, totalPages));
     }
 
     public async Task Remove(Guid Id)
