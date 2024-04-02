@@ -13,7 +13,7 @@ public interface ITroopCardRepository
     Task<(TroopCard? TroopCard, Card Card)?> Get(Guid Id);
     Task<IQueryable<CardInfo2>> GetAll();
     Task<TroopCard?> Get1(Guid Id);
-
+    Task<(IQueryable<CardInfo2> TroopCards, int Page, int TotalPages)> GetPagination(int page = 1, int size = 10);
 }
 
 public class CardInfo2

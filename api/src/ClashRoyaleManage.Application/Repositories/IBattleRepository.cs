@@ -13,6 +13,7 @@ public interface IBattleRepository
     Task<BattlePlayerInfo> Get(Guid Player1Id, DateTime Date);
     Task<IQueryable<BattlePlayerInfo>> GetByPlayer(Guid Id);
     Task<IQueryable<BattlePlayerInfo>> GetAll();
+    Task<(IQueryable<BattlePlayerInfo> Battles, int Page, int TotalPages)> GetPagination(int page = 1, int size = 10);
 }
 
 

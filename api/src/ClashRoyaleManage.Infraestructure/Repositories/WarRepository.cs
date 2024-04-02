@@ -40,7 +40,17 @@ public class WarRepository : IWarRepository
     {
         return Task.FromResult(_dbContext.Wars.AsQueryable());
     }
+    public async Task<(IQueryable<War> Wars, int Page, int TotalPages)> GetPagination(int page, int size)
+    {
+        int skipCount = (page - 1) * size;
 
+        IQueryable<War> wars = _dbContext.Wars
+            .OrderBy(cd => cd.Id)
+            .Skip(skipCount)
+            .Take(size);
+
+        return (wars, page, _dbContext.Wars.Count() / size);
+    }
     public async Task Update(War entity)
     {
         War? war = await Get(entity.Id) ?? throw new EntityDoesNotExistException($"The entity of type <{nameof(War)}> and Id <{entity.Id}> not exists");

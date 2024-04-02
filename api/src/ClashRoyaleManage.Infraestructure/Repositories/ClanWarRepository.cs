@@ -28,12 +28,12 @@ public class ClanWarRepository(DefaultDbContext _dbContext) : IClanWarRepository
         return Task.FromResult(_dbContext.ClanWars.AsQueryable());
     }
 
-    public Task<(IQueryable<ClanWar> clanWar, int totalPages)> GetPagination(int page, int pageSize)
+    public Task<(IQueryable<ClanWar> clanWar,  int Page, int totalPages)> GetPagination(int page, int pageSize)
     {
         int skip = (page - 1) * pageSize;
         var all = _dbContext.ClanWars.AsQueryable();
         var clanWar = all.OrderByDescending(x => x.Clan).Skip(skip).Take(pageSize);
-        return Task.FromResult((clanWar, all.Count() / pageSize));
+        return Task.FromResult((clanWar, page, all.Count() / pageSize));
     }
 
     public async Task<ClanWar> Remove(Guid clanId, Guid warId)

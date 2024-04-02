@@ -16,12 +16,13 @@ public class ListStructureCardQueryHandler : CommandHandler<ListStructureCardQue
 
     public override async Task<ListStructureCardQueryResponse> ExecuteAsync(ListStructureCardQuery command, CancellationToken ct = default)
     {
-        var data = await _repository.GetAll();
+        var data = await _repository.GetPagination(command.Page, command.Size);
 
-
-         return new ListStructureCardQueryResponse
+        return new ListStructureCardQueryResponse
         {
-            StructureCards = data
+            StructureCards = data.StructureCards,
+            Page = data.Page,
+            TotalPages = data.TotalPages
         };
     }
 }

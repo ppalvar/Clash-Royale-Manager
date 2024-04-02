@@ -31,12 +31,12 @@ public class PlayerClanRepository(DefaultDbContext _dbContext) : IPlayerClanRepo
         return Task.FromResult(_dbContext.PlayerClans.AsQueryable());
     }
 
-    public Task<(IQueryable<PlayerClan> playerClans, int totalPages)> GetPagination(int page, int pageSize)
+    public Task<(IQueryable<PlayerClan> playerClans, int Page, int totalPages)> GetPagination(int page, int pageSize)
     {
         int skip = (page - 1) * pageSize;
         var all = _dbContext.PlayerClans.AsQueryable();
         var playerClan = all.OrderByDescending(x => x.IdPlayer).Skip(skip).Take(pageSize);
-        return Task.FromResult((playerClan, all.Count() / pageSize));
+        return Task.FromResult((playerClan, page, all.Count() / pageSize));
     }
 
     public async Task<PlayerClan> Remove(Guid idPlayer, Guid idClan)
