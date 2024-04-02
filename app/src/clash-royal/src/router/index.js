@@ -25,6 +25,8 @@ import ListChallenges from "@/views/ListChallenges.vue";
 import CreateChallenge from "@/views/CreateChallenge.vue";
 import EditChallenge from "@/views/EditChallenge.vue";
 import InfoChallenge from "@/views/InfoChallenge.vue";
+import Wars from "@/views/WarsVue.vue";
+import CrearWar from "@/components/CrearWar.vue";
 
 const routes = [
   {
@@ -109,7 +111,7 @@ const routes = [
     name: 'Clan',
     component: Clanes,
   },
-  {
+{
     path: '/challenge',
     name: 'Challenge',
     component: ListChallenges,
@@ -178,6 +180,24 @@ const routes = [
     path: '/edit-clan/:clanId',
     name: 'EditClan',
     component: EditarClan,
+    props: true,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/war',
+    name: 'War',
+    component: Wars,
+  },
+  {
+    path: '/add-war',
+    name: 'AddWar',
+    component: CrearWar,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/edit-war/:warId',
+    name: 'EditWar',
+    component: EditarCarta,
     props: true,
     meta: { requiresAuth: true }
   },
