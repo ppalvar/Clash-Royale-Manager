@@ -13,7 +13,7 @@ public interface IStructureCardRepository
     Task<(StructureCard? StructureCard, Card Card)?> Get(Guid Id);
     Task<IQueryable<CardInfo1>> GetAll();
     Task<StructureCard?> Get1(Guid Id);
-
+    Task<(IQueryable<CardInfo1> StructureCards, int Page, int TotalPages)> GetPagination(int page = 1, int size = 10);
 }
 
 public class CardInfo1

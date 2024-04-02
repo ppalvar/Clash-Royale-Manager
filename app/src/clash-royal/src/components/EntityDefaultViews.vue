@@ -9,6 +9,14 @@ export default {
     url: {
       type: String,
       default: ''
+    },
+    page: {
+      type: Number,
+      default: 1
+    },
+    totalPage: {
+      type: Number,
+      default: 1
     }
   },
   components: {
@@ -33,6 +41,10 @@ export default {
     async toRoute() {
       await this.$router.push(this.url);
       location.reload();
+    },
+
+    goTo(page) {
+      this.$emit('goto', page);
     }
   }
 }
@@ -59,7 +71,7 @@ export default {
       <TableInfo />
     </slot>
 
-    <PaginacionItem />
+    <PaginacionItem :page="page" :totalPage="totalPage" @goto-page="goTo"/>
   </div>
 </template>
 

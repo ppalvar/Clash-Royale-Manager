@@ -54,13 +54,21 @@ public class CardRepository : ICardRepository
     public async Task<(IQueryable<Card> Cards, int Page, int TotalPages)> GetPagination(int page, int size)
     {
         int skipCount = (page - 1) * size;
+        int cantElements = size;
+        int totalElements = _dbContext.Cards.Count();
+        int totalPages = (int)Math.Ceiling((double)totalElements / size);
+
+        if (page == totalPages && totalElements % size != 0)
+        {
+            cantElements = totalElements % size;
+        }
 
         IQueryable<Card> cards = _dbContext.Cards
             .OrderBy(cd => cd.Id)
             .Skip(skipCount)
-            .Take(size);
-
-        return (cards, page, _dbContext.Cards.Count() / size);
+            .Take(cantElements);
+        
+        return (cards, page, totalPages);
     }
 
     public async Task<Card?> MostDonatedInRegion(RegionsEnum region)

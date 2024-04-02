@@ -15,6 +15,7 @@ public interface IClanRepository
     Task<Clan?> Get1(Guid Id);
 
     Task<(Clan? Clan, string Type)?> GetBestRegion(int region);
+    Task<(IQueryable<ClanTypeInfo> Clans, int Page, int TotalPages)> GetPagination(int page = 1, int size = 10);
 }
 
 public class ClanTypeInfo

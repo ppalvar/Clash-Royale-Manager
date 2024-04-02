@@ -73,11 +73,20 @@ public class PlayerChallengeRepository(DefaultDbContext _dbContext) : IPlayerCha
         await _dbContext.SaveChangesAsync();
     }
 
-    Task<(IQueryable<PlayerChallenge> playerChallenges, int totalPages)> IPlayerChallengeRepository.GetPagination(int page, int pageSize)
+    Task<(IQueryable<PlayerChallenge> playerChallenges, int Page, int totalPages)> IPlayerChallengeRepository.GetPagination(int page, int pageSize)
     {
         int skip = (page - 1) * pageSize;
+        int size = pageSize;
+        int cantElements = size;
+        int totalElements = _dbContext.PlayerChallenges.Count();
+        int totalPages = (int)Math.Ceiling((double)totalElements / size);
+
+        if (page == totalPages && totalElements % size != 0)
+        {
+            cantElements = totalElements % size;
+        }
         var all = _dbContext.PlayerChallenges.AsQueryable();
-        var playerChallenge = all.OrderByDescending(x => x.IdPlayer).Skip(skip).Take(pageSize);
-        return Task.FromResult((playerChallenge, all.Count() / pageSize));
+        var playerChallenge = all.OrderByDescending(x => x.IdPlayer).Skip(skip).Take(cantElements);
+        return Task.FromResult((playerChallenge, page, totalElements));
     }
 }

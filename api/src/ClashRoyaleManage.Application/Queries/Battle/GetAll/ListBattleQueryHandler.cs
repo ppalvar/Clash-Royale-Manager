@@ -16,11 +16,13 @@ public class ListBattleQueryHandler : CommandHandler<ListBattleQuery, ListBattle
 
     public override async Task<ListBattleQueryResponse> ExecuteAsync(ListBattleQuery command, CancellationToken ct = default)
     {
-        var data = await _repository.GetAll();
+        var data = await _repository.GetPagination(command.Page, command.Size);
 
         return new ListBattleQueryResponse
         {
-            Battles = data
+            Battles = data.Battles,
+            Page = data.Page,
+            TotalPages = data.TotalPages
         };
     }
 }

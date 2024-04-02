@@ -8,4 +8,6 @@ namespace ClashRoyaleManager.Application.Query.SpellCards;
 public record ListSpellCardQueryResponse
 { 
     public IEnumerable<CardInfo> SpellCards { get; set; } = null!;
+    public int Page { get; set; }
+    public int TotalPages { get; set; }
 }

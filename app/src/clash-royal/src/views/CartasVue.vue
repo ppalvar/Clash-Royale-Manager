@@ -3,7 +3,7 @@ import EntityDefaultViews from '@/components/EntityDefaultViews.vue';
 import ErrorPopup from '@/components/ErrorPopup.vue';
 import SuccessPopup from '@/components/SuccessPopup.vue';
 import TableInfoCarta from '@/components/TableInfoCarta.vue';
-import { API_URL } from '@/config';
+import { API_URL, PAGE_SIZE } from '@/config';
 import axios from 'axios';
 
 export default {
@@ -17,13 +17,15 @@ export default {
     data() {
         return {
             cards: [],
+            page: 1,
+            totalPage: 1,
             error: '',
             msg: ''
         }
     },
 
     mounted() {
-        this.loadData();
+        this.loadData(1);
     },
 
     methods: {
@@ -51,10 +53,12 @@ export default {
             }
         },
 
-        loadData() {
-            axios.get(`${API_URL}/cards`)
+        loadData(page) {
+            axios.get(`${API_URL}/cards?page=${page}&size=${PAGE_SIZE}`)
                 .then(res => {
                     this.cards = res.data.cards;
+                    this.page = res.data.page;
+                    this.totalPage = res.data.totalPages;
                 })
                 .catch(error => {
                     this.error = error.response.data;
@@ -68,7 +72,9 @@ export default {
     <ErrorPopup v-if="error != ''" :msg="error"></ErrorPopup>
     <SuccessPopup v-if="msg != ''" :msg="msg"></SuccessPopup>
 
-    <EntityDefaultViews url="/add-card">
+    <EntityDefaultViews 
+        url="/add-card" @goto="loadData"
+        :page="page" :totalPage="totalPage">
         <template #tabla>
             <TableInfoCarta :cards="cards" @info="seeInfo" 
                 @edit="editCard" @delete="deleteCard"/>

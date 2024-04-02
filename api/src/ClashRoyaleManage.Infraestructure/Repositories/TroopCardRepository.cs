@@ -58,7 +58,32 @@ public class TroopCardRepository : ITroopCardRepository
         .AsQueryable();
         return Task.FromResult(resultQuery.Cast<CardInfo2?>());
     }
+    public async Task<(IQueryable<CardInfo2> TroopCards, int Page, int TotalPages)> GetPagination(int page, int size)
+    {
+        int skipCount = (page - 1) * size;
+        int cantElements = size;
+        int totalElements = _dbContext.TroopCards.Count();
+        int totalPages = (int)Math.Ceiling((double)totalElements / size);
 
+        if (page == totalPages && totalElements % size != 0)
+        {
+            cantElements = totalElements % size;
+        }
+
+        var resultQuery = _dbContext.TroopCards
+        .Join(_dbContext.Cards, b => b.CardId, p => p.Id, (b, p1) => new CardInfo2
+        {
+            TroopCard = b,
+            Name = b.Card.Name.ToString(),
+            Description = b.Card.Description.ToString(),
+        })
+            //.OrderBy(cd => cd.Name)
+            .Skip(skipCount)
+            .Take(cantElements)
+            .AsQueryable();
+
+        return (resultQuery.Cast<CardInfo2?>(), page, totalPages);
+    }
     public async Task Update(TroopCard entity)
     {
         TroopCard? TroopCard = await Get1(entity.CardId) ?? throw new EntityDoesNotExistException($"The entity of type <{nameof(TroopCard)}> and Id <{entity.CardId}> not exists");

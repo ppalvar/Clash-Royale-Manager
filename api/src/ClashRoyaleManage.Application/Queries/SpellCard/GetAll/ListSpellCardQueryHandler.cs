@@ -16,12 +16,13 @@ public class ListSpellCardQueryHandler : CommandHandler<ListSpellCardQuery, List
 
     public override async Task<ListSpellCardQueryResponse> ExecuteAsync(ListSpellCardQuery command, CancellationToken ct = default)
     {
-        var data = await _repository.GetAll();
+       var data = await _repository.GetPagination(command.Page, command.Size);
 
-
-         return new ListSpellCardQueryResponse
+        return new ListSpellCardQueryResponse
         {
-            SpellCards = data
+            SpellCards = data.SpellCards,
+            Page = data.Page,
+            TotalPages = data.TotalPages
         };
     }
 }

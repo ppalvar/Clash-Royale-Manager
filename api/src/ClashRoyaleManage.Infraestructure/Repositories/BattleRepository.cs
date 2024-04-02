@@ -108,4 +108,32 @@ public class BattleRepository : IBattleRepository
 
         return Task.FromResult(resultQuery.Cast<BattlePlayerInfo?>());
     }
+    public async Task<(IQueryable<BattlePlayerInfo> Battles, int Page, int TotalPages)> GetPagination(int page, int size)
+    {
+        int skipCount = (page - 1) * size;
+        int cantElements = size;
+        int totalElements = _dbContext.Battles.Count();
+        int totalPages = (int)Math.Ceiling((double)totalElements / size);
+
+        if (page == totalPages && totalElements % size != 0)
+        {
+            cantElements = totalElements % size;
+        }
+
+         var battles = _dbContext.Battles
+        .Join(_dbContext.Players, b => b.Player1Id, p => p.Id, (b, p1) => new { b, p1 })
+        .Join(_dbContext.Players, bp1 => bp1.b.Player2Id, p2 => p2.Id, (bp1, p2) => new BattlePlayerInfo
+        {
+            Battle = bp1.b,
+            Player1 = bp1.p1.Nickname,
+            Player2 = p2.Nickname
+        })
+            .OrderBy(cd => cd.Player1)
+            .Skip(skipCount)
+            .Take(cantElements)
+            .AsQueryable();
+
+        return (battles.Cast<BattlePlayerInfo?>(), page, totalPages);
+    }
+
 }

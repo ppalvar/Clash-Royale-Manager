@@ -28,12 +28,20 @@ public class ClanWarRepository(DefaultDbContext _dbContext) : IClanWarRepository
         return Task.FromResult(_dbContext.ClanWars.AsQueryable());
     }
 
-    public Task<(IQueryable<ClanWar> clanWar, int totalPages)> GetPagination(int page, int pageSize)
+    public Task<(IQueryable<ClanWar> clanWar,  int Page, int totalPages)> GetPagination(int page, int pageSize)
     {
         int skip = (page - 1) * pageSize;
+        int cantElements = pageSize;
+        int totalElements = _dbContext.ClanWars.Count();
+        int totalPages = (int)Math.Ceiling((double)totalElements / pageSize);
+
+        if (page == totalPages && totalElements % pageSize != 0)
+        {
+            cantElements = totalElements % pageSize;
+        }
         var all = _dbContext.ClanWars.AsQueryable();
-        var clanWar = all.OrderByDescending(x => x.Clan).Skip(skip).Take(pageSize);
-        return Task.FromResult((clanWar, all.Count() / pageSize));
+        var clanWar = all.OrderByDescending(x => x.Clan).Skip(skip).Take(cantElements);
+        return Task.FromResult((clanWar, page, totalPages));
     }
 
     public async Task<ClanWar> Remove(Guid clanId, Guid warId)

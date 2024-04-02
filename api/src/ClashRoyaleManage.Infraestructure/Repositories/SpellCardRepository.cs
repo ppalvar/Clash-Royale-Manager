@@ -57,7 +57,32 @@ public class SpellCardRepository : ISpellCardRepository
         .AsQueryable();
         return Task.FromResult(resultQuery.Cast<CardInfo?>());
     }
+    public async Task<(IQueryable<CardInfo> SpellCards, int Page, int TotalPages)> GetPagination(int page, int size)
+    {
+        int skipCount = (page - 1) * size;
+        int cantElements = size;
+        int totalElements = _dbContext.SpellCards.Count();
+        int totalPages = (int)Math.Ceiling((double)totalElements / size);
 
+        if (page == totalPages && totalElements % size != 0)
+        {
+            cantElements = totalElements % size;
+        }
+
+        var resultQuery = _dbContext.SpellCards
+        .Join(_dbContext.Cards, b => b.CardId, p => p.Id, (b, p1) => new CardInfo
+        {
+            SpellCard = b,
+            Name = b.Card.Name.ToString(),
+            Description = b.Card.Description.ToString(),
+        })
+            //.OrderBy(cd => cd.Name)
+            .Skip(skipCount)
+            .Take(cantElements)
+            .AsQueryable();
+
+        return (resultQuery.Cast<CardInfo?>(), page, totalPages);
+    }
     public async Task Update(SpellCard entity)
     {
         SpellCard? spellCard = await Get1(entity.CardId) ?? throw new EntityDoesNotExistException($"The entity of type <{nameof(SpellCard)}> and Id <{entity.CardId}> not exists");
@@ -77,4 +102,6 @@ public class SpellCardRepository : ISpellCardRepository
         _dbContext.SpellCards.Remove(spellCard);
         await _dbContext.SaveChangesAsync();
     }
+    
+
 }

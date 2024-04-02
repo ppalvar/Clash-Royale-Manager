@@ -16,16 +16,13 @@ public class ListWarQueryHandler : CommandHandler<ListWarQuery, ListWarQueryResp
 
     public override async Task<ListWarQueryResponse> ExecuteAsync(ListWarQuery command, CancellationToken ct = default)
     {
-        var data = await _repository.GetAll();
+        var data = await _repository.GetPagination(command.Page, command.Size);
 
-
-        var response = _mapper.ToResponse(data);
-
-        foreach (var item in response.Wars)
+        return new ListWarQueryResponse
         {
-            Console.WriteLine(item.Id);
-        }
-
-        return response;
+            Wars = data.Wars,
+            Page = data.Page,
+            TotalPages = data.TotalPages
+        };
     }
 }

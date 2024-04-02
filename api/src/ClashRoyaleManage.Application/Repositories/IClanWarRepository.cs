@@ -6,6 +6,6 @@ namespace ClashRoyaleManager.Application.Repositories;
 public interface IClanWarRepository : IBaseRepository<ClanWar>
 {
     Task<ClanWar> Remove(Guid clanId, Guid warId);
-    Task<(IQueryable<ClanWar> clanWar, int totalPages)> GetPagination(int page, int pageSize);
+    Task<(IQueryable<ClanWar> clanWar,  int Page, int totalPages)> GetPagination(int page, int pageSize);
 }
 
