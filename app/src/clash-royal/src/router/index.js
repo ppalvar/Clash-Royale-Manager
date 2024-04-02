@@ -27,6 +27,7 @@ import EditChallenge from "@/views/EditChallenge.vue";
 import InfoChallenge from "@/views/InfoChallenge.vue";
 import Wars from "@/views/WarsVue.vue";
 import CrearWar from "@/components/CrearWar.vue";
+import ListRegions from "@/views/ListRegions.vue";
 
 const routes = [
   {
@@ -111,10 +112,15 @@ const routes = [
     name: 'Clan',
     component: Clanes,
   },
-{
+  {
     path: '/challenge',
     name: 'Challenge',
     component: ListChallenges,
+  },
+  {
+    path: '/region',
+    name: 'Regions',
+    component: ListRegions,
   },
   {
     path: '/add-challenge',
