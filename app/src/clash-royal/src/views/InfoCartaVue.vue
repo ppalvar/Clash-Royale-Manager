@@ -46,9 +46,6 @@ export default {
             await this.infoStructureCard();
             await this.infoTroopCard();
 
-            console.log(this.card);
-            console.log(this.type);
-
             if (this.type === "none")
             {
                 this.error = 'Ha ocurrido un error a la hora de cargar la información de la carta.'
