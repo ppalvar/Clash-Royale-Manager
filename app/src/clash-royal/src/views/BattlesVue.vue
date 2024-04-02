@@ -3,7 +3,7 @@ import EntityDefaultViews from '@/components/EntityDefaultViews.vue';
 import ErrorPopup from '@/components/ErrorPopup.vue';
 import SuccessPopup from '@/components/SuccessPopup.vue';
 import TableInfoBattle from '@/components/TableInfoBattle.vue';
-import { API_URL } from '@/config';
+import { API_URL, PAGE_SIZE } from '@/config';
 import axios from 'axios';
 
 export default {
@@ -17,6 +17,8 @@ export default {
     data() {
         return {
             battles: [],
+            page: 1,
+            totalPage: 1,
             error: '',
             msg: '',
             item: {
@@ -37,14 +39,16 @@ export default {
     },
 
     mounted() {
-        this.loadData();
+        this.loadData(1);
     },
 
     methods: {
-        loadData() {
-            axios.get(`${API_URL}/battles`)
+        loadData(page) {
+            axios.get(`${API_URL}/battles?page=${page}&size=${PAGE_SIZE}`)
                 .then(res => {
                     this.battles = res.data.battles;
+                    this.page = res.data.page;
+                    this.totalPage = res.data.totalPages;
                 })
                 .catch(error => {
                     this.error = error.response.data;
@@ -82,7 +86,8 @@ export default {
     <ErrorPopup v-if="error != ''" :msg="error"></ErrorPopup>
     <SuccessPopup v-if="msg != ''" :msg="msg"></SuccessPopup>
 
-    <EntityDefaultViews url="/add-battle">
+    <EntityDefaultViews url="/add-battle" @goto="loadData"
+        :page="page" :totalPage="totalPage">
         <template #tabla>
             <TableInfoBattle :battles="battles" @info="seeInfo" @edit="editBattle" @delete="deleteBattle"/>
         </template>
